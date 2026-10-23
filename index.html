@@ -45,6 +45,13 @@ nav .btn{min-height:42px;padding:0 20px;font-size:15px}
 .hero-frame{position:absolute;inset:0;overflow:hidden;border-radius:8px}
 .hero-cmp .tg{color:#E8F1EC}
 .hero-cmp .hkn{box-shadow:0 3px 14px rgba(12,42,34,.4)}
+/* the two hero photos are separate captures and the after was shot ~5% closer to the
+   lens; grow the before to match so faces line up across the seam. Both are zoomed
+   (never shrunk) so the layers keep covering the frame, and the shift stays inside
+   the 0.5*(scale-1) blank-edge limit. Scoped to the hero ids: studio uploads must not
+   inherit a hard-coded transform. */
+#heroAfter{transform:scale(1.07)}
+#heroBefore{transform:translate(5.16%,-2.34%) scale(1.127)}
 /* studio */
 .studio{background:var(--pine);color:#E8F1EC;padding:88px 0}
 .studio h2{max-width:14ch}
@@ -223,7 +230,7 @@ const $=id=>document.getElementById(id);
   let auto=true;
   function set(v){
     const p=Math.max(0,Math.min(100,+v));
-    top.style.clipPath='inset(0 0 0 '+p+'%)';ln.style.left=p+'%';kn.style.left=p+'%';
+    const HS=1.07/*must match #heroAfter scale*/,c=50+(p-50)/HS;/*undo the scale so the image edge sits under the divider*/top.style.clipPath='inset(0 0 0 '+c+'%)';ln.style.left=p+'%';kn.style.left=p+'%';
   }
   function stop(){auto=false}
   r.addEventListener('input',e=>{stop();set(e.target.value)});
