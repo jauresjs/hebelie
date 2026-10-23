@@ -29,6 +29,27 @@ Everything lives in the `CONFIG` object at the top of the `<script type="module"
 Request shape is pinned by `lib/prompts.js`: `output_format: "jpeg"`, `sync_mode: false`,
 `num_images: 1`, `limit_generations: true`.
 
+## Hero images
+
+The hero is one before/after frame, not two pictures side by side: `before.webp` and `after.webp`
+are stacked in the same box and the top layer is revealed with `clip-path`, so **both files must be
+the same crop and the same pixel size** (currently 1086×1448, i.e. 3:4 — the frame matches that with
+`.hero-cmp { aspect-ratio: 3/4 }`). Mismatched ratios show up as a jump when you drag the divider.
+
+The `.png` files are the originals; the page loads the `.webp` versions, which are ~20× smaller
+(2.35 MB → 113 KB). After swapping in new photos, re-encode them:
+
+```
+python -c "from PIL import Image; [Image.open(n+'.png').convert('RGB').save(n+'.webp','WEBP',quality=84,method=6) for n in ('before','after')]"
+```
+
+If your new photos aren't 3:4, change `aspect-ratio` on `.hero-cmp` to match, otherwise
+`object-fit: cover` will crop them.
+
+On load the divider sweeps once (50% → 100% → 0% → 50% over 3.2 s) to show it's draggable, then
+parks at 50%. Any pointer or key input cancels the sweep, and `prefers-reduced-motion` skips it and
+starts at 50%.
+
 ## Known limits
 
 - **The fal key ships in the page.** Static hosting leaves nowhere to hide it, so it is public and
