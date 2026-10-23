@@ -72,11 +72,11 @@ nav .btn{min-height:42px;padding:0 20px;font-size:15px}
 .out{position:relative;max-width:540px;width:100%}
 .cmp{position:relative;aspect-ratio:4/5;border-radius:6px;overflow:hidden;background:var(--pine2);touch-action:pan-y;user-select:none}
 .cmp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
-.cmp .top{clip-path:inset(0 0 0 50%)}
-.ln,.hln{position:absolute;top:0;bottom:0;left:50%;width:2px;margin-left:-1px;background:#fff;pointer-events:none}
-.kn,.hkn{position:absolute;top:50%;left:50%;width:42px;height:42px;margin:-21px;border-radius:50%;background:#fff;display:grid;place-items:center;color:var(--pine);font-weight:700;pointer-events:none}
-.cmp input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
-.tg{position:absolute;bottom:12px;padding:2px 10px;border-radius:4px;background:rgba(12,42,34,.78);font-size:13px;pointer-events:none}
+.cmp .top{clip-path:inset(0 0 0 50%);z-index:1}
+.ln,.hln{position:absolute;top:0;bottom:0;left:50%;width:2px;margin-left:-1px;background:#fff;pointer-events:none;z-index:2}
+.kn,.hkn{position:absolute;top:50%;left:50%;width:42px;height:42px;margin:-21px;border-radius:50%;background:#fff;display:grid;place-items:center;color:var(--pine);font-weight:700;pointer-events:none;z-index:2}
+.cmp input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0;z-index:2}
+.tg{position:absolute;bottom:12px;padding:2px 10px;border-radius:4px;background:rgba(12,42,34,.78);font-size:13px;pointer-events:none;z-index:2}
 .tg.l{left:12px}.tg.r{right:12px}
 .ph{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--mist);padding:30px;pointer-events:none}
 .load{position:absolute;left:0;right:0;top:0;aspect-ratio:4/5;z-index:3;display:none;flex-direction:column;gap:20px;align-items:center;justify-content:center;background:rgba(12,42,34,.93);border-radius:6px;color:var(--mist)}
@@ -167,7 +167,7 @@ footer p{max-width:72ch}
     <div class="out">
       <div class="load" id="load"><div class="orb"></div><span id="msg">Reading your features…</span></div>
       <div class="cmp" id="rc">
-        <img class="top" id="after" alt="After" style="display:none"><img id="before" alt="Before" style="display:none">
+        <img id="before" alt="Before" style="display:none"><img class="top" id="after" alt="After" style="display:none">
         <div class="ph" id="rph">Your preview appears here.</div>
         <div class="ln"></div><div class="kn">↔</div><span class="tg l">Before</span><span class="tg r">After</span>
         <input type="range" min="0" max="100" value="50" id="rr" aria-label="Compare before and after">
