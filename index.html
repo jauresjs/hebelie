@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hebelie – See the result before the consult</title>
+<meta name="description" content="Preview aesthetic treatments on your own portrait. Free, private, no account.">
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--linen:#EEF1EE;--pine:#0C2A22;--pine2:#143A30;--aqua:#8EE0CB;--mist:#BFD3C9;--mute:#587068;--f:'Schibsted Grotesk',system-ui,sans-serif}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+body{background:var(--linen);color:var(--pine);font:17px/1.55 var(--f)}
+button,input{font:inherit;color:inherit}
+a{color:inherit}
+.w{max-width:1180px;margin:0 auto;padding:0 22px}
+h1,h2{font-weight:500;letter-spacing:-.045em;line-height:.96}
+h1{font-size:clamp(46px,9.5vw,108px)}
+h2{font-size:clamp(32px,5.4vw,60px);margin-bottom:18px}
+.lede{font-size:clamp(18px,2.2vw,21px);max-width:34ch;color:var(--mute)}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 26px;border-radius:6px;border:1.5px solid var(--pine);background:var(--pine);color:var(--linen);font-weight:500;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--pine2)}
+.btn.a{background:var(--aqua);border-color:var(--aqua);color:var(--pine)}
+.btn.a:hover{background:#A6EAD8}
+.btn.l{background:transparent;border-color:rgba(191,211,201,.5);color:var(--linen)}
+.btn.l:hover{border-color:var(--aqua)}
+.btn[disabled]{opacity:.3;pointer-events:none}
+:focus-visible{outline:3px solid var(--aqua);outline-offset:3px}
+/* nav */
+nav{position:sticky;top:0;z-index:10;background:rgba(238,241,238,.92);backdrop-filter:blur(10px);padding-top:env(safe-area-inset-top,0px)}
+nav .w{display:flex;align-items:center;gap:30px;height:66px}
+.logo{font-weight:700;font-size:24px;letter-spacing:-.05em;text-decoration:none;margin-right:auto}
+nav a:not(.logo):not(.btn){font-size:15px;text-decoration:none;color:var(--mute)}
+nav a:not(.logo):not(.btn):hover{color:var(--pine)}
+nav .btn{min-height:42px;padding:0 20px;font-size:15px}
+@media(max-width:760px){nav a:not(.logo):not(.btn){display:none}}
+/* hero */
+.hero{padding:44px 0 80px}
+.hero .w{display:grid;gap:36px}
+@media(min-width:920px){.hero .w{grid-template-columns:1.15fr .85fr;gap:56px;align-items:end}.hero{padding-top:72px}}
+.hero .lede{margin:26px 0 32px}
+.fig{color:var(--pine)}
+.fig svg{display:block;width:100%;height:auto;overflow:visible}
+.fig .rg{display:flex;align-items:center;gap:14px;font-size:14px;color:var(--mute);margin-top:6px}
+.fig input{flex:1;accent-color:var(--pine);height:44px}
+.fig small{display:block;font-size:12.5px;color:var(--mute);margin-top:2px}
+svg text{font:12.5px var(--f);fill:var(--mute)}
+/* studio */
+.studio{background:var(--pine);color:#E8F1EC;padding:88px 0}
+.studio h2{max-width:14ch}
+.studio .lede{color:var(--mist)}
+.g{display:grid;gap:48px;margin-top:48px}
+@media(min-width:920px){.g{grid-template-columns:5fr 6fr;gap:72px}}
+.g h3{font-weight:500;font-size:19px;margin-bottom:8px}
+.rows{margin-bottom:36px;border-bottom:1px solid rgba(255,255,255,.14)}
+.row{display:grid;grid-template-columns:22px 1fr;column-gap:16px;padding:13px 0;border-top:1px solid rgba(255,255,255,.14);cursor:pointer;min-height:58px;align-items:center}
+.row input{appearance:none;-webkit-appearance:none;width:22px;height:22px;border:1.5px solid var(--mist);border-radius:5px;grid-row:1/3;cursor:pointer;margin:0}
+.row input:checked{background:var(--aqua) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.5 8.5l3 3 6-7' fill='none' stroke='%230C2A22' stroke-width='2'/%3E%3C/svg%3E");border-color:var(--aqua)}
+.row b{font-weight:500;font-size:18px;line-height:1.2}
+.row span{font-size:14.5px;color:var(--mist);line-height:1.3}
+.hint{font-size:13.5px;color:var(--aqua);min-height:22px;margin:-26px 0 20px}
+.pick{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.pick label{cursor:pointer}
+.pick input{display:none}
+.thumb{display:none;align-items:center;gap:12px;font-size:14.5px;color:var(--mist);margin-bottom:6px}
+.thumb.on{display:flex}
+.thumb img{width:46px;height:58px;object-fit:cover;border-radius:4px}
+.consent{display:flex;gap:12px;font-size:14px;color:var(--mist);margin:18px 0 22px;cursor:pointer}
+.consent input{flex:none;width:20px;height:20px;accent-color:var(--aqua);margin-top:2px}
+.err{display:none;background:#3A1D22;color:#F5C9CE;border-radius:6px;padding:12px 14px;margin-bottom:12px;font-size:15px}
+.err.on{display:block}
+.out{position:relative;max-width:540px;width:100%}
+.cmp{position:relative;aspect-ratio:4/5;border-radius:6px;overflow:hidden;background:var(--pine2);touch-action:pan-y;user-select:none}
+.cmp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.cmp .top{clip-path:inset(0 0 0 50%)}
+.ln{position:absolute;top:0;bottom:0;left:50%;width:2px;margin-left:-1px;background:#fff;pointer-events:none}
+.kn{position:absolute;top:50%;left:50%;width:42px;height:42px;margin:-21px;border-radius:50%;background:#fff;display:grid;place-items:center;color:var(--pine);font-weight:700;pointer-events:none}
+.cmp input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
+.tg{position:absolute;bottom:12px;padding:2px 10px;border-radius:4px;background:rgba(12,42,34,.78);font-size:13px;pointer-events:none}
+.tg.l{left:12px}.tg.r{right:12px}
+.ph{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:var(--mist);padding:30px;pointer-events:none}
+.load{position:absolute;left:0;right:0;top:0;aspect-ratio:4/5;z-index:3;display:none;flex-direction:column;gap:20px;align-items:center;justify-content:center;background:rgba(12,42,34,.93);border-radius:6px;color:var(--mist)}
+.load.on{display:flex}
+.orb{width:64px;height:64px;border-radius:50%;border:2px solid var(--aqua);animation:p 2.4s ease-in-out infinite}
+@keyframes p{50%{transform:scale(1.3);opacity:.3}}
+.strip{display:flex;gap:8px;margin:12px 0;overflow-x:auto;min-height:6px}
+.strip button{flex:none;width:52px;height:65px;border-radius:4px;border:2px solid transparent;padding:0;overflow:hidden;cursor:pointer;background:var(--pine2)}
+.strip button.on{border-color:var(--aqua)}
+.strip img{width:100%;height:100%;object-fit:cover}
+.act{display:flex;gap:10px;flex-wrap:wrap}
+.act .btn{min-height:46px;padding:0 20px;font-size:15.5px}
+.lead{display:none;margin-top:36px;padding-top:28px;border-top:1px solid rgba(255,255,255,.14)}
+.lead.on{display:block}
+.lead h3{margin-bottom:2px}
+.lead p.s{color:var(--mist);font-size:15px;margin-bottom:10px}
+.lead input[type=text]{width:100%;min-height:50px;border:0;border-bottom:1.5px solid rgba(191,211,201,.45);background:transparent;color:#fff;margin-bottom:6px;border-radius:0}
+.lead input::placeholder{color:#8EA79C}
+.lead .btn{margin-top:14px}
+#lok{display:none;color:var(--aqua);margin-top:14px}
+/* privacy / faq */
+.sec{padding:96px 0}
+.two{display:grid;gap:36px}
+@media(min-width:920px){.two{grid-template-columns:1fr 1.2fr;gap:72px}}
+dl>div{display:grid;gap:4px;padding:20px 0;border-top:1px solid #C9D6CE}
+dl>div:last-child{border-bottom:1px solid #C9D6CE}
+@media(min-width:600px){dl>div{grid-template-columns:150px 1fr;gap:24px}}
+dt{font-weight:500}
+dd{color:var(--mute)}
+details{border-top:1px solid #C9D6CE;padding:20px 0}
+details:last-of-type{border-bottom:1px solid #C9D6CE}
+summary{cursor:pointer;font-size:20px;font-weight:500;letter-spacing:-.02em;list-style:none;display:flex;justify-content:space-between;gap:20px}
+summary:after{content:"+"}
+details[open] summary:after{content:"–"}
+details p{color:var(--mute);margin-top:10px;max-width:60ch}
+footer{padding:0 0 48px;font-size:14.5px;color:var(--mute)}
+footer .w{display:grid;gap:10px;border-top:1px solid #C9D6CE;padding-top:36px}
+footer p{max-width:72ch}
+@media(prefers-reduced-motion:reduce){.orb{animation:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<nav><div class="w">
+  <a class="logo" href="#top">hebelie</a>
+  <a href="#studio">Studio</a><a href="#privacy">Privacy</a><a href="#faq">Questions</a>
+  <a class="btn" href="#studio">Start a preview</a>
+</div></nav>
+
+<header class="hero" id="top"><div class="w">
+  <div>
+    <h1>See the result before the consult.</h1>
+    <p class="lede">Add a portrait, choose a treatment, and compare the two versions side by side. Free, and no account.</p>
+    <a class="btn" href="#studio">Start a preview</a>
+  </div>
+  <div class="fig">
+    <svg viewBox="0 0 470 470" role="img" aria-label="Line drawing of a face that changes between before and after">
+      <path id="gh" fill="none" stroke="currentColor" stroke-opacity=".35" stroke-dasharray="3 6"/>
+      <path id="fc" fill="rgba(12,42,34,.05)" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"/>
+      <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+        <path id="b1"/><path id="b2"/><path id="lp"/>
+        <ellipse cx="150" cy="224" rx="17" ry="6"/><ellipse cx="250" cy="224" rx="17" ry="6"/>
+        <path d="M200 236L195 294Q200 302 210 297"/>
+      </g>
+      <g id="mk"></g>
+    </svg>
+    <div class="rg"><span>Before</span><input type="range" min="0" max="100" value="0" id="mr" aria-label="Move between before and after"><span>After</span></div>
+    <small>Illustration of a jawline, cheek, brow and lip change.</small>
+  </div>
+</div></header>
+
+<section class="studio" id="studio"><div class="w">
+  <h2>Try it on your own portrait.</h2>
+  <p class="lede">Choose up to three treatments. Each result is a simulation, so use it to shape your questions for the consult.</p>
+  <div class="g">
+    <div>
+      <h3>Treatment</h3>
+      <div class="rows" id="tl"></div>
+      <p class="hint" id="hint"></p>
+      <h3>Portrait</h3>
+      <p style="color:var(--mist);font-size:15px">Front-facing, even light, usual expression. It is resized on your device.</p>
+      <div class="pick">
+        <label class="btn l">Take a photo<input type="file" accept="image/*" capture="user" id="cam"></label>
+        <label class="btn l">Upload a portrait<input type="file" accept="image/*" id="up"></label>
+      </div>
+      <div class="thumb" id="thumb"><img id="tp" alt="Your portrait"><span>Portrait ready</span></div>
+      <label class="consent"><input type="checkbox" id="ok"><span>I agree to Hebelie processing my photo to create this preview. It is deleted afterwards and never used for training.</span></label>
+      <div class="err" id="err" role="alert"></div>
+      <button class="btn a" id="go" style="width:100%" disabled>Generate preview</button>
+    </div>
+    <div class="out">
+      <div class="load" id="load"><div class="orb"></div><span id="msg">Reading your features…</span></div>
+      <div class="cmp" id="rc">
+        <img class="top" id="after" alt="After" style="display:none"><img id="before" alt="Before" style="display:none">
+        <div class="ph" id="rph">Your preview appears here.</div>
+        <div class="ln"></div><div class="kn">↔</div><span class="tg l">Before</span><span class="tg r">After</span>
+        <input type="range" min="0" max="100" value="50" id="rr" aria-label="Compare before and after">
+      </div>
+      <div class="strip" id="strip"></div>
+      <div class="act"><button class="btn l" id="save" disabled>Save image</button><a class="btn a" id="book" href="#" target="_blank" rel="noopener">Book a consultation</a></div>
+      <form class="lead" id="lead">
+        <h3>Want the clinic to follow up?</h3>
+        <p class="s">They will contact you about the treatments you previewed.</p>
+        <input type="text" id="ln" placeholder="Name" required autocomplete="name">
+        <input type="text" id="lc" placeholder="Phone or email" required autocomplete="email">
+        <input type="text" id="lcity" placeholder="City" autocomplete="address-level2">
+        <button class="btn a">Send my details</button>
+        <p id="lok">Thank you. The clinic will be in touch.</p>
+      </form>
+    </div>
+  </div>
+</div></section>
+
+<section class="sec" id="privacy"><div class="w two">
+  <h2>What happens to your photo.</h2>
+  <dl>
+    <div><dt>Your photo</dt><dd>Resized on your device, used to create this preview, then deleted.</dd></div>
+    <div><dt>Training</dt><dd>Never used to train AI models.</dd></div>
+    <div><dt>Account</dt><dd>None. We ask for contact details only if you want a follow-up.</dd></div>
+    <div><dt>The result</dt><dd>A simulation, not a promise. A licensed professional confirms what is possible for you.</dd></div>
+  </dl>
+</div></section>
+
+<section class="sec" id="faq" style="padding-top:0"><div class="w two">
+  <h2>Questions.</h2>
+  <div>
+    <details><summary>Is the preview my actual result?</summary><p>No. It is an illustration on your photo so you can compare a direction. Healing, product and technique change the real outcome.</p></details>
+    <details><summary>Can I preview more than one treatment?</summary><p>Yes, up to three at once. Earlier previews stay in a strip under the image so you can go back to them.</p></details>
+    <details><summary>Which photo works best?</summary><p>A straight-on portrait in even light, with your usual expression and no filters.</p></details>
+  </div>
+</div></section>
+
+<footer><div class="w">
+  <a class="logo" href="#top" style="margin:0">hebelie</a>
+  <p>AI-generated simulation for illustration only. Actual results vary. Consult a licensed professional before any treatment. Hebelie does not provide medical advice.</p>
+</div></footer>
+
+<script type="module">
+import { buildRequest } from './lib/prompts.js';
+import { runEdit, friendly, FalError } from './lib/fal.js';
+const CONFIG={falKey:'18be2299-a2fc-4d7b-ac51-b5add57c9c85:7a9109cf6a619956919d4de5d2e9016a',model:'fal-ai/nano-banana/edit',intensity:'light',leadUrl:'',bookingUrl:'https://example.com/book'}; // falKey empty = demo mode
+const $=id=>document.getElementById(id);
+/* ---- hero drawing ---- */
+const L=(a,b,t)=>a.map((v,i)=>v+(b[i]-v)*t);
+const C0=[0,40,70,52,118,100,130,170,126,240,116,310,92,372,56,418,0,436];
+const C1=[0,40,70,52,116,98,124,162,114,230,98,296,70,354,38,402,0,422];
+const B0=[118,196,148,180,182,192],B1=[116,186,148,166,182,182],P0=[162,350,340,378],P1=[158,349,334,386];
+function contour(h){
+  const p=[];for(let i=0;i<9;i++)p.push([200+h[2*i],h[2*i+1]]);
+  for(let i=7;i>0;i--)p.push([200-h[2*i],h[2*i+1]]);
+  const m=(a,b)=>[(a[0]+b[0])/2,(a[1]+b[1])/2],n=p.length;
+  let d='M'+m(p[n-1],p[0]);for(let i=0;i<n;i++)d+='Q'+p[i]+' '+m(p[i],p[(i+1)%n]);
+  return d+'Z';
+}
+const br=b=>`M${b[0]} ${b[1]}Q${b[2]} ${b[3]} ${b[4]} ${b[5]}`;
+const brm=b=>br([400-b[0],b[1],400-b[2],b[3],400-b[4],b[5]]);
+const lp=l=>`M${l[0]} ${l[1]}Q200 ${l[2]} ${400-l[0]} ${l[1]}M${l[0]} ${l[1]}Q200 ${l[3]} ${400-l[0]} ${l[1]}`;
+$('gh').setAttribute('d',contour(C0));
+const MK=[['brow'],['cheek'],['jaw']];
+$('mk').innerHTML=MK.map(m=>`<g><line stroke="currentColor" stroke-opacity=".5"/><circle r="5" fill="#8EE0CB" stroke="#0C2A22" stroke-width="1.5"/><text x="404"></text></g>`).join('');
+const mg=[...$('mk').children];
+MK.forEach((m,i)=>mg[i].querySelector('text').textContent=m[0]);
+function draw(t){
+  const c=L(C0,C1,t),b=L(B0,B1,t);
+  $('fc').setAttribute('d',contour(c));$('b1').setAttribute('d',br(b));$('b2').setAttribute('d',brm(b));$('lp').setAttribute('d',lp(L(P0,P1,t)));
+  [[400-b[4],b[5]],[200+c[6],c[7]],[200+c[12],c[13]]].forEach((pt,i)=>{
+    const g=mg[i],y=pt[1];
+    g.querySelector('circle').setAttribute('cx',pt[0]);g.querySelector('circle').setAttribute('cy',y);
+    const l=g.querySelector('line');l.setAttribute('x1',pt[0]);l.setAttribute('y1',y);l.setAttribute('x2',398);l.setAttribute('y2',y);
+    g.querySelector('text').setAttribute('y',y+4);
+  });
+}
+let anim=true;
+$('mr').oninput=e=>{anim=false;draw(e.target.value/100)};
+draw(0);
+if(!matchMedia('(prefers-reduced-motion:reduce)').matches){
+  setTimeout(()=>{const s=performance.now();(function f(n){if(!anim)return;const k=Math.min(1,(n-s)/2600),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;draw(e);$('mr').value=e*100;if(k<1)requestAnimationFrame(f)})(s)},500);
+}else{draw(1);$('mr').value=100}
+
+/* ---- studio ---- */
+const T=[['lips','Lip filler','Volume and border, in your lip shape'],['cheeks','Cheek filler','Lift and volume over the cheekbones'],['botox','Botox','Smoother forehead and outer eyes'],['jawline','Jawline contour','A sharper edge, same face width'],['skin','Skin rejuvenation','Tone and redness, texture kept'],['browlift','Brow lift','A small raise of the brows only'],['facelift','Facelift','A fuller lift of face, jaw and neck'],['rhino','Rhinoplasty','A refined tip and bridge']];
+let sel=new Set(),img=null,hist=[],cur=-1;
+$('book').href=CONFIG.bookingUrl;
+T.forEach(([id,n,d])=>{
+  const r=document.createElement('label');r.className='row';
+  r.innerHTML=`<input type="checkbox"><b>${n}</b><span>${d}</span>`;
+  r.querySelector('input').onchange=e=>{
+    if(e.target.checked){if(sel.size>=3){e.target.checked=false;$('hint').textContent='Choose up to three treatments.';return}sel.add(id)}else sel.delete(id);
+    $('hint').textContent='';upd();
+  };
+  $('tl').appendChild(r);
+});
+function upd(){$('go').disabled=!(sel.size&&img&&$('ok').checked)}
+$('ok').onchange=upd;
+$('rr').oninput=e=>{const v=e.target.value;$('after').style.clipPath=`inset(0 0 0 ${v}%)`;document.querySelector('.ln').style.left=v+'%';document.querySelector('.kn').style.left=v+'%'};
+async function load(f){
+  if(!f)return;$('err').classList.remove('on');
+  try{
+    const b=await createImageBitmap(f,{imageOrientation:'from-image'});
+    const s=Math.min(1,1280/Math.max(b.width,b.height)),c=document.createElement('canvas');
+    c.width=Math.round(b.width*s);c.height=Math.round(b.height*s);c.getContext('2d').drawImage(b,0,0,c.width,c.height);
+    img=c.toDataURL('image/jpeg',.88);$('tp').src=img;$('thumb').classList.add('on');upd();
+  }catch(e){err("We couldn't read that photo. Try a JPG or PNG.")}
+}
+$('cam').onchange=e=>load(e.target.files[0]);$('up').onchange=e=>load(e.target.files[0]);
+function err(t){$('err').textContent=t;$('err').classList.add('on')}
+const M=['Reading your features…','Mapping your face…','Applying the treatment…','Keeping it natural…','Almost there…'];
+$('go').onclick=async()=>{
+  $('load').classList.add('on');$('err').classList.remove('on');let i=0;
+  const t=setInterval(()=>{$('msg').textContent=M[Math.min(++i,M.length-1)]},3500);
+  try{
+    let url;
+    if(!CONFIG.falKey){
+      await new Promise(r=>setTimeout(r,2500));url=img;
+    }else{
+      let input;
+      try{input=buildRequest([...sel],CONFIG.intensity,img,1)}catch(x){throw new FalError('invalid',0,x.message)}
+      url=await runEdit({key:CONFIG.falKey,model:CONFIG.model,input,
+        onStatus:(s,q)=>{if(s==='IN_QUEUE'&&q>0)$('msg').textContent='Waiting for a free slot...'}});
+    }
+    hist.push({url,label:[...sel].join(', ')});show(hist.length-1);
+    $('lead').classList.add('on');$('save').disabled=false;
+    $('rc').scrollIntoView({behavior:'smooth',block:'center'});
+  }catch(e){err(friendly(e))}
+  clearInterval(t);$('load').classList.remove('on');
+};
+function show(i){
+  cur=i;$('before').src=img;$('after').src=hist[i].url;
+  $('before').style.display=$('after').style.display='block';$('rph').style.display='none';
+  $('rr').value=50;$('rr').oninput({target:$('rr')});
+  $('strip').innerHTML='';
+  hist.forEach((h,j)=>{const b=document.createElement('button');b.className=j===i?'on':'';b.title=h.label;b.innerHTML=`<img src="${h.url}" alt="Preview ${j+1}">`;b.onclick=()=>show(j);$('strip').appendChild(b)});
+}
+$('save').onclick=async()=>{
+  const u=hist[cur].url;
+  try{const b=await(await fetch(u)).blob(),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='hebelie-preview.jpg';a.click()}catch(e){window.open(u,'_blank')}
+};
+$('lead').onsubmit=async e=>{
+  e.preventDefault();
+  const p={name:$('ln').value,contact:$('lc').value,city:$('lcity').value,treatments:[...new Set(hist.flatMap(h=>h.label.split(', ')))]};
+  try{if(CONFIG.leadUrl)await fetch(CONFIG.leadUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(p)})}catch(x){}
+  $('lok').style.display='block';
+};
+</script>
+</body>
+</html>
