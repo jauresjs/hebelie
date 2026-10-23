@@ -1,0 +1,4 @@
+project_id = "vqetbgdduoyxbszbrxkl"
+
+[functions.create-preview]
+verify_jwt = true

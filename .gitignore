@@ -1,0 +1,4 @@
+supabase/.temp/
+*.bak
+.cursor/
+scripts/make_after.py
