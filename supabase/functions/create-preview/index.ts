@@ -78,7 +78,7 @@ Deno.serve(async (req) => {
   if (!falKey) return json({ error: "service_unavailable" }, 503);
 
   try {
-    const { treatments, image, intensity } = await req.json();
+    const { treatments, image, intensity, clinic_slug } = await req.json();
     const input = buildRequest(treatments, intensity ?? "strong", image, 1);
     const afterUrl = await runFal(falKey, input);
 
@@ -86,6 +86,20 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_URL") ?? "",
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
     );
+
+    let clinic_id: string | null = null;
+    if (clinic_slug && typeof clinic_slug === "string") {
+      const slug = clinic_slug.trim().toLowerCase();
+      const { data: clinicRow } = await admin
+        .from("clinics")
+        .select("id")
+        .eq("slug", slug)
+        .eq("active", true)
+        .maybeSingle();
+      if (!clinicRow) return json({ error: "unknown_clinic" }, 400);
+      clinic_id = clinicRow.id;
+    }
+
     const { data: preview, error: dbErr } = await admin
       .from("atelier_previews")
       .insert({
@@ -93,6 +107,7 @@ Deno.serve(async (req) => {
         treatments,
         intensity: intensity ?? "strong",
         after_url: afterUrl,
+        clinic_id,
       })
       .select("id")
       .single();

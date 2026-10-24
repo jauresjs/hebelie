@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Treatment preview</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="./lib/embed.css">
+</head>
+<body class="embed">
+<div class="wrap">
+<header class="embed-head">
+<div class="embed-brand">
+<img id="embedLogo" alt="" hidden>
+<span class="logo" id="embedBrand">Loading…</span>
+</div>
+<p class="embed-powered">Powered by <a href="https://hebelie.com/" target="_blank" rel="noopener">Hebelie</a></p>
+</header>
+
+<section id="studio" class="studio-atrium">
+<div class="atrium-panel">
+<div class="grid">
+<div class="studio-controls">
+<div class="step" id="studio-start"><h3>Treatment selection</h3>
+<div class="chips" id="chips"></div><p class="hint">Three areas maximum.</p></div>
+<div class="step"><h3>Preview strength</h3>
+<div class="chips" id="intensityChips"></div></div>
+<div class="step"><h3>Portrait</h3>
+<p class="hint" style="margin:0 0 12px">Even light · No filters · Natural expression</p>
+<div class="row"><label class="btn ghost" for="cam" tabindex="0">Take a picture</label><label class="btn ghost" for="up" tabindex="0">Upload</label></div>
+<input id="cam" type="file" accept="image/*" capture="user" hidden><input id="up" type="file" accept="image/*" hidden>
+<p class="hint" id="pstate">No portrait yet.</p></div>
+</div>
+<div class="studio-preview">
+<div class="frame preview-wrap">
+<div id="studioCmp" aria-label="Your preview"></div>
+<div class="studio-overlay" id="studioOverlay" hidden><p id="overlayMsg">Working on your preview…</p></div>
+</div>
+<button class="btn wide studio-go" id="go" type="button">View result</button>
+<p class="status" id="status" aria-live="polite">Choose treatments and add your portrait.</p>
+<div class="pro-panel" id="proPanel" hidden>
+<button class="btn wide" type="button" id="proToggle">Talk to a professional</button>
+<form id="proForm" hidden>
+<input type="text" name="name" placeholder="Full name" required>
+<input type="email" name="email" placeholder="Email" required>
+<input type="tel" name="phone" placeholder="Phone (optional)">
+<button class="btn wide" type="submit">Send request</button>
+</form>
+<p class="pro-thanks" id="proThanks">Thank you. The practice will be in touch.</p>
+</div>
+<div class="strip" id="strip"></div>
+</div>
+</div>
+</div>
+</section>
+</div>
+
+<dialog class="auth-dlg" id="authDlg" aria-labelledby="authTitle">
+<h2 id="authTitle">Continue</h2>
+<p>Sign in to generate your preview. Your portrait stays on this device until then.</p>
+<div class="auth-oauth">
+<button class="btn wide" type="button" id="authGoogle">Continue with Google</button>
+<button class="btn wide" type="button" id="authFacebook">Continue with Facebook</button>
+</div>
+<p class="auth-divider">or</p>
+<form id="authEmail">
+<input type="email" id="authEmailInput" placeholder="Email" required autocomplete="email">
+<button class="btn wide ghost" type="submit">Email me a link</button>
+</form>
+<p class="auth-msg" id="authMsg" aria-live="polite"></p>
+<p class="auth-legal"><a href="./privacy-policy.html" target="_blank" rel="noopener">Privacy policy</a></p>
+</dialog>
+
+<script type="module" src="./lib/app.js?v=11"></script>
+</body>
+</html>
