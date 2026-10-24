@@ -13,7 +13,7 @@ h3{font:400 .72rem/1.2 var(--sans);letter-spacing:.18em;text-transform:uppercase
 .embed-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--line)}
 .embed-brand{display:inline-flex;align-items:center;gap:10px;min-width:0}
 .embed-brand .logo-word{font:400 1.1rem/1 var(--serif);letter-spacing:.06em;color:var(--ink)}
-.embed-brand img.mark{width:32px;height:auto;flex-shrink:0}
+.embed-brand img.mark{height:36px;width:auto;max-width:120px;object-fit:contain;flex-shrink:0}
 .embed-brand img.clinic-logo{max-height:36px;width:auto}
 .embed-powered{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .embed-powered a{color:var(--muted)}
