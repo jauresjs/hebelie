@@ -79,7 +79,7 @@ Deno.serve(async (req) => {
 
   try {
     const { treatments, image, intensity } = await req.json();
-    const input = buildRequest(treatments, intensity ?? "medium", image, 1);
+    const input = buildRequest(treatments, intensity ?? "strong", image, 1);
     const afterUrl = await runFal(falKey, input);
 
     const admin = createClient(
@@ -91,7 +91,7 @@ Deno.serve(async (req) => {
       .insert({
         user_id: userData.user.id,
         treatments,
-        intensity: intensity ?? "medium",
+        intensity: intensity ?? "strong",
         after_url: afterUrl,
       })
       .select("id")

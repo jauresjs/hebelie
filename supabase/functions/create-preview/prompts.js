@@ -1,4 +1,4 @@
-export const INTENSITIES = ["light", "medium"];
+export const INTENSITIES = ["light", "medium", "strong"];
 
 const PRESERVE = [
   "Edit the supplied portrait. The person must stay unmistakably the same individual.",
@@ -45,7 +45,8 @@ export const TREATMENTS = {
     label: "Skin rejuvenation",
     area: "the skin across the face",
     change: "even out the tone, reduce redness and calm visible blemishes",
-    exclusions: "do not smooth the texture away, do not lighten the skin, do not remove freckles, moles or fine lines",
+    exclusions:
+      "do not smooth the texture away, do not lighten the skin, do not remove freckles, moles or fine lines",
   },
   browlift: {
     label: "Brow lift",
@@ -60,6 +61,7 @@ export const TREATMENTS = {
     change: "lift the lower face and tighten the jaw-neck angle moderately",
     exclusions:
       "do not turn the face into a different person, do not pull the ears, do not create a tight or windswept look, keep the natural neck lines",
+    surgical: true,
   },
   rhino: {
     label: "Rhinoplasty",
@@ -67,13 +69,28 @@ export const TREATMENTS = {
     change: "refine the bridge and the tip slightly so the nose sits in better balance with the rest of the face",
     exclusions:
       "do not change the width of the nostrils, do not pinch the tip, do not change anything outside the nose",
+    surgical: true,
   },
 };
 
 const INTENSITY = {
   light: "Keep the change restrained: the version of it a careful clinician would call conservative.",
   medium: "Apply a moderate version of the change, still inside conservative clinical limits.",
+  strong:
+    "Apply a clearly visible version of each treatment so the before-and-after difference is obvious at a glance, while staying photorealistic and believable for consultation planning.",
 };
+
+function lipStepIntensity(intensity) {
+  if (intensity === "light") return INTENSITY.light;
+  return INTENSITY.medium;
+}
+
+function closingLine(intensity) {
+  if (intensity === "strong") {
+    return "Prioritize a readable before-and-after: the effect must be easy to see when dragging the slider, without turning the person into someone else.";
+  }
+  return "If the change cannot be made without altering the identity of the person, keep it minimal.";
+}
 
 function normalise(list) {
   if (!Array.isArray(list) || list.length === 0) throw new Error("no_treatments");
@@ -85,7 +102,7 @@ function normalise(list) {
   return ids;
 }
 
-export function buildPrompt(procedures, intensity = "medium") {
+export function buildPrompt(procedures, intensity = "strong") {
   const ids = normalise(procedures);
   if (!INTENSITIES.includes(intensity)) throw new Error("unknown_intensity");
   const lead =
@@ -106,18 +123,11 @@ export function buildPrompt(procedures, intensity = "medium") {
       ". Exclusions: " +
       t.exclusions +
       ".";
-    if (id === "lips") line += " " + INTENSITY.light;
+    if (id === "lips") line += " " + lipStepIntensity(intensity);
     return line;
   });
-  const globalIntensity = ids.every((id) => id === "lips") ? INTENSITY.light : INTENSITY[intensity];
-  return [
-    lead,
-    PRESERVE,
-    STYLE,
-    ...steps,
-    globalIntensity,
-    "If the change cannot be made without altering the identity of the person, keep it minimal.",
-  ].join(" ");
+  const globalIntensity = INTENSITY[intensity];
+  return [lead, PRESERVE, STYLE, ...steps, globalIntensity, closingLine(intensity)].join(" ");
 }
 
 export function buildRequest(procedures, intensity, image, numImages = 1) {
@@ -133,3 +143,5 @@ export function buildRequest(procedures, intensity, image, numImages = 1) {
     limit_generations: true,
   };
 }
+
+export const isSurgical = (id) => !!(TREATMENTS[id] && TREATMENTS[id].surgical);
