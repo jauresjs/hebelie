@@ -61,17 +61,17 @@
 <p>Sign in to generate your preview. Your portrait stays on this device until then.</p>
 <div class="auth-oauth">
 <button class="btn wide" type="button" id="authGoogle">Continue with Google</button>
-<button class="btn wide" type="button" id="authFacebook">Continue with Facebook</button>
 </div>
-<p class="auth-divider">or</p>
+<p class="auth-divider">or email</p>
 <form id="authEmail">
-<input type="email" id="authEmailInput" placeholder="Email" required autocomplete="email">
-<button class="btn wide ghost" type="submit">Email me a link</button>
+<label for="authEmailInput" style="display:block;font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);margin-bottom:8px">Email address</label>
+<input type="email" id="authEmailInput" placeholder="you@example.com" required autocomplete="email" style="font:400 1rem var(--sans);padding:12px 14px;border:1px solid var(--line);background:var(--ivory);color:var(--ink);width:100%">
+<button class="btn wide" type="submit">Submit</button>
 </form>
 <p class="auth-msg" id="authMsg" aria-live="polite"></p>
 <p class="auth-legal"><a href="./privacy-policy.html" target="_blank" rel="noopener">Privacy policy</a></p>
 </dialog>
 
-<script type="module" src="./lib/app.js?v=14"></script>
+<script type="module" src="./lib/app.js?v=15"></script>
 </body>
 </html>

@@ -14,9 +14,16 @@
 .panel[hidden]{display:none!important}
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border:1px solid var(--ink);background:var(--ink);color:var(--ivory);font:400 .68rem var(--sans);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;width:100%}
 .btn.ghost{background:transparent;color:var(--ink)}
-.field{font:300 1rem var(--sans);padding:12px 0;border:0;border-bottom:1px solid var(--line);background:transparent;width:100%}
+.btn:disabled{opacity:.45;pointer-events:none}
+.field-label{display:block;font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);margin:0 0 8px}
+.field{font:400 1rem var(--sans);padding:12px 14px;border:1px solid var(--line);background:var(--cream);color:var(--ink);width:100%;border-radius:0}
+.field::placeholder{color:var(--muted);opacity:1}
+.field:focus{outline:none;border-color:var(--bronze);box-shadow:0 0 0 1px var(--bronze)}
+.field:read-only{opacity:.85}
 .hint{font-size:.82rem;color:var(--muted);margin:0 0 8px}
-.msg{min-height:1.4em;font-size:.82rem;color:var(--bronze)}
+.msg{min-height:1.4em;font-size:.9rem;line-height:1.5;color:var(--bronze);margin-top:8px}
+.msg--success{color:var(--ink)}
+.msg--success strong{display:block;margin-bottom:6px;font-weight:500}
 .divider{text-align:center;font-size:.68rem;color:var(--muted);margin:12px 0}
 </style>
 </head>
@@ -34,30 +41,30 @@
 <div id="panelUser" class="panel" role="tabpanel">
 <p class="hint">Preview treatments on your portrait before a consultation.</p>
 <button class="btn" type="button" id="userGoogle">Continue with Google</button>
-<button class="btn ghost" type="button" id="userFacebook">Continue with Facebook</button>
-<p class="divider">or</p>
+<p class="divider">or email</p>
 <form id="userEmail">
-<input class="field" type="email" id="userEmailInput" placeholder="Email" required autocomplete="email">
-<button class="btn ghost" type="submit">Email me a link</button>
+<label class="field-label" for="userEmailInput">Email address</label>
+<input class="field" type="email" id="userEmailInput" placeholder="you@example.com" required autocomplete="email">
+<button class="btn" type="submit">Submit</button>
 </form>
 </div>
 
 <div id="panelPro" class="panel" role="tabpanel" hidden>
 <p class="hint">Embed Hebelie on your site and receive leads in your dashboard.</p>
-<label class="hint" for="clinicName">Clinic or practice name</label>
+<label class="field-label" for="clinicName">Clinic or practice name</label>
 <input class="field" type="text" id="clinicName" placeholder="e.g. Acme Medspa" required minlength="2" autocomplete="organization">
 <button class="btn" type="button" id="proGoogle">Continue with Google</button>
-<button class="btn ghost" type="button" id="proFacebook">Continue with Facebook</button>
-<p class="divider">or</p>
+<p class="divider">or email</p>
 <form id="proEmail">
-<input class="field" type="email" id="proEmailInput" placeholder="Work email" required autocomplete="email">
-<button class="btn ghost" type="submit">Email me a link</button>
+<label class="field-label" for="proEmailInput">Work email</label>
+<input class="field" type="email" id="proEmailInput" placeholder="you@clinic.com" required autocomplete="email">
+<button class="btn" type="submit">Submit</button>
 </form>
 </div>
 
 <p class="msg" id="authMsg" aria-live="polite"></p>
 <p class="hint"><a href="./privacy-policy.html">Privacy policy</a> · <a href="./terms.html">Terms</a></p>
 </main>
-<script type="module" src="./lib/auth-page.js?v=13"></script>
+<script type="module" src="./lib/auth-page.js?v=14"></script>
 </body>
 </html>
