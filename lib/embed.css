@@ -13,8 +13,8 @@ h3{font:400 .72rem/1.2 var(--sans);letter-spacing:.18em;text-transform:uppercase
 .embed-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--line)}
 .embed-brand{display:inline-flex;align-items:center;gap:10px;min-width:0}
 .embed-brand .logo-word{font:400 1.1rem/1 var(--serif);letter-spacing:.06em;color:var(--ink)}
-.embed-brand img.mark{height:56px;width:auto;max-width:240px;object-fit:contain;flex-shrink:0}
-.embed-brand img.clinic-logo{max-height:48px;width:auto}
+.embed-brand img.mark{height:42px;width:auto;max-width:180px;object-fit:contain;flex-shrink:0}
+.embed-brand img.clinic-logo{max-height:42px;width:auto}
 .embed-powered{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .embed-powered a{color:var(--muted)}
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 32px;border:1px solid var(--ink);background:var(--ink);color:var(--ivory);font:400 .72rem var(--sans);letter-spacing:.2em;text-transform:uppercase;cursor:pointer}
