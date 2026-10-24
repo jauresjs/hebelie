@@ -1,42 +1,55 @@
 # Embed Hebelie on your medspa site
 
-## Quick start
+## Embed URL (pick one)
 
-1. We create a row in `clinics` with your **slug**, **name**, and **lead_email**.
-2. Paste this iframe on your website (replace `demo-medspa` with your slug):
+```text
+https://hebelie.com/embed.html?clinic=YOUR-SLUG
+https://hebelie.com/c/YOUR-SLUG
+```
+
+Iframe example:
 
 ```html
 <iframe
-  src="https://hebelie.com/embed.html?clinic=demo-medspa"
+  src="https://hebelie.com/c/demo-medspa"
   title="Treatment preview"
   style="width:100%;max-width:520px;border:0;min-height:920px"
   allow="camera"
 ></iframe>
 ```
 
-3. Set Supabase secrets for lead email (optional but recommended):
-   - `RESEND_API_KEY` — from [resend.com](https://resend.com)
-   - `RESEND_FROM` — verified sender, e.g. `Hebelie <notifications@hebelie.com>`
+## Clinic leads dashboard
 
-## Demo tenant
+Staff sign in at **[https://hebelie.com/dashboard.html](https://hebelie.com/dashboard.html)** to see leads from their embed (no email required if they prefer the portal).
 
-- URL: [https://hebelie.com/embed.html?clinic=demo-medspa](https://hebelie.com/embed.html?clinic=demo-medspa)
-- Seed slug: `demo-medspa` (change `lead_email` in Supabase before production use)
+## Onboard a new clinic
 
-## Add a new clinic (SQL)
+1. Insert the clinic:
 
 ```sql
 insert into public.clinics (slug, name, lead_email, accent_color)
 values ('acme-medspa', 'Acme Medspa', 'frontdesk@acme.com', '#8B7355');
 ```
 
-## Privacy
+2. After the practice owner signs in once (Google/Facebook/email), link their auth user:
 
-Embedded previews use the same auth and data practices as hebelie.com. Link your site’s privacy notice to:
+```sql
+insert into public.clinic_members (clinic_id, user_id)
+select c.id, 'USER_UUID_FROM_SUPABASE_AUTH'
+from public.clinics c
+where c.slug = 'acme-medspa';
+```
+
+(Find `USER_UUID` in Supabase → Authentication → Users.)
+
+3. Optional: set `RESEND_API_KEY` + `RESEND_FROM` on edge functions for instant email alerts on new leads.
+
+## Demo tenant
+
+- Embed: [https://hebelie.com/c/demo-medspa](https://hebelie.com/c/demo-medspa)
+- Default `lead_email`: `privacy@hebelie.com`
+
+## Privacy
 
 - https://hebelie.com/privacy-policy.html
 - https://hebelie.com/data-deletion.html
-
-## OAuth redirect
-
-Sign-in redirects back to the same embed URL (`embed.html?clinic=…`). No extra Meta/Google redirect URIs beyond what Hebelie already uses (`hebelie.com` + Supabase callback).

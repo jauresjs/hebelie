@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clinic leads – Hebelie</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="./lib/legal.css">
+<style>
+.wrap{max-width:960px}
+.panel{margin-top:32px;padding:24px;border:1px solid var(--line);background:var(--cream)}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th,td{text-align:left;padding:12px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.empty{color:var(--muted);padding:24px 0}
+.toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:20px}
+.btn{display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border:1px solid var(--ink);background:var(--ink);color:var(--ivory);font:400 .68rem var(--sans);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--ink)}
+.msg{font-size:.88rem;color:var(--bronze);min-height:1.4em}
+</style>
+</head>
+<body>
+<main class="wrap">
+<a class="back" href="./">← Hebelie</a>
+<h1>Clinic leads</h1>
+<p class="meta">Sign in with the same account we linked to your practice.</p>
+
+<div id="signedOut" class="panel" hidden>
+<p class="empty">Sign in to view consultation requests from your embed.</p>
+<div class="toolbar">
+<button class="btn" type="button" id="dashGoogle">Continue with Google</button>
+<button class="btn ghost" type="button" id="dashFacebook">Facebook</button>
+</div>
+<form id="dashEmail" class="toolbar" style="margin-top:16px">
+<input type="email" id="dashEmailInput" placeholder="Email" required style="flex:1;min-width:200px;padding:10px;border:1px solid var(--line);background:var(--ivory)">
+<button class="btn ghost" type="submit">Email link</button>
+</form>
+<p class="msg" id="dashAuthMsg"></p>
+</div>
+
+<div id="signedIn" hidden>
+<div class="toolbar">
+<p class="meta" id="clinicLabel" style="margin:0"></p>
+<button class="btn ghost" type="button" id="signOut">Sign out</button>
+</div>
+<div class="panel">
+<table>
+<thead><tr><th>When</th><th>Name</th><th>Contact</th><th>Treatments</th></tr></thead>
+<tbody id="leadRows"></tbody>
+</table>
+<p class="empty" id="noLeads" hidden>No leads yet. Share your embed link with patients.</p>
+</div>
+</div>
+</main>
+<script type="module" src="./lib/dashboard.js?v=12"></script>
+</body>
+</html>

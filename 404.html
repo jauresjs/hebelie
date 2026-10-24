@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>
+(function () {
+  var m = location.pathname.match(/^\/c\/([^/]+)\/?$/i);
+  if (m) {
+    location.replace("/embed.html?clinic=" + encodeURIComponent(m[1].toLowerCase()));
+    return;
+  }
+  location.replace("/");
+})();
+</script>
+<title>Redirecting…</title>
+</head>
+<body></body>
+</html>
