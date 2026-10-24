@@ -18,31 +18,15 @@ Iframe example:
 ></iframe>
 ```
 
-## Clinic leads dashboard
+## Clinic sign-up & dashboard
 
-Staff sign in at **[https://hebelie.com/dashboard.html](https://hebelie.com/dashboard.html)** to see leads from their embed (no email required if they prefer the portal).
+1. Open **[https://hebelie.com/auth.html?as=professional](https://hebelie.com/auth.html?as=professional)**.
+2. Choose **For professionals**, enter **clinic name**, sign in with Google / Facebook / email.
+3. We create `clinics` + `clinic_members` automatically, then open **dashboard.html** with leads and embed URL.
 
-## Onboard a new clinic
+Manual SQL onboarding is still possible if needed (see migration seed for `demo-medspa`).
 
-1. Insert the clinic:
-
-```sql
-insert into public.clinics (slug, name, lead_email, accent_color)
-values ('acme-medspa', 'Acme Medspa', 'frontdesk@acme.com', '#8B7355');
-```
-
-2. After the practice owner signs in once (Google/Facebook/email), link their auth user:
-
-```sql
-insert into public.clinic_members (clinic_id, user_id)
-select c.id, 'USER_UUID_FROM_SUPABASE_AUTH'
-from public.clinics c
-where c.slug = 'acme-medspa';
-```
-
-(Find `USER_UUID` in Supabase → Authentication → Users.)
-
-3. Optional: set `RESEND_API_KEY` + `RESEND_FROM` on edge functions for instant email alerts on new leads.
+Optional: `RESEND_API_KEY` + `RESEND_FROM` for email alerts on new leads.
 
 ## Demo tenant
 

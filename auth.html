@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Log in – Hebelie</title>
+<link rel="stylesheet" href="./lib/legal.css">
+<style>
+.choice{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:28px 0 24px}
+.choice button{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;padding:14px 12px;border:1px solid var(--line);background:var(--ivory);cursor:pointer;color:var(--muted)}
+.choice button[aria-selected="true"]{border-color:var(--bronze);color:var(--ink);background:var(--cream)}
+.panel{display:grid;gap:12px}
+.panel[hidden]{display:none!important}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border:1px solid var(--ink);background:var(--ink);color:var(--ivory);font:400 .68rem var(--sans);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;width:100%}
+.btn.ghost{background:transparent;color:var(--ink)}
+.field{font:300 1rem var(--sans);padding:12px 0;border:0;border-bottom:1px solid var(--line);background:transparent;width:100%}
+.hint{font-size:.82rem;color:var(--muted);margin:0 0 8px}
+.msg{min-height:1.4em;font-size:.82rem;color:var(--bronze)}
+.divider{text-align:center;font-size:.68rem;color:var(--muted);margin:12px 0}
+</style>
+</head>
+<body>
+<main class="wrap">
+<a class="back" href="./">← Hebelie</a>
+<h1>Log in or sign up</h1>
+<p class="meta">Choose how you use Hebelie.</p>
+
+<div class="choice" role="tablist">
+<button type="button" id="tabUser" role="tab" aria-selected="true">For patients</button>
+<button type="button" id="tabPro" role="tab" aria-selected="false">For professionals</button>
+</div>
+
+<div id="panelUser" class="panel" role="tabpanel">
+<p class="hint">Preview treatments on your portrait before a consultation.</p>
+<button class="btn" type="button" id="userGoogle">Continue with Google</button>
+<button class="btn ghost" type="button" id="userFacebook">Continue with Facebook</button>
+<p class="divider">or</p>
+<form id="userEmail">
+<input class="field" type="email" id="userEmailInput" placeholder="Email" required autocomplete="email">
+<button class="btn ghost" type="submit">Email me a link</button>
+</form>
+</div>
+
+<div id="panelPro" class="panel" role="tabpanel" hidden>
+<p class="hint">Embed Hebelie on your site and receive leads in your dashboard.</p>
+<label class="hint" for="clinicName">Clinic or practice name</label>
+<input class="field" type="text" id="clinicName" placeholder="e.g. Acme Medspa" required minlength="2" autocomplete="organization">
+<button class="btn" type="button" id="proGoogle">Continue with Google</button>
+<button class="btn ghost" type="button" id="proFacebook">Continue with Facebook</button>
+<p class="divider">or</p>
+<form id="proEmail">
+<input class="field" type="email" id="proEmailInput" placeholder="Work email" required autocomplete="email">
+<button class="btn ghost" type="submit">Email me a link</button>
+</form>
+</div>
+
+<p class="msg" id="authMsg" aria-live="polite"></p>
+<p class="hint"><a href="./privacy-policy.html">Privacy policy</a> · <a href="./terms.html">Terms</a></p>
+</main>
+<script type="module" src="./lib/auth-page.js?v=13"></script>
+</body>
+</html>
