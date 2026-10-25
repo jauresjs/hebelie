@@ -12,7 +12,18 @@ Supabase’s built-in mail is rate-limited (fine for dev only). For magic-link s
 
 ## 2. Supabase → Authentication → SMTP
 
-Enable **Custom SMTP** and use Resend’s SMTP endpoint:
+Enable **Custom SMTP** and use Resend’s SMTP endpoint.
+
+**Or via Management API** (personal access token `sbp_…`, not the `service_role` JWT):
+
+```bash
+curl -X PATCH "https://api.supabase.com/v1/projects/PROJECT_REF/config/auth" \
+  -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"smtp_host":"smtp.resend.com","smtp_port":"465","smtp_user":"resend","smtp_pass":"re_xxxx","smtp_admin_email":"auth@yourdomain.com","smtp_sender_name":"Hebelie","rate_limit_email_sent":100}'
+```
+
+Dashboard fields:
 
 | Setting        | Value              |
 |----------------|--------------------|
