@@ -1,0 +1,39 @@
+# Regenerates c/<slug>/index.html, sitemap.xml, and robots.txt, then commits to main.
+# Strategy: commit on push + daily schedule so GitHub Pages always serves real 200 pages.
+# Requires repo secret SUPABASE_SERVICE_ROLE_KEY (Project Settings → API → service_role).
+
+name: Build clinic SEO pages
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Generate clinic pages
+        env:
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: npm run build:clinics
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add c/ sitemap.xml robots.txt
+          git diff --staged --quiet && echo "No changes" && exit 0
+          git commit -m "chore: regenerate clinic SEO pages and sitemap"
+          git push

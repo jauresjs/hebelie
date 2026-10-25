@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<!-- Keep this redirect until every active clinic has c/<slug>/index.html from build:clinics.
+     Real files win with HTTP 200; this only runs for unknown /c/slug paths. -->
 <script>
 (function () {
   var m = location.pathname.match(/^\/c\/([^/]+)\/?$/i);

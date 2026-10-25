@@ -1,0 +1,8 @@
+{
+  "name": "hebelie",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:clinics": "node scripts/build-clinic-pages.mjs"
+  }
+}
