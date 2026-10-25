@@ -42,7 +42,7 @@ Deno.serve(async (req) => {
 
   const { data: lead, error: leadErr } = await admin
     .from("atelier_leads")
-    .select("id, name, email, phone, treatments, user_id, clinic_id, preview_id")
+    .select("id, name, email, phone, treatments, user_id, clinic_id, preview_id, before_url, after_url")
     .eq("id", leadId)
     .maybeSingle();
 
@@ -54,11 +54,12 @@ Deno.serve(async (req) => {
 
   const { data: clinic } = await admin
     .from("clinics")
-    .select("name, lead_email")
+    .select("name, lead_email, notify_lead_email")
     .eq("id", lead.clinic_id)
     .maybeSingle();
 
   if (!clinic?.lead_email) return json({ sent: false, reason: "no_email" });
+  if (clinic.notify_lead_email === false) return json({ sent: false, reason: "opted_out" });
 
   const resendKey = Deno.env.get("RESEND_API_KEY");
   if (!resendKey) {
@@ -67,6 +68,19 @@ Deno.serve(async (req) => {
   }
 
   const treatments = Array.isArray(lead.treatments) ? lead.treatments.join(", ") : "";
+  let beforeLink: string | null = null;
+  let afterLink: string | null = null;
+  const pathBefore = lead.before_url as string | null;
+  const pathAfter = lead.after_url as string | null;
+  if (pathBefore && !/^https?:\/\//i.test(pathBefore)) {
+    const { data } = await admin.storage.from("clinic-leads").createSignedUrl(pathBefore, 604800);
+    beforeLink = data?.signedUrl ?? null;
+  } else beforeLink = pathBefore;
+  if (pathAfter && !/^https?:\/\//i.test(pathAfter)) {
+    const { data } = await admin.storage.from("clinic-leads").createSignedUrl(pathAfter, 604800);
+    afterLink = data?.signedUrl ?? null;
+  } else afterLink = pathAfter;
+
   const text = [
     `New consultation request for ${clinic.name}`,
     "",
@@ -74,6 +88,8 @@ Deno.serve(async (req) => {
     `Email: ${lead.email}`,
     lead.phone ? `Phone: ${lead.phone}` : "",
     treatments ? `Treatments: ${treatments}` : "",
+    beforeLink ? `Before photo: ${beforeLink}` : "",
+    afterLink ? `After preview: ${afterLink}` : "",
     "",
     "Sent via Hebelie embed.",
   ]

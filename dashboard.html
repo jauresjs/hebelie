@@ -36,6 +36,12 @@ th{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;col
 .msg{font-size:.88rem;color:var(--bronze);min-height:1.4em;margin-top:12px}
 .msg.ok{color:var(--ink)}
 .clinic-select{margin-bottom:16px;max-width:320px}
+.lead-thumbs{display:flex;gap:8px;flex-wrap:wrap}
+.lead-thumbs a{display:block;line-height:0}
+.lead-thumbs img{width:56px;height:56px;object-fit:cover;border:1px solid var(--line);background:var(--ivory)}
+.check-row{display:flex;align-items:flex-start;gap:12px;max-width:520px;margin:8px 0 20px}
+.check-row input{margin-top:4px;width:18px;height:18px;accent-color:var(--bronze)}
+.check-row label{font-size:.92rem;color:var(--ink);cursor:pointer}
 </style>
 </head>
 <body>
@@ -58,7 +64,7 @@ th{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;col
 
 <section class="panel" id="panelLeads" role="tabpanel">
 <table>
-<thead><tr><th>When</th><th>Name</th><th>Contact</th><th>Treatments</th></tr></thead>
+<thead><tr><th>When</th><th>Name</th><th>Contact</th><th>Treatments</th><th>Preview</th></tr></thead>
 <tbody id="leadRows"></tbody>
 </table>
 <p class="empty" id="noLeads" hidden>No leads yet. Add the embed button to your website.</p>
@@ -78,6 +84,10 @@ th{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;col
 <input class="field" type="url" id="bookingUrl" name="booking_url" placeholder="https://calendly.com/your-clinic" autocomplete="url">
 <p class="meta" style="margin-top:8px">Patients open this after they complete a preview.</p>
 </div>
+</div>
+<div class="check-row">
+<input type="checkbox" id="notifyLeadEmail" name="notify_lead_email" checked>
+<label for="notifyLeadEmail">Email me at the clinic lead address when someone completes a preview (includes before/after images).</label>
 </div>
 <h2 style="font-size:1.25rem;margin:28px 0 12px">Embed button</h2>
 <div class="field-row">
@@ -122,6 +132,6 @@ th{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;col
 </div>
 </section>
 </main>
-<script type="module" src="./lib/dashboard.js?v=18"></script>
+<script type="module" src="./lib/dashboard.js?v=19"></script>
 </body>
 </html>

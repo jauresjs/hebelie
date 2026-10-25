@@ -1,6 +1,7 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { createLeadAndNotifyClinic } from "./notify-clinic.ts";
 import { buildRequest } from "./prompts.js";
+import { uploadPreviewImages } from "./storage.ts";
 
 const QUEUE = "https://queue.fal.run";
 const MODEL = "fal-ai/nano-banana/edit";
@@ -103,13 +104,28 @@ Deno.serve(async (req) => {
       booking_url = clinicRow.booking_url ?? null;
     }
 
+    const previewId = crypto.randomUUID();
+    let beforePath: string | null = null;
+    let afterPath: string | null = null;
+    if (clinic_id && typeof image === "string") {
+      try {
+        const paths = await uploadPreviewImages(admin, clinic_id, previewId, image, afterUrl);
+        beforePath = paths.beforePath;
+        afterPath = paths.afterPath;
+      } catch (uploadErr) {
+        console.error("preview image upload", uploadErr);
+      }
+    }
+
     const { data: preview, error: dbErr } = await admin
       .from("atelier_previews")
       .insert({
+        id: clinic_id ? previewId : undefined,
         user_id: userData.user.id,
         treatments,
         intensity: intensity ?? "strong",
-        after_url: afterUrl,
+        after_url: afterPath ?? afterUrl,
+        before_url: beforePath,
         clinic_id,
       })
       .select("id")
@@ -123,6 +139,8 @@ Deno.serve(async (req) => {
         clinicId: clinic_id,
         previewId: preview.id,
         treatments: Array.isArray(treatments) ? treatments : [],
+        beforePath,
+        afterPath,
       });
       leadCreated = Boolean(leadId);
     }

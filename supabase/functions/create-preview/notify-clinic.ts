@@ -1,4 +1,13 @@
-import { createClient, type SupabaseClient, type User } from "npm:@supabase/supabase-js@2";
+import { type SupabaseClient, type User } from "npm:@supabase/supabase-js@2";
+import { signedImageUrl } from "./storage.ts";
+
+function escapeHtml(s: string) {
+  return s
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
 
 function leadName(user: User) {
   const meta = user.user_metadata ?? {};
@@ -19,11 +28,13 @@ export async function createLeadAndNotifyClinic(
     clinicId: string;
     previewId: string | null;
     treatments: string[];
+    beforePath: string | null;
+    afterPath: string | null;
   },
 ): Promise<{ leadId: string | null; emailSent: boolean }> {
   const { data: clinic } = await admin
     .from("clinics")
-    .select("name, lead_email")
+    .select("name, lead_email, notify_lead_email")
     .eq("id", opts.clinicId)
     .maybeSingle();
 
@@ -43,6 +54,8 @@ export async function createLeadAndNotifyClinic(
       email,
       phone: null,
       treatments: opts.treatments,
+      before_url: opts.beforePath,
+      after_url: opts.afterPath,
     })
     .select("id")
     .single();
@@ -52,6 +65,10 @@ export async function createLeadAndNotifyClinic(
     return { leadId: null, emailSent: false };
   }
 
+  if (clinic.notify_lead_email === false) {
+    return { leadId: lead.id, emailSent: false };
+  }
+
   const resendKey = Deno.env.get("RESEND_API_KEY");
   if (!resendKey) {
     console.log("create-preview: no RESEND_API_KEY for lead", lead.id);
@@ -59,6 +76,9 @@ export async function createLeadAndNotifyClinic(
   }
 
   const treatmentLine = opts.treatments?.length ? opts.treatments.join(", ") : "";
+  const beforeLink = opts.beforePath ? await signedImageUrl(admin, opts.beforePath) : null;
+  const afterLink = opts.afterPath ? await signedImageUrl(admin, opts.afterPath) : null;
+
   const text = [
     `New preview lead for ${clinic.name}`,
     "",
@@ -67,13 +87,28 @@ export async function createLeadAndNotifyClinic(
     `Name: ${name}`,
     `Email: ${email}`,
     treatmentLine ? `Treatments explored: ${treatmentLine}` : "",
+    beforeLink ? `Before photo: ${beforeLink}` : "",
+    afterLink ? `After preview: ${afterLink}` : "",
     "",
-    "Follow up to book a consultation.",
+    "Open your Hebelie dashboard to view leads and images.",
     "",
     "Sent via Hebelie.",
   ]
     .filter(Boolean)
     .join("\n");
+
+  const htmlParts = [
+    `<p>New preview lead for <strong>${escapeHtml(clinic.name)}</strong>.</p>`,
+    `<p><strong>Name:</strong> ${escapeHtml(name)}<br>`,
+    `<strong>Email:</strong> ${escapeHtml(email)}</p>`,
+    treatmentLine
+      ? `<p><strong>Treatments:</strong> ${escapeHtml(treatmentLine)}</p>`
+      : "",
+    beforeLink && afterLink
+      ? `<p><strong>Before / after</strong></p><p><a href="${beforeLink}">Before</a> · <a href="${afterLink}">After preview</a></p>`
+      : "",
+    `<p>Follow up to book a consultation. View all leads in your Hebelie dashboard.</p>`,
+  ].join("");
 
   const mail = await fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -86,6 +121,7 @@ export async function createLeadAndNotifyClinic(
       to: [clinic.lead_email],
       subject: `New preview lead – ${name}`,
       text,
+      html: htmlParts,
     }),
   });
 
