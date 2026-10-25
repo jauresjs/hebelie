@@ -22,7 +22,14 @@ Iframe example:
 
 1. Open **[https://hebelie.com/auth.html?as=professional](https://hebelie.com/auth.html?as=professional)**.
 2. Choose **For professionals**, enter **clinic name**, sign in with Google / Facebook / email.
-3. We create `clinics` + `clinic_members` automatically, then open **dashboard.html** with leads and embed URL.
+3. We create `clinics` + `clinic_members` automatically, then open **dashboard.html**.
+
+In **Embed & booking** you can set:
+
+- **Website URL** — your clinic site (reference)
+- **Booking URL** — where patients book after a preview
+- **Button label & colors** — customize the embed button
+- **Copy website button code** — popup button that opens `https://hebelie.com/c/YOUR-SLUG` and collects leads
 
 Manual SQL onboarding is still possible if needed (see migration seed for `demo-medspa`).
 

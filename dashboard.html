@@ -3,22 +3,39 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Clinic leads – Hebelie</title>
+<title>Clinic dashboard – Hebelie</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="./logo.jpg" type="image/jpeg">
 <link rel="stylesheet" href="./lib/legal.css">
 <style>
 .wrap{max-width:960px}
-.panel{margin-top:32px;padding:24px;border:1px solid var(--line);background:var(--cream)}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0 0}
+.tabs button{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;padding:12px 16px;border:1px solid var(--line);background:var(--ivory);color:var(--muted);cursor:pointer}
+.tabs button[aria-selected="true"]{border-color:var(--bronze);color:var(--ink);background:var(--cream)}
+.panel{margin-top:20px;padding:24px;border:1px solid var(--line);background:var(--cream)}
+.panel[hidden]{display:none!important}
+.field-label{display:block;font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);margin:0 0 8px}
+.field{font:400 1rem var(--sans);padding:12px 14px;border:1px solid var(--line);background:var(--ivory);color:var(--ink);width:100%;max-width:480px}
+.field-row{display:grid;gap:16px;margin-bottom:20px}
+.field-row.two{grid-template-columns:repeat(auto-fit,minmax(200px,1fr));max-width:520px}
+.color-row{display:flex;align-items:center;gap:12px;max-width:480px}
+.color-row input[type=color]{width:48px;height:40px;padding:2px;border:1px solid var(--line);background:var(--ivory);cursor:pointer}
 table{width:100%;border-collapse:collapse;font-size:.88rem}
 th,td{text-align:left;padding:12px 8px;border-bottom:1px solid var(--line);vertical-align:top}
 th{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .empty{color:var(--muted);padding:24px 0}
-.toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:20px}
-.btn{display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border:1px solid var(--ink);background:var(--ink);color:var(--ivory);font:400 .68rem var(--sans);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;text-decoration:none}
+.toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 20px;border:1px solid var(--ink);background:var(--ink);color:var(--ivory);font:400 .68rem var(--sans);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;text-decoration:none}
 .btn.ghost{background:transparent;color:var(--ink)}
-.embed-link{font-size:.82rem;color:var(--muted);margin-top:8px}
-.embed-link code{font-size:.78rem}
+.btn:disabled{opacity:.45;pointer-events:none}
+.preview-box{margin:20px 0;padding:20px;border:1px dashed var(--line);background:var(--ivory);max-width:520px}
+.preview-box p{margin:0 0 12px;font-size:.82rem;color:var(--muted)}
+.snippet-wrap{margin-top:20px}
+.snippet-wrap textarea{font:400 .78rem/1.5 ui-monospace,monospace;width:100%;min-height:120px;padding:12px;border:1px solid var(--line);background:var(--ivory);color:var(--ink);resize:vertical}
+.snippet-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}
+.msg{font-size:.88rem;color:var(--bronze);min-height:1.4em;margin-top:12px}
+.msg.ok{color:var(--ink)}
+.clinic-select{margin-bottom:16px;max-width:320px}
 </style>
 </head>
 <body>
@@ -32,15 +49,79 @@ th{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;col
 <button class="btn ghost" type="button" id="signOut">Sign out</button>
 </div>
 
-<div class="panel">
-<p class="embed-link" id="embedHint" hidden>Embed link: <code id="embedUrl"></code></p>
+<select class="field clinic-select" id="clinicSelect" hidden aria-label="Select clinic"></select>
+
+<div class="tabs" role="tablist">
+<button type="button" role="tab" id="tabLeads" aria-selected="true">Leads</button>
+<button type="button" role="tab" id="tabEmbed" aria-selected="false">Embed &amp; booking</button>
+</div>
+
+<section class="panel" id="panelLeads" role="tabpanel">
 <table>
 <thead><tr><th>When</th><th>Name</th><th>Contact</th><th>Treatments</th></tr></thead>
 <tbody id="leadRows"></tbody>
 </table>
-<p class="empty" id="noLeads" hidden>No leads yet. Share your embed link with patients.</p>
+<p class="empty" id="noLeads" hidden>No leads yet. Add the embed button to your website.</p>
+</section>
+
+<section class="panel" id="panelEmbed" role="tabpanel" hidden>
+<form id="settingsForm">
+<div class="field-row">
+<div>
+<label class="field-label" for="websiteUrl">Website URL</label>
+<input class="field" type="url" id="websiteUrl" name="website_url" placeholder="https://yourclinic.com" autocomplete="url">
 </div>
+</div>
+<div class="field-row">
+<div>
+<label class="field-label" for="bookingUrl">Booking URL</label>
+<input class="field" type="url" id="bookingUrl" name="booking_url" placeholder="https://calendly.com/your-clinic" autocomplete="url">
+<p class="meta" style="margin-top:8px">Patients open this after they complete a preview.</p>
+</div>
+</div>
+<h2 style="font-size:1.25rem;margin:28px 0 12px">Embed button</h2>
+<div class="field-row">
+<div>
+<label class="field-label" for="buttonLabel">Button label</label>
+<input class="field" type="text" id="buttonLabel" name="embed_button_label" maxlength="80" placeholder="Preview treatments">
+</div>
+</div>
+<div class="field-row two">
+<div>
+<label class="field-label" for="buttonBg">Background</label>
+<div class="color-row">
+<input type="color" id="buttonBg" name="embed_button_bg" value="#9A8565">
+<input class="field" type="text" id="buttonBgHex" pattern="^#[0-9A-Fa-f]{6}$" maxlength="7" aria-label="Background hex">
+</div>
+</div>
+<div>
+<label class="field-label" for="buttonText">Text color</label>
+<div class="color-row">
+<input type="color" id="buttonText" name="embed_button_text" value="#FFFFFF">
+<input class="field" type="text" id="buttonTextHex" pattern="^#[0-9A-Fa-f]{6}$" maxlength="7" aria-label="Text hex">
+</div>
+</div>
+</div>
+<div class="preview-box">
+<p>Preview</p>
+<button type="button" id="buttonPreview">Preview treatments</button>
+</div>
+<button class="btn" type="submit" id="saveSettings">Save settings</button>
+<p class="msg" id="settingsMsg" aria-live="polite"></p>
+</form>
+
+<div class="snippet-wrap">
+<h2 style="font-size:1.25rem;margin:0 0 12px">Website button code</h2>
+<p class="meta" style="margin-bottom:12px">Paste before <code>&lt;/body&gt;</code> on your site. Opens the Hebelie preview in a popup and sends leads to your dashboard.</p>
+<textarea id="snippetCode" readonly aria-label="Embed button HTML"></textarea>
+<div class="snippet-actions">
+<button class="btn ghost" type="button" id="copySnippet">Copy code</button>
+<a class="btn ghost" id="testEmbed" href="#" target="_blank" rel="noopener">Test preview</a>
+</div>
+<p class="meta" style="margin-top:16px">Full-page embed: <code id="iframeUrl"></code></p>
+</div>
+</section>
 </main>
-<script type="module" src="./lib/dashboard.js?v=17"></script>
+<script type="module" src="./lib/dashboard.js?v=18"></script>
 </body>
 </html>
