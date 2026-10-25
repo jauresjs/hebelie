@@ -1,4 +1,5 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
+import { createLeadAndNotifyClinic } from "./notify-clinic.ts";
 import { buildRequest } from "./prompts.js";
 
 const QUEUE = "https://queue.fal.run";
@@ -88,16 +89,18 @@ Deno.serve(async (req) => {
     );
 
     let clinic_id: string | null = null;
+    let booking_url: string | null = null;
     if (clinic_slug && typeof clinic_slug === "string") {
       const slug = clinic_slug.trim().toLowerCase();
       const { data: clinicRow } = await admin
         .from("clinics")
-        .select("id")
+        .select("id, booking_url")
         .eq("slug", slug)
         .eq("active", true)
         .maybeSingle();
       if (!clinicRow) return json({ error: "unknown_clinic" }, 400);
       clinic_id = clinicRow.id;
+      booking_url = clinicRow.booking_url ?? null;
     }
 
     const { data: preview, error: dbErr } = await admin
@@ -113,7 +116,23 @@ Deno.serve(async (req) => {
       .single();
     if (dbErr) console.error("atelier_previews insert", dbErr.message);
 
-    return json({ afterUrl, previewId: preview?.id ?? null });
+    let leadCreated = false;
+    if (clinic_id && preview?.id) {
+      const { leadId } = await createLeadAndNotifyClinic(admin, {
+        user: userData.user,
+        clinicId: clinic_id,
+        previewId: preview.id,
+        treatments: Array.isArray(treatments) ? treatments : [],
+      });
+      leadCreated = Boolean(leadId);
+    }
+
+    return json({
+      afterUrl,
+      previewId: preview?.id ?? null,
+      bookingUrl: booking_url,
+      leadCreated,
+    });
   } catch (e) {
     if (e && typeof e === "object" && "kind" in e) {
       return json({ error: (e as { kind: string }).kind }, 502);
