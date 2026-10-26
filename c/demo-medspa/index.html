@@ -29,8 +29,23 @@ h1{font:400 clamp(2rem,5vw,2.75rem)/1.1 var(--serif);margin:0 0 16px;letter-spac
 .treatments li{padding:14px 0;border-bottom:1px solid var(--line);display:grid;gap:4px}
 .treatments b{font:500 1rem var(--sans);color:var(--ink)}
 .treatments span{font-size:.92rem;color:var(--muted)}
+.demo{margin:0 0 28px;text-align:center}
+.demo h2{font:400 1.25rem/1.2 var(--serif);margin:0 0 8px}
+.demo p{font-size:.88rem;color:var(--muted);margin:0 0 16px}
+.cmp{position:relative;aspect-ratio:3/4;overflow:hidden;background:#F3F0E8;--p:50%;width:100%;max-width:360px;margin:0 auto;border:1px solid var(--line)}
+.cmp .L{position:absolute;inset:0}.cmp .L img{width:100%;height:100%;object-fit:cover;display:block}
+.cmp .after{clip-path:inset(0 0 0 var(--p))}
+.cmp .bar{position:absolute;top:0;bottom:0;left:var(--p);width:1px;background:rgba(255,255,255,.9);pointer-events:none}
+.cmp .knob{position:absolute;top:50%;left:var(--p);width:2px;height:72px;margin:-36px 0 0 -1px;background:#fff;pointer-events:none}
+.cmp input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
+.cmp-drag,.tag{position:absolute;bottom:16px;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.9);pointer-events:none;z-index:2}
+.cmp-drag{left:50%;transform:translateX(-50%)}
+.tag.b{left:16px}.tag.a{right:16px}
+.demo-note{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:12px 0 20px}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 28px;border:1px solid var(--ink);background:var(--ink);color:var(--ivory);font:500 .72rem var(--sans);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;text-decoration:none}
 .frame{margin:0 0 24px;border:1px solid var(--line);background:#fff;overflow:hidden}
 .frame iframe{display:block;width:100%;min-height:920px;border:0}
+.frame[hidden]{display:none!important}
 .powered{font-size:.78rem;color:var(--muted);text-align:center}
 .powered a{color:var(--ink)}
 </style>
@@ -137,10 +152,44 @@ h1{font:400 clamp(2rem,5vw,2.75rem)/1.1 var(--serif);margin:0 0 16px;letter-spac
       <li><b>Facelift</b><span>Directional lift preview for jowls and lower face.</span></li>
       <li><b>Rhinoplasty</b><span>Explore nasal profile changes on your own photo.</span></li>
 </ul>
-<div class="frame">
-<iframe src="/embed.html?clinic=demo-medspa" title="Preview your treatment — Demo Medspa" allow="camera; microphone; fullscreen" loading="lazy"></iframe>
+<section class="demo" aria-labelledby="demoTitle">
+<h2 id="demoTitle">Example preview</h2>
+<p>Drag to compare before and after—then try it on your own photo.</p>
+<div class="cmp" id="demoCmp" aria-label="Example before and after">
+<div class="L"><img src="/before.png?v=5" alt="Before example"></div>
+<div class="L after"><img src="/after.png?v=5" alt="After example"></div>
+<div class="bar"></div><div class="knob"></div>
+<span class="tag b">Before</span><span class="tag a">After</span>
+<div class="cmp-drag">Drag to compare</div>
+<input type="range" min="0" max="100" value="50" aria-label="Compare before and after example">
+</div>
+<p class="demo-note">Example · Illustration only · Not your photo</p>
+<button type="button" class="btn" id="openPreview">Try on myself</button>
+</section>
+<div class="frame" id="previewFrame" hidden>
+<iframe id="previewIframe" title="Preview your treatment — Demo Medspa" allow="camera; microphone; fullscreen"></iframe>
 </div>
 <p class="powered">Powered by <a href="https://hebelie.com/">Hebelie</a></p>
 </main>
+<script>
+(function () {
+  var cmp = document.getElementById("demoCmp");
+  if (cmp) {
+    var r = cmp.querySelector("input");
+    r.oninput = function () { cmp.style.setProperty("--p", r.value + "%"); };
+    cmp.style.setProperty("--p", "50%");
+  }
+  var btn = document.getElementById("openPreview");
+  var frame = document.getElementById("previewFrame");
+  var iframe = document.getElementById("previewIframe");
+  if (!btn || !frame || !iframe) return;
+  btn.addEventListener("click", function () {
+    if (!iframe.src) iframe.src = "/embed.html?clinic=demo-medspa&start=studio";
+    frame.hidden = false;
+    btn.hidden = true;
+    frame.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+})();
+</script>
 </body>
 </html>

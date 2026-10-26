@@ -16,6 +16,14 @@ h3{font:400 .72rem/1.2 var(--sans);letter-spacing:.18em;text-transform:uppercase
 .embed-brand img.clinic-logo{max-height:42px;width:auto}
 .embed-powered{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
 .embed-powered a{color:var(--muted)}
+.embed-welcome{max-width:420px;margin:0 auto;text-align:center}
+.embed-welcome[hidden],.studio-atrium[hidden]{display:none!important}
+.embed-welcome-title{font:400 clamp(1.35rem,4.5vw,1.75rem)/1.15 var(--serif);letter-spacing:.02em;margin:0 0 12px;color:var(--ink)}
+.embed-welcome-lead{font-size:.92rem;color:var(--muted);margin:0 0 20px;line-height:1.5}
+.intro-frame{border:1px solid var(--line);background:var(--cream);margin:0 0 12px}
+.intro-frame .cmp{max-height:min(58vh,480px);margin:0 auto}
+.embed-welcome-note{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 20px}
+.embed-welcome-disclaimer{margin-top:16px;font-size:.75rem;line-height:1.45}
 .btn{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 32px;border:1px solid var(--ink);background:var(--ink);color:var(--ivory);font:400 .72rem var(--sans);letter-spacing:.2em;text-transform:uppercase;cursor:pointer}
 .btn.ghost{background:transparent;color:var(--ink)}
 .btn.wide{width:100%}
