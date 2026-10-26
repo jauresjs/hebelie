@@ -30,7 +30,8 @@ th{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;col
 .btn:disabled{opacity:.45;pointer-events:none}
 .preview-box{margin:20px 0;padding:20px;border:1px dashed var(--line);background:var(--ivory);max-width:520px}
 .preview-box p{margin:0 0 12px;font-size:.82rem;color:var(--muted)}
-.snippet-wrap{margin-top:20px}
+.snippet-wrap{margin-top:24px}
+.snippet-wrap h3{font:400 1.1rem/1.25 Georgia,serif;margin:0 0 8px;letter-spacing:.02em}
 .snippet-wrap textarea{font:400 .78rem/1.5 ui-monospace,monospace;width:100%;min-height:120px;padding:12px;border:1px solid var(--line);background:var(--ivory);color:var(--ink);resize:vertical}
 .snippet-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}
 .msg{font-size:.88rem;color:var(--bronze);min-height:1.4em;margin-top:12px}
@@ -39,23 +40,34 @@ th{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;col
 .lead-thumbs{display:flex;gap:8px;flex-wrap:wrap}
 .lead-thumbs a{display:block;line-height:0}
 .lead-thumbs img{width:56px;height:56px;object-fit:cover;border:1px solid var(--line);background:var(--ivory)}
-.check-row{display:flex;align-items:flex-start;gap:12px;max-width:520px;margin:8px 0 20px}
+.check-row{display:flex;align-items:flex-start;gap:12px;max-width:560px;margin:8px 0 16px}
 .check-row input{margin-top:4px;width:18px;height:18px;accent-color:var(--bronze)}
 .check-row label{font-size:.92rem;color:var(--ink);cursor:pointer}
-.dist-section{margin-top:36px;padding-top:28px;border-top:1px solid var(--line)}
-.dist-section h2{font:400 1.35rem/1.2 Georgia,serif;margin:0 0 8px;letter-spacing:.02em}
-.dist-kicker{font:400 .62rem var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--bronze);margin:0 0 12px}
-.dist-section .meta{margin-bottom:16px}
-.share-link-row{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;margin-bottom:20px;max-width:560px}
+.embed-steps{display:flex;align-items:center;gap:12px;margin:0 0 24px;font:400 .62rem var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.embed-steps .dot{width:4px;height:4px;border-radius:50%;background:var(--line)}
+.embed-steps span.on{color:var(--ink)}
+.embed-step-title{font:400 1.35rem/1.2 Georgia,serif;margin:0 0 8px;letter-spacing:.02em}
+.embed-step-lead{color:var(--muted);margin:0 0 24px;max-width:42em;line-height:1.55}
+.choice-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;max-width:640px;margin-bottom:28px}
+.choice-card{text-align:left;padding:24px;border:1px solid var(--line);background:var(--ivory);cursor:pointer;transition:border-color .2s,box-shadow .2s;font:inherit;color:inherit}
+.choice-card:hover{border-color:var(--bronze);box-shadow:0 8px 24px rgba(20,20,18,.06)}
+.choice-card h3{font:400 1.15rem/1.25 Georgia,serif;margin:0 0 8px}
+.choice-card p{margin:0;font-size:.88rem;color:var(--muted);line-height:1.5}
+.path-panel{margin-top:8px;padding-top:24px;border-top:1px solid var(--line)}
+.path-panel[hidden]{display:none!important}
+.settings-summary{font-size:.88rem;color:var(--muted);padding:14px 16px;border:1px solid var(--line);background:var(--ivory);max-width:560px;margin-bottom:24px;line-height:1.55}
+.settings-summary strong{color:var(--ink);font-weight:500}
+.back-link{display:inline-block;margin-bottom:20px;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:none;border:0;padding:0;cursor:pointer;font-family:var(--sans)}
+.back-link:hover{color:var(--ink)}
+.share-link-row{display:flex;flex-wrap:wrap;gap:10px;align-items:stretch;margin-bottom:16px;max-width:560px}
 .share-link-row input{flex:1;min-width:200px;font:400 .88rem ui-monospace,monospace;padding:12px 14px;border:1px solid var(--line);background:var(--ivory);color:var(--ink)}
-.share-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:10px;max-width:560px;margin-bottom:8px}
-.share-pill{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 14px;border:1px solid var(--line);background:var(--ivory);color:var(--ink);font:400 .65rem var(--sans);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:border-color .2s,background .2s}
-.share-pill:hover{border-color:var(--bronze);background:var(--cream)}
-.share-pill svg{width:16px;height:16px;flex-shrink:0;opacity:.85}
-.agency-card{max-width:560px;padding:24px;border:1px dashed var(--line);background:var(--ivory);margin-top:12px}
+.share-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;max-width:560px;margin-bottom:8px}
+.share-pill{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 12px;border:1px solid var(--line);background:var(--ivory);color:var(--ink);font:400 .62rem var(--sans);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;cursor:pointer}
+.share-pill:hover{border-color:var(--bronze)}
+.share-pill svg{width:15px;height:15px;flex-shrink:0;opacity:.85}
+.agency-card{max-width:560px;padding:20px;border:1px dashed var(--line);background:var(--ivory)}
 .agency-card .field{max-width:100%}
-.work-order-box{font:400 .75rem/1.55 ui-monospace,monospace;width:100%;min-height:200px;padding:14px;border:1px solid var(--line);background:var(--cream);color:var(--ink);resize:vertical;margin:16px 0}
-.dist-actions{display:flex;flex-wrap:wrap;gap:12px}
+.work-order-box{font:400 .75rem/1.55 ui-monospace,monospace;width:100%;min-height:220px;padding:14px;border:1px solid var(--line);background:var(--cream);color:var(--ink);resize:vertical;margin:16px 0}
 </style>
 </head>
 <body>
@@ -85,6 +97,15 @@ th{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;col
 </section>
 
 <section class="panel" id="panelEmbed" role="tabpanel" hidden>
+<nav class="embed-steps" aria-label="Setup progress">
+<span id="embedStepLabel1" class="on">1 · Your settings</span>
+<span class="dot" aria-hidden="true"></span>
+<span id="embedStepLabel2">2 · Install</span>
+</nav>
+
+<div id="embedStep1">
+<h2 class="embed-step-title">Set up your preview</h2>
+<p class="embed-step-lead">Tell us about your clinic and how you want the preview to look. We’ll use this for your website button, optional welcome popup, and leads.</p>
 <form id="settingsForm">
 <div class="field-row">
 <div>
@@ -101,13 +122,13 @@ th{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;col
 </div>
 <div class="check-row">
 <input type="checkbox" id="notifyLeadEmail" name="notify_lead_email" checked>
-<label for="notifyLeadEmail">Email me at the clinic lead address when someone completes a preview (includes before/after images).</label>
+<label for="notifyLeadEmail">Email me when someone completes a preview (includes before/after images).</label>
 </div>
 <div class="check-row">
 <input type="checkbox" id="embedAutoPrompt" name="embed_auto_prompt">
-<label for="embedAutoPrompt">Show a welcome prompt on our website 3 seconds after someone arrives (they tap to open the preview—works with the script below).</label>
+<label for="embedAutoPrompt">Show a welcome popup on our website 3 seconds after someone arrives (with before/after example—they tap to open the preview).</label>
 </div>
-<h2 style="font-size:1.25rem;margin:28px 0 12px">Embed button</h2>
+<h3 style="font:400 1rem Georgia,serif;margin:28px 0 12px">Preview button</h3>
 <div class="field-row">
 <div>
 <label class="field-label" for="buttonLabel">Button label</label>
@@ -131,66 +152,83 @@ th{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;col
 </div>
 </div>
 <div class="preview-box">
-<p>Preview</p>
+<p>Button preview</p>
 <button type="button" id="buttonPreview">Preview treatments</button>
 </div>
-<button class="btn" type="submit" id="saveSettings">Save settings</button>
+<button class="btn" type="submit" id="saveSettings">Save &amp; continue</button>
 <p class="msg" id="settingsMsg" aria-live="polite"></p>
 </form>
+</div>
 
+<div id="embedStep2" hidden>
+<button type="button" class="back-link" id="embedBackToStep1">← Edit settings</button>
+<h2 class="embed-step-title">Add Hebelie to your website</h2>
+<p class="embed-step-lead">Your choices are saved. Pick how you want to install the preview.</p>
+<div class="settings-summary" id="settingsSummary" aria-live="polite"></div>
+
+<div class="choice-grid">
+<button type="button" class="choice-card" id="chooseDiy">
+<h3>Install it myself</h3>
+<p>Copy the button code (and optional popup script) onto your site, or share your preview link on social.</p>
+</button>
+<button type="button" class="choice-card" id="chooseAgency">
+<h3>Send to my web agency</h3>
+<p>Get a ready-made work order with the exact code and options you chose in step 1.</p>
+</button>
+</div>
+
+<div class="path-panel" id="pathDiy" hidden>
+<h3>Install it yourself</h3>
 <div class="snippet-wrap">
-<h2 style="font-size:1.25rem;margin:0 0 12px">Website button code</h2>
-<p class="meta" style="margin-bottom:12px">Paste before <code>&lt;/body&gt;</code> on your site. Opens the Hebelie preview in a popup and sends leads to your dashboard.</p>
+<h3>Website button</h3>
+<p class="meta">Paste before <code>&lt;/body&gt;</code> on your homepage.</p>
 <textarea id="snippetCode" readonly aria-label="Embed button HTML"></textarea>
 <div class="snippet-actions">
-<button class="btn ghost" type="button" id="copySnippet">Copy code</button>
+<button class="btn ghost" type="button" id="copySnippet">Copy button code</button>
 <a class="btn ghost" id="testEmbed" href="#" target="_blank" rel="noopener">Test preview</a>
 </div>
-<p class="meta" style="margin-top:16px">Full-page embed: <code id="iframeUrl"></code></p>
 </div>
-
-<div class="snippet-wrap">
-<h2 style="font-size:1.25rem;margin:28px 0 12px">Website prompt script</h2>
-<p class="meta" style="margin-bottom:12px">Paste once before <code>&lt;/body&gt;</code>. Save settings above to turn the timed prompt on or off—no need to change this code when you toggle it.</p>
+<div class="snippet-wrap" id="loaderSnippetBlock" hidden>
+<h3>Welcome popup script</h3>
+<p class="meta">You turned on the 3-second welcome popup—paste this once before <code>&lt;/body&gt;</code>.</p>
 <textarea id="loaderSnippetCode" readonly aria-label="Embed loader script"></textarea>
 <div class="snippet-actions">
 <button class="btn ghost" type="button" id="copyLoaderSnippet">Copy script</button>
 </div>
 </div>
-
-<div class="dist-section">
-<p class="dist-kicker">Marketing</p>
-<h2>Share your preview link</h2>
-<p class="meta">Use this link in social posts, bio, or ads. Patients land on your preview page before trying the tool.</p>
+<div class="snippet-wrap">
+<h3>Share on social</h3>
+<p class="meta">Public preview page: <code id="iframeUrl"></code></p>
 <div class="share-link-row">
 <input type="text" id="sharePublicUrl" readonly aria-label="Public preview page URL">
 <button class="btn ghost" type="button" id="copyShareUrl">Copy link</button>
 </div>
-<div class="share-grid" id="shareGrid">
+<div class="share-grid">
 <a class="share-pill" id="shareFacebook" href="#" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.413c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.971H15.83c-1.491 0-1.956.93-1.956 1.886v2.265h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>Facebook</a>
 <a class="share-pill" id="shareTwitter" href="#" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>X</a>
 <button class="share-pill" type="button" id="shareInstagram"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>Instagram</button>
 <button class="share-pill" type="button" id="shareSnapchat"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.206.793c.99 0 4.347.276 5.93 3.821.529 1.193.403 3.219.299 4.847l-.003.06c-.012.18-.022.345-.03.51.075.045.203.09.401.09.3-.016.659-.12 1.033-.301.165-.088.344-.104.464-.104.182 0 .359.029.509.09.45.149.734.479.734.838.015.449-.39.839-1.213 1.168-.089.029-.209.075-.344.119-.45.135-1.139.36-1.333.81-.09.224-.061.524.12.868l.015.015c.06.136 1.526 3.475 4.791 4.014.255.044.435.27.42.509 0 .075-.015.149-.045.225-.24.569-1.273.988-3.146 1.271-.059.091-.12.375-.082.564.299 1.153.849 2.76 2.634 3.476.149.075.299.135.435.135.449 0 .854-.465 1.068-1.086.12-.359.359-.54.629-.54.182 0 .359.075.509.209.435.39.72 1.034.72 1.688 0 .479-.135.914-.389 1.259-.554.809-1.654 1.348-3.056 1.348-.359 0-.734-.045-1.123-.135-1.259-.299-2.664-1.024-3.995-2.104-1.333-1.078-2.104-1.648-2.894-1.648-.809 0-1.588.569-2.924 1.648-1.333 1.078-2.738 1.803-3.996 2.104-.389.09-.764.135-1.123.135-1.403 0-2.503-.539-3.056-1.348-.255-.345-.389-.779-.389-1.259 0-.654.285-1.298.72-1.688.149-.134.326-.209.509-.209.27 0 .509.181.629.54.214.621.619 1.086 1.068 1.086.135 0 .285-.06.435-.135 1.784-.716 2.334-2.323 2.634-3.476.044-.189-.015-.479-.082-.564-1.872-.284-2.906-.703-3.146-1.271-.029-.075-.045-.149-.045-.225-.015-.239.165-.465.42-.509 3.264-.54 4.73-3.878 4.791-4.014l.015-.015c.18-.345.209-.645.119-.868-.195-.45-.884-.675-1.333-.81-.135-.045-.255-.09-.344-.119-.823-.329-1.228-.719-1.213-1.168 0-.359.285-.689.734-.838.149-.061.326-.09.509-.09.12 0 .299.016.464.104.374.181.733.285 1.033.301.197 0 .326-.045.401-.09-.008-.165-.018-.33-.03-.51l-.003-.06c-.104-1.628-.23-3.654.299-4.847C7.853 1.069 11.209.793 12.206.793z"/></svg>Snapchat</button>
 </div>
-<p class="meta" id="shareCaptionHint" style="margin-top:12px"></p>
+<p class="meta" id="shareCaptionHint"></p>
+</div>
 </div>
 
-<div class="dist-section">
-<p class="dist-kicker">For your web agency</p>
-<h2>Email implementation brief</h2>
-<p class="meta">Not technical? Send your web developer a ready-made work order with embed code and QA steps.</p>
+<div class="path-panel" id="pathAgency" hidden>
+<h3>Send to your web agency</h3>
+<p class="meta">This brief reflects your step 1 settings—including welcome popup on/off and button styling.</p>
 <div class="agency-card">
-<label class="field-label" for="agencyEmail">Agency email (optional)</label>
+<label class="field-label" for="agencyEmail">Agency email</label>
 <input class="field" type="email" id="agencyEmail" placeholder="developer@agency.com" autocomplete="email">
 <textarea class="work-order-box" id="agencyWorkOrder" readonly aria-label="Work order for web agency"></textarea>
-<div class="dist-actions">
+<div class="snippet-actions">
 <button class="btn" type="button" id="copyWorkOrder">Copy work order</button>
 <button class="btn ghost" type="button" id="emailAgency">Open in email</button>
 </div>
 </div>
 </div>
+</div>
 </section>
 </main>
-<script type="module" src="./lib/dashboard.js?v=22"></script>
+<script type="module" src="./lib/dashboard.js?v=23"></script>
 </body>
 </html>
