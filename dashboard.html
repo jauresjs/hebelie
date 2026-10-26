@@ -89,6 +89,10 @@ th{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;col
 <input type="checkbox" id="notifyLeadEmail" name="notify_lead_email" checked>
 <label for="notifyLeadEmail">Email me at the clinic lead address when someone completes a preview (includes before/after images).</label>
 </div>
+<div class="check-row">
+<input type="checkbox" id="embedAutoPrompt" name="embed_auto_prompt">
+<label for="embedAutoPrompt">Show a welcome prompt on our website 3 seconds after someone arrives (they tap to open the preview—works with the script below).</label>
+</div>
 <h2 style="font-size:1.25rem;margin:28px 0 12px">Embed button</h2>
 <div class="field-row">
 <div>
@@ -130,8 +134,17 @@ th{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;col
 </div>
 <p class="meta" style="margin-top:16px">Full-page embed: <code id="iframeUrl"></code></p>
 </div>
+
+<div class="snippet-wrap">
+<h2 style="font-size:1.25rem;margin:28px 0 12px">Website prompt script</h2>
+<p class="meta" style="margin-bottom:12px">Paste once before <code>&lt;/body&gt;</code>. Save settings above to turn the timed prompt on or off—no need to change this code when you toggle it.</p>
+<textarea id="loaderSnippetCode" readonly aria-label="Embed loader script"></textarea>
+<div class="snippet-actions">
+<button class="btn ghost" type="button" id="copyLoaderSnippet">Copy script</button>
+</div>
+</div>
 </section>
 </main>
-<script type="module" src="./lib/dashboard.js?v=20"></script>
+<script type="module" src="./lib/dashboard.js?v=21"></script>
 </body>
 </html>
