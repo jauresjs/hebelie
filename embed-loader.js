@@ -109,17 +109,30 @@ function mountPrompt(cfg) {
   const label = cfg.embed_button_label || "Preview treatments";
   const clinicName = escapeHtml(cfg.name || "Your clinic");
   const labelSafe = escapeHtml(label);
+  const origin = siteOrigin();
+  const beforeImg = `${origin}/before.png?v=5`;
+  const afterImg = `${origin}/after.png?v=5`;
 
   root.innerHTML = `
 <style>
   *{box-sizing:border-box}
-  .backdrop{position:fixed;inset:0;background:rgba(20,20,18,.45);z-index:2147483646;display:flex;align-items:center;justify-content:center;padding:20px;font-family:system-ui,-apple-system,sans-serif}
-  .card{position:relative;max-width:22rem;width:100%;background:#FAF8F4;color:#141412;border:1px solid #E0DBD2;padding:28px 24px 24px;box-shadow:0 24px 48px rgba(0,0,0,.12)}
-  .close{position:absolute;top:12px;right:12px;width:36px;height:36px;border:0;background:transparent;color:#6E6A63;font-size:1.4rem;line-height:1;cursor:pointer;border-radius:4px}
+  .backdrop{position:fixed;inset:0;background:rgba(20,20,18,.45);z-index:2147483646;display:flex;align-items:center;justify-content:center;padding:16px;font-family:system-ui,-apple-system,sans-serif}
+  .card{position:relative;max-width:min(22rem,100%);width:100%;max-height:min(96vh,720px);overflow:auto;background:#FAF8F4;color:#141412;border:1px solid #E0DBD2;padding:24px 20px 20px;box-shadow:0 24px 48px rgba(0,0,0,.12)}
+  .close{position:absolute;top:10px;right:10px;width:36px;height:36px;border:0;background:transparent;color:#6E6A63;font-size:1.4rem;line-height:1;cursor:pointer;border-radius:4px;z-index:2}
   .close:hover{color:#141412}
-  h2{margin:0 0 10px;font:400 1.35rem/1.25 Georgia,"Times New Roman",serif;letter-spacing:.02em}
-  p{margin:0 0 20px;font-size:.92rem;line-height:1.5;color:#6E6A63}
-  .cta{display:flex;flex-direction:column;gap:10px}
+  h2{margin:0 0 12px;padding-right:28px;font:400 1.25rem/1.25 Georgia,"Times New Roman",serif;letter-spacing:.02em;text-align:center}
+  p{margin:0 0 16px;font-size:.88rem;line-height:1.5;color:#6E6A63;text-align:center}
+  .cmp{position:relative;aspect-ratio:3/4;width:100%;max-height:42vh;margin:0 auto 10px;overflow:hidden;background:#F3F0E8;border:1px solid #E0DBD2;--p:50%}
+  .cmp .L{position:absolute;inset:0}
+  .cmp .L img{width:100%;height:100%;object-fit:cover;display:block}
+  .cmp .after{clip-path:inset(0 0 0 var(--p))}
+  .cmp .bar{position:absolute;top:0;bottom:0;left:var(--p);width:1px;background:rgba(255,255,255,.9);pointer-events:none}
+  .cmp .knob{position:absolute;top:50%;left:var(--p);width:2px;height:56px;margin:-28px 0 0 -1px;background:#fff;pointer-events:none}
+  .cmp input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0;touch-action:none}
+  .cmp-drag,.tag{position:absolute;bottom:12px;font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.92);pointer-events:none;z-index:1}
+  .cmp-drag{left:50%;transform:translateX(-50%)}
+  .tag.b{left:12px}.tag.a{right:12px}
+  .cta{display:flex;flex-direction:column;gap:10px;margin-top:4px}
   .btn{display:flex;align-items:center;justify-content:center;min-height:48px;padding:0 20px;border:1px solid #141412;background:#141412;color:#FAF8F4;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;width:100%}
   .btn.primary{border-color:${bg};background:${bg};color:${fg}}
   .btn.ghost{background:transparent;color:#6E6A63;border-color:transparent;text-transform:none;letter-spacing:0;font-size:.82rem;min-height:40px}
@@ -134,7 +147,15 @@ function mountPrompt(cfg) {
   <div class="card" role="dialog" aria-modal="true" aria-labelledby="hbTitle">
     <button type="button" class="close" aria-label="Close">&times;</button>
     <h2 id="hbTitle">See how it could look on you</h2>
-    <p>${clinicName} offers a private preview on your own photo before you book.</p>
+    <div class="cmp" aria-label="Example before and after preview">
+      <div class="L"><img src="${beforeImg}" alt="Before example"></div>
+      <div class="L after"><img src="${afterImg}" alt="After example"></div>
+      <div class="bar"></div><div class="knob"></div>
+      <span class="tag b">Before</span><span class="tag a">After</span>
+      <div class="cmp-drag">Drag to compare</div>
+      <input type="range" min="0" max="100" value="50" aria-label="Compare before and after example">
+    </div>
+    <p>${clinicName} — try a private preview on your own photo.</p>
     <div class="cta">
       <button type="button" class="btn primary">${labelSafe}</button>
       <button type="button" class="btn ghost">Not now</button>
@@ -159,6 +180,12 @@ function mountPrompt(cfg) {
   const primary = root.querySelector(".btn.primary");
   const ghost = root.querySelector(".btn.ghost");
   const card = root.querySelector(".card");
+  const cmp = root.querySelector(".cmp");
+  const range = root.querySelector(".cmp input");
+  if (cmp && range) {
+    range.addEventListener("input", () => cmp.style.setProperty("--p", `${range.value}%`));
+    cmp.style.setProperty("--p", "50%");
+  }
 
   backdrop.addEventListener("click", (e) => {
     if (e.target === backdrop) {
