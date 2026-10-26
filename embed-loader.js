@@ -95,7 +95,7 @@ function escapeHtml(s) {
 function openPreview(slug, label, bg, fg) {
   const base = siteOrigin();
   const source = encodeURIComponent(location.origin);
-  const url = `${base}/embed.html?clinic=${encodeURIComponent(slug)}&source=${source}`;
+  const url = `${base}/embed.html?clinic=${encodeURIComponent(slug)}&source=${source}&start=studio`;
   window.open(url, "hebelie", "width=440,height=920,noopener");
 }
 
