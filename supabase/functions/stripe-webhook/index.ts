@@ -11,11 +11,30 @@ function json(body: unknown, status = 200) {
   });
 }
 
+function subscriptionPeriod(sub: Stripe.Subscription): { start: string; end: string } {
+  const item = sub.items?.data?.[0];
+  const startSec =
+    sub.current_period_start ??
+    item?.current_period_start ??
+    sub.billing_cycle_anchor ??
+    sub.start_date;
+  const endSec = sub.current_period_end ?? item?.current_period_end;
+  if (!startSec || !endSec) {
+    throw new Error(`subscription ${sub.id} missing billing period fields`);
+  }
+  return {
+    start: new Date(startSec * 1000).toISOString(),
+    end: new Date(endSec * 1000).toISOString(),
+  };
+}
+
 async function syncSubscription(
   admin: ReturnType<typeof createClient>,
   sub: Stripe.Subscription,
+  hints?: { clinic_id?: string | null; hebelie_plan?: string | null },
 ) {
   const clinicId =
+    hints?.clinic_id ??
     sub.metadata?.clinic_id ??
     sub.items.data[0]?.price?.metadata?.clinic_id ??
     null;
@@ -28,6 +47,7 @@ async function syncSubscription(
   const price = sub.items.data[0]?.price;
   const priceId = price?.id ?? "";
   let plan =
+    (hints?.hebelie_plan as BillingPlan | undefined) ??
     (sub.metadata?.hebelie_plan as BillingPlan | undefined) ??
     (price?.metadata?.hebelie_plan as BillingPlan | undefined) ??
     planFromPriceId(priceId);
@@ -40,8 +60,7 @@ async function syncSubscription(
 
   const quota = quotaForPlan(plan);
   const status = sub.status;
-  const periodStart = new Date(sub.current_period_start * 1000).toISOString();
-  const periodEnd = new Date(sub.current_period_end * 1000).toISOString();
+  const { start: periodStart, end: periodEnd } = subscriptionPeriod(sub);
 
   const update: Record<string, unknown> = {
     stripe_subscription_id: sub.id,
@@ -56,7 +75,8 @@ async function syncSubscription(
     update.preview_quota_monthly = 0;
   }
 
-  await admin.from("clinics").update(update).eq("id", clinicId);
+  const { error } = await admin.from("clinics").update(update).eq("id", clinicId);
+  if (error) console.error("stripe-webhook clinic update", error.message);
 }
 
 Deno.serve(async (req) => {
@@ -98,8 +118,13 @@ Deno.serve(async (req) => {
             })
             .eq("id", clinicId);
         }
-        const sub = await stripe.subscriptions.retrieve(String(session.subscription));
-        await syncSubscription(admin, sub);
+        const sub = await stripe.subscriptions.retrieve(String(session.subscription), {
+          expand: ["items.data.price"],
+        });
+        await syncSubscription(admin, sub, {
+          clinic_id: clinicId,
+          hebelie_plan: session.metadata?.hebelie_plan ?? null,
+        });
         break;
       }
       case "customer.subscription.created":
@@ -128,14 +153,18 @@ Deno.serve(async (req) => {
       }
       case "invoice.paid": {
         const invoice = event.data.object as Stripe.Invoice;
-        if (invoice.billing_reason !== "subscription_cycle" || !invoice.subscription) break;
-        const sub = await stripe.subscriptions.retrieve(String(invoice.subscription));
-        const clinicId = sub.metadata?.clinic_id;
-        if (clinicId) {
-          await admin
-            .from("clinics")
-            .update({ previews_used_period: 0 })
-            .eq("id", clinicId);
+        const reason = invoice.billing_reason;
+        if (!invoice.subscription) break;
+        if (reason !== "subscription_cycle" && reason !== "subscription_create") break;
+        const sub = await stripe.subscriptions.retrieve(String(invoice.subscription), {
+          expand: ["items.data.price"],
+        });
+        await syncSubscription(admin, sub);
+        if (reason === "subscription_cycle") {
+          const clinicId = sub.metadata?.clinic_id;
+          if (clinicId) {
+            await admin.from("clinics").update({ previews_used_period: 0 }).eq("id", clinicId);
+          }
         }
         break;
       }
