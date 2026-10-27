@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pricing – Hebelie for clinics</title>
+<meta name="description" content="Simple monthly plans in CAD for treatment preview embeds on your clinic website.">
+<link rel="icon" href="./logo.jpg" type="image/jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ivory:#FAF8F4;--cream:#F3F0E8;--ink:#141412;--charcoal:#2A2926;--muted:#6E6A63;--line:#E0DBD2;
+  --bronze:#9A8565;--bronze-light:#C4B49A;--serif:"Cormorant Garamond",Georgia,serif;--sans:"Inter",system-ui,sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);box-sizing:border-box;
+}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--ivory);color:var(--ink);font:300 16px/1.7 var(--sans)}
+h1,h2{font-family:var(--serif);font-weight:300;margin:0;line-height:1.05;letter-spacing:-.03em}
+h1{font-size:clamp(2rem,5vw,3.25rem)}h2{font-size:clamp(1.5rem,3vw,2.25rem)}
+.wrap{width:min(1080px,100% - clamp(20px,5vw,48px));margin-inline:auto}
+nav{position:sticky;top:0;z-index:50;background:rgba(250,248,244,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:12px 0}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;min-height:52px}
+.logo{font:400 1.25rem/1 var(--serif);letter-spacing:.04em;text-decoration:none;color:var(--ink)}
+.nav-link{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-decoration:none}
+.nav-link:hover{color:var(--ink)}
+.hero{padding:clamp(64px,12vh,100px) 0 48px;text-align:center}
+.kicker{display:block;font:400 .68rem/1 var(--sans);letter-spacing:.28em;text-transform:uppercase;color:var(--bronze);margin-bottom:20px}
+.lead{color:var(--muted);max-width:42ch;margin:16px auto 0;font-size:.98rem}
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding:32px 0 80px}
+@media(max-width:900px){.plans{grid-template-columns:1fr;max-width:400px;margin-inline:auto}}
+.plan{border:1px solid var(--line);background:var(--cream);padding:32px 28px;display:flex;flex-direction:column;gap:16px;position:relative}
+.plan.rec{border-color:var(--bronze);box-shadow:0 20px 48px -32px rgba(20,20,18,.25)}
+.plan .badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--ivory);font:400 .58rem var(--sans);letter-spacing:.16em;text-transform:uppercase;padding:6px 12px;white-space:nowrap}
+.plan h3{font:400 .72rem var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0}
+.price{font:300 2.75rem/1 var(--serif);color:var(--ink)}
+.price small{font:400 .85rem var(--sans);color:var(--muted);letter-spacing:0}
+.plan ul{margin:0;padding:0;list-style:none;color:var(--muted);font-size:.92rem;line-height:1.6}
+.plan li{padding:6px 0;border-bottom:1px solid var(--line)}
+.plan li:last-child{border-bottom:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border:1px solid var(--ink);background:var(--ink);color:var(--ivory);font:400 .68rem var(--sans);letter-spacing:.18em;text-transform:uppercase;text-decoration:none;cursor:pointer;margin-top:auto}
+.btn:hover{background:transparent;color:var(--ink)}
+.btn.ghost{background:transparent;color:var(--ink)}
+.note{text-align:center;color:var(--muted);font-size:.85rem;padding-bottom:64px;max-width:52ch;margin-inline:auto;line-height:1.6}
+footer{padding:48px 0;border-top:1px solid var(--line);font-size:.78rem;color:var(--muted);text-align:center}
+footer a{color:var(--ink)}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+<a class="logo" href="./">Hebelie</a>
+<a class="nav-link" href="./auth.html?as=professional">Clinic sign in</a>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+<span class="kicker">For clinics</span>
+<h1>Preview embeds, priced simply.</h1>
+<p class="lead">Monthly plans in Canadian dollars. Each completed patient preview on your website counts toward your quota. Cancel anytime from your dashboard.</p>
+</div></header>
+
+<main class="wrap">
+<div class="plans" id="planGrid"></div>
+<p class="note">Need more than 300 previews per month? <a href="mailto:onboarding@hebelie.com">Contact us</a> for custom volume. Prices exclude applicable taxes. Demo embed on <a href="./c/demo-medspa/">demo medspa</a> is not metered.</p>
+</main>
+
+<footer><div class="wrap">
+<p><a href="./">Hebelie</a> · <a href="./terms.html">Terms</a> · <a href="./privacy-policy.html">Privacy</a></p>
+</div></footer>
+
+<script type="module">
+import { BILLING_PLANS } from "./lib/billing-plans.js";
+
+const grid = document.getElementById("planGrid");
+grid.innerHTML = BILLING_PLANS.map((p) => {
+  const rec = p.recommended ? " rec" : "";
+  const badge = p.recommended ? '<span class="badge">Recommended</span>' : "";
+  const href = `./auth.html?as=professional&plan=${encodeURIComponent(p.id)}`;
+  return `<article class="plan${rec}">
+${badge}
+<h3>${p.name}</h3>
+<p class="price">$${p.priceCad} <small>CAD / month</small></p>
+<ul>
+<li><strong>${p.previews}</strong> previews per month</li>
+<li>Embeds on your website</li>
+<li>Leads in your dashboard</li>
+<li>${p.description}</li>
+</ul>
+<a class="btn${p.recommended ? "" : " ghost"}" href="${href}">Get started</a>
+</article>`;
+}).join("");
+</script>
+</body>
+</html>

@@ -102,6 +102,43 @@ Deno.serve(async (req) => {
       if (!clinicRow) return json({ error: "unknown_clinic" }, 400);
       clinic_id = clinicRow.id;
       booking_url = clinicRow.booking_url ?? null;
+
+      const { data: allowed, error: allowErr } = await admin.rpc("clinic_preview_allowed", {
+        p_clinic_id: clinic_id,
+      });
+      if (allowErr) {
+        console.error("clinic_preview_allowed", allowErr.message);
+        return json({ error: "billing_check_failed" }, 503);
+      }
+      if (!allowed) {
+        const { data: billingRow } = await admin
+          .from("clinics")
+          .select("subscription_status, preview_quota_monthly, previews_used_period, billing_exempt")
+          .eq("id", clinic_id)
+          .maybeSingle();
+        if (billingRow && !billingRow.billing_exempt) {
+          const active = billingRow.subscription_status === "active" ||
+            billingRow.subscription_status === "trialing";
+          if (!active) return json({ error: "subscription_required" }, 402);
+          if (
+            billingRow.preview_quota_monthly > 0 &&
+            billingRow.previews_used_period >= billingRow.preview_quota_monthly
+          ) {
+            return json({ error: "quota_exceeded" }, 402);
+          }
+        }
+        return json({ error: "preview_not_allowed" }, 402);
+      }
+
+      const { data: visitorOk, error: visitorErr } = await admin.rpc(
+        "clinic_visitor_preview_allowed",
+        { p_clinic_id: clinic_id, p_user_id: userData.user.id },
+      );
+      if (visitorErr) {
+        console.error("clinic_visitor_preview_allowed", visitorErr.message);
+        return json({ error: "billing_check_failed" }, 503);
+      }
+      if (!visitorOk) return json({ error: "visitor_daily_limit" }, 402);
     }
 
     const previewId = crypto.randomUUID();
@@ -131,6 +168,13 @@ Deno.serve(async (req) => {
       .select("id")
       .single();
     if (dbErr) console.error("atelier_previews insert", dbErr.message);
+
+    if (clinic_id) {
+      const { error: usageErr } = await admin.rpc("increment_clinic_preview_usage", {
+        p_clinic_id: clinic_id,
+      });
+      if (usageErr) console.error("increment_clinic_preview_usage", usageErr.message);
+    }
 
     let leadCreated = false;
     if (clinic_id && preview?.id) {

@@ -2,3 +2,4 @@ supabase/.temp/
 *.bak
 .cursor/
 scripts/make_after.py
+*google cloud key*.json

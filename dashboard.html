@@ -12,6 +12,14 @@
 .tabs{display:flex;flex-wrap:wrap;gap:8px;margin:24px 0 0}
 .tabs button{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;padding:12px 16px;border:1px solid var(--line);background:var(--ivory);color:var(--muted);cursor:pointer}
 .tabs button[aria-selected="true"]{border-color:var(--bronze);color:var(--ink);background:var(--cream)}
+.usage-bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;max-width:480px;margin:12px 0}
+.usage-bar span{display:block;height:100%;background:var(--bronze);border-radius:4px}
+.plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;max-width:720px;margin-top:20px}
+.plan-card{border:1px solid var(--line);padding:20px;background:var(--ivory)}
+.plan-card h4{margin:0 0 8px;font:400 1rem Georgia,serif}
+.plan-card .price{font:300 1.75rem Georgia,serif;margin:0 0 12px}
+.plan-card.rec{border-color:var(--bronze)}
+.billing-meta{font-size:.88rem;color:var(--muted);line-height:1.55;max-width:520px}
 .panel{margin-top:20px;padding:24px;border:1px solid var(--line);background:var(--cream)}
 .panel[hidden]{display:none!important}
 .field-label{display:block;font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);margin:0 0 8px}
@@ -86,6 +94,7 @@ th{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;col
 <div class="tabs" role="tablist">
 <button type="button" role="tab" id="tabLeads" aria-selected="true">Leads</button>
 <button type="button" role="tab" id="tabEmbed" aria-selected="false">Embed &amp; booking</button>
+<button type="button" role="tab" id="tabBilling" aria-selected="false">Billing</button>
 </div>
 
 <section class="panel" id="panelLeads" role="tabpanel">
@@ -127,6 +136,17 @@ th{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;col
 <div class="check-row">
 <input type="checkbox" id="embedAutoPrompt" name="embed_auto_prompt">
 <label for="embedAutoPrompt">Show a welcome popup on our website 3 seconds after someone arrives (with before/after example—they tap to open the preview).</label>
+</div>
+<div class="field-row">
+<div>
+<label class="field-label" for="visitorDailyCap">Daily previews per visitor</label>
+<p class="meta" style="margin:0 0 10px">Each signed-in person on your embed can complete this many previews per day (UTC). Minimum 2 when a limit is set. Your monthly plan limit still applies.</p>
+<div class="check-row" style="margin-bottom:12px">
+<input type="checkbox" id="visitorDailyUnlimited" name="visitor_daily_unlimited">
+<label for="visitorDailyUnlimited">No daily limit per visitor (only your monthly plan cap)</label>
+</div>
+<input class="field" type="number" id="visitorDailyCap" name="max_previews_per_visitor_per_day" min="2" max="100" step="1" value="5" style="max-width:120px">
+</div>
 </div>
 <h3 style="font:400 1rem Georgia,serif;margin:28px 0 12px">Preview button</h3>
 <div class="field-row">
@@ -226,7 +246,24 @@ th{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;col
 </div>
 </div>
 </section>
+
+<section class="panel" id="panelBilling" role="tabpanel" hidden>
+<h2 class="embed-step-title">Subscription &amp; usage</h2>
+<p class="embed-step-lead">Patient previews on your website embed count toward your monthly quota. Manage payment and invoices in Stripe.</p>
+<p class="billing-meta" id="billingStatus">Loading…</p>
+<div class="usage-bar" id="usageBar" hidden aria-hidden="true"><span id="usageFill" style="width:0%"></span></div>
+<p class="meta" id="usageLabel" hidden></p>
+<div class="snippet-actions" style="margin-top:20px">
+<button class="btn ghost" type="button" id="manageBilling" hidden>Manage payment</button>
+</div>
+<div id="planPicker" hidden>
+<h3 style="font:400 1rem Georgia,serif;margin:28px 0 12px">Choose a plan</h3>
+<p class="meta">All prices in CAD per month.</p>
+<div class="plan-grid" id="billingPlanGrid"></div>
+</div>
+<p class="msg" id="billingMsg" aria-live="polite"></p>
+</section>
 </main>
-<script type="module" src="./lib/dashboard.js?v=27"></script>
+<script type="module" src="./lib/dashboard.js?v=29"></script>
 </body>
 </html>
