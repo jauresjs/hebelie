@@ -20,6 +20,12 @@
 .plan-card .price{font:300 1.75rem Georgia,serif;margin:0 0 12px}
 .plan-card.rec{border-color:var(--bronze)}
 .billing-meta{font-size:.88rem;color:var(--muted);line-height:1.55;max-width:520px}
+.usage-stat{margin:28px 0 20px;max-width:480px}
+.usage-big{font:300 clamp(2.75rem,8vw,4rem)/1 var(--serif);color:var(--ink);margin:0 0 8px;letter-spacing:-.02em}
+.usage-details{margin:24px 0 0;padding:0;max-width:480px;display:grid;gap:12px}
+.usage-details div{display:flex;justify-content:space-between;gap:16px;padding-bottom:12px;border-bottom:1px solid var(--line);font-size:.92rem}
+.usage-details dt{color:var(--muted);font-weight:400;margin:0}
+.usage-details dd{margin:0;color:var(--ink);text-align:right}
 .panel{margin-top:20px;padding:24px;border:1px solid var(--line);background:var(--cream)}
 .panel[hidden]{display:none!important}
 .field-label{display:block;font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);margin:0 0 8px}
@@ -93,7 +99,8 @@ th{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;col
 
 <div class="tabs" role="tablist">
 <button type="button" role="tab" id="tabLeads" aria-selected="true">Leads</button>
-<button type="button" role="tab" id="tabEmbed" aria-selected="false">Embed &amp; booking</button>
+<button type="button" role="tab" id="tabUsage" aria-selected="false">Usage</button>
+<button type="button" role="tab" id="tabEmbed" aria-selected="false">Customize &amp; install</button>
 <button type="button" role="tab" id="tabBilling" aria-selected="false">Billing</button>
 </div>
 
@@ -103,6 +110,21 @@ th{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;col
 <tbody id="leadRows"></tbody>
 </table>
 <p class="empty" id="noLeads" hidden>No leads yet. Add the embed button to your website.</p>
+</section>
+
+<section class="panel" id="panelUsage" role="tabpanel" hidden>
+<h2 class="embed-step-title">Preview usage</h2>
+<p class="embed-step-lead">Completed previews on your website embed count toward your plan. Usage resets at the start of each billing period.</p>
+<div class="usage-stat">
+<p class="usage-big" id="usageRemaining">—</p>
+<p class="meta" id="usageHeadline">Loading…</p>
+</div>
+<div class="usage-bar" id="usageTabBar" hidden><span id="usageTabFill" style="width:0%"></span></div>
+<dl class="usage-details" id="usageDetails"></dl>
+<p class="meta" id="usageFootnote" style="margin-top:20px;max-width:480px"></p>
+<div class="snippet-actions" style="margin-top:16px">
+<button class="btn ghost" type="button" id="usageGoBilling" hidden>View plans &amp; billing</button>
+</div>
 </section>
 
 <section class="panel" id="panelEmbed" role="tabpanel" hidden>
@@ -248,11 +270,9 @@ th{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;col
 </section>
 
 <section class="panel" id="panelBilling" role="tabpanel" hidden>
-<h2 class="embed-step-title">Subscription &amp; usage</h2>
-<p class="embed-step-lead">Patient previews on your website embed count toward your monthly quota. Manage payment and invoices in Stripe.</p>
+<h2 class="embed-step-title">Subscription &amp; billing</h2>
+<p class="embed-step-lead">Choose a plan and manage payment in Stripe. See the <strong>Usage</strong> tab for previews remaining this period.</p>
 <p class="billing-meta" id="billingStatus">Loading…</p>
-<div class="usage-bar" id="usageBar" hidden aria-hidden="true"><span id="usageFill" style="width:0%"></span></div>
-<p class="meta" id="usageLabel" hidden></p>
 <div class="snippet-actions" style="margin-top:20px">
 <button class="btn ghost" type="button" id="manageBilling" hidden>Manage payment</button>
 </div>
@@ -264,6 +284,6 @@ th{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;col
 <p class="msg" id="billingMsg" aria-live="polite"></p>
 </section>
 </main>
-<script type="module" src="./lib/dashboard.js?v=30"></script>
+<script type="module" src="./lib/dashboard.js?v=31"></script>
 </body>
 </html>
