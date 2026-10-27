@@ -14,6 +14,61 @@ function json(body: unknown, status = 200) {
   });
 }
 
+function isMissingStripeCustomer(err: unknown): boolean {
+  if (!err || typeof err !== "object") return false;
+  const e = err as { code?: string; message?: string };
+  if (e.code === "resource_missing") return true;
+  const msg = String(e.message ?? "");
+  return /no such customer/i.test(msg) || /test mode key was used/i.test(msg) ||
+    /live mode key was used/i.test(msg);
+}
+
+async function ensureStripeCustomer(
+  stripe: Stripe,
+  admin: ReturnType<typeof createClient>,
+  clinic: {
+    id: string;
+    name: string;
+    lead_email: string | null;
+    stripe_customer_id: string | null;
+    billing_exempt?: boolean;
+  },
+  userEmail: string | undefined,
+): Promise<string> {
+  let customerId = clinic.stripe_customer_id;
+
+  if (customerId) {
+    try {
+      await stripe.customers.retrieve(customerId);
+      return customerId;
+    } catch (err) {
+      if (!isMissingStripeCustomer(err)) throw err;
+      console.warn("billing-checkout: stale stripe_customer_id, creating new customer", customerId);
+    }
+  }
+
+  const customer = await stripe.customers.create({
+    email: clinic.lead_email ?? userEmail ?? undefined,
+    name: clinic.name,
+    metadata: { clinic_id: clinic.id, hebelie: "clinic" },
+  });
+
+  const billingPatch: Record<string, unknown> = {
+    stripe_customer_id: customer.id,
+    stripe_subscription_id: null,
+    subscription_status: null,
+    billing_plan: null,
+    previews_used_period: 0,
+    billing_period_start: null,
+    billing_period_end: null,
+  };
+  if (!clinic.billing_exempt) billingPatch.preview_quota_monthly = 0;
+
+  await admin.from("clinics").update(billingPatch).eq("id", clinic.id);
+
+  return customer.id;
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: cors });
 
@@ -60,7 +115,7 @@ Deno.serve(async (req) => {
 
   const { data: clinic, error: clinicErr } = await admin
     .from("clinics")
-    .select("id, name, lead_email, stripe_customer_id")
+    .select("id, name, lead_email, stripe_customer_id, billing_exempt")
     .eq("id", clinic_id)
     .eq("active", true)
     .maybeSingle();
@@ -68,34 +123,40 @@ Deno.serve(async (req) => {
 
   const stripe = new Stripe(stripeKey, { apiVersion: "2024-06-20" });
 
-  const priceId = await resolvePriceId(stripe, plan);
-  if (!priceId) return json({ error: "price_not_configured" }, 503);
+  try {
+    const priceId = await resolvePriceId(stripe, plan);
+    if (!priceId) return json({ error: "price_not_configured" }, 503);
 
-  let customerId = clinic.stripe_customer_id as string | null;
-  if (!customerId) {
-    const customer = await stripe.customers.create({
-      email: clinic.lead_email ?? userData.user.email ?? undefined,
-      name: clinic.name,
-      metadata: { clinic_id: clinic.id, hebelie: "clinic" },
+    const customerId = await ensureStripeCustomer(
+      stripe,
+      admin,
+      clinic,
+      userData.user.email ?? undefined,
+    );
+
+    const siteUrl = (Deno.env.get("SITE_URL") ?? "https://hebelie.com").replace(/\/$/, "");
+    const session = await stripe.checkout.sessions.create({
+      mode: "subscription",
+      customer: customerId,
+      line_items: [{ price: priceId, quantity: 1 }],
+      allow_promotion_codes: true,
+      client_reference_id: clinic.id,
+      subscription_data: {
+        metadata: { clinic_id: clinic.id, hebelie_plan: plan as BillingPlan },
+      },
+      metadata: { clinic_id: clinic.id, hebelie_plan: plan },
+      success_url: `${siteUrl}/dashboard.html?tab=billing&checkout=success`,
+      cancel_url: `${siteUrl}/pricing.html?checkout=canceled`,
     });
-    customerId = customer.id;
-    await admin.from("clinics").update({ stripe_customer_id: customerId }).eq("id", clinic.id);
+
+    if (!session.url) return json({ error: "checkout_url_missing" }, 502);
+    return json({ url: session.url });
+  } catch (err) {
+    console.error("billing-checkout", err);
+    const message = err instanceof Error ? err.message : "stripe_failed";
+    if (/no such price/i.test(message) || /a similar object exists in live mode/i.test(message)) {
+      return json({ error: "price_mode_mismatch" }, 503);
+    }
+    return json({ error: "stripe_failed" }, 502);
   }
-
-  const siteUrl = (Deno.env.get("SITE_URL") ?? "https://hebelie.com").replace(/\/$/, "");
-  const session = await stripe.checkout.sessions.create({
-    mode: "subscription",
-    customer: customerId,
-    line_items: [{ price: priceId, quantity: 1 }],
-    allow_promotion_codes: true,
-    client_reference_id: clinic.id,
-    subscription_data: {
-      metadata: { clinic_id: clinic.id, hebelie_plan: plan as BillingPlan },
-    },
-    metadata: { clinic_id: clinic.id, hebelie_plan: plan },
-    success_url: `${siteUrl}/dashboard.html?tab=billing&checkout=success`,
-    cancel_url: `${siteUrl}/pricing.html?checkout=canceled`,
-  });
-
-  return json({ url: session.url });
 });
