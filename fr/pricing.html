@@ -76,15 +76,19 @@ footer a{color:var(--ink)}
 
 <script type="module">
 import { applyDocumentI18n, initI18n } from "../lib/i18n.js";
-import { initLandingPricing } from "../lib/pricing-display.js";
 
 const force = document.documentElement.dataset.locale;
 await initI18n(force === "fr" || force === "en" ? { force } : {});
 applyDocumentI18n("pricing");
 
-const grid = document.getElementById("planGrid");
-const foot = document.querySelector(".note");
-void initLandingPricing(grid, foot, { cardClass: "plan", badgeClass: "badge" });
+try {
+  const { initLandingPricing } = await import("../lib/pricing-display.js?v=4");
+  const grid = document.getElementById("planGrid");
+  const foot = document.querySelector(".note");
+  await initLandingPricing(grid, foot, { cardClass: "plan", badgeClass: "badge" });
+} catch (err) {
+  console.error("Hebelie pricing failed to load", err);
+}
 </script>
 </body>
 </html>
