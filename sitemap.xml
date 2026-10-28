@@ -1,37 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://hebelie.com/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://hebelie.com/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://hebelie.com/"/>
-  </url>
-  <url>
-    <loc>https://hebelie.com/fr/</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://hebelie.com/"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://hebelie.com/"/>
-  </url>
-  <url>
-    <loc>https://hebelie.com/auth.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://hebelie.com/auth.html"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/auth.html"/>
-  </url>
-  <url>
-    <loc>https://hebelie.com/fr/auth.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://hebelie.com/auth.html"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/auth.html"/>
-  </url>
-  <url>
-    <loc>https://hebelie.com/pricing.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://hebelie.com/pricing.html"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/pricing.html"/>
-  </url>
-  <url>
-    <loc>https://hebelie.com/fr/pricing.html</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://hebelie.com/pricing.html"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/pricing.html"/>
   </url>
   <url>
     <loc>https://hebelie.com/c/demo-medspa/</loc>
