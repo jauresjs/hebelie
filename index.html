@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Hebelie – See your result, before you consult</title>
-<meta name="description" content="Preview aesthetic treatments on your own portrait before you book. Private; sign in only to generate.">
+<title>Hebelie – Turn silent website traffic into consultation requests</title>
+<meta name="description" content="80–90% of med spa visitors leave without contact info. Hebelie is the white-label treatment preview that gets them to request a consult—with the areas they explored.">
 <link rel="canonical" href="https://hebelie.com/">
 <link rel="alternate" hreflang="en" href="https://hebelie.com/">
 <link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/">
@@ -58,7 +58,10 @@ nav .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;min
 .hero .cmp{max-width:100%;width:100%;max-height:min(42vh,340px);height:auto;aspect-ratio:3/4;box-shadow:0 16px 40px -24px rgba(20,20,18,.2);border:1px solid var(--line)}
 .hero .lead{margin:0 0 20px;color:var(--muted);font-size:.95rem;line-height:1.65;max-width:38ch;margin-inline:auto}
 .hero-meta{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;margin-top:4px;padding-top:16px;border-top:1px solid var(--line);font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.hero-actions{display:flex;justify-content:center;margin-top:4px}
+.hero-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:4px}
+.hero-stat{margin-top:22px}
+.hero-stat [data-i18n="hero.stat"]{display:block;font:300 2.75rem/1 var(--serif);color:var(--ink);letter-spacing:-.03em}
+.hero-stat .lbl{display:block;margin-top:8px;font:400 .62rem/1.4 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--bronze)}
 .hero .cap{font-size:.68rem;margin-top:10px;line-height:1.45}
 @media(min-width:960px){
   .hero{padding:clamp(20px,4vw,40px) 0 clamp(48px,8vw,80px)}
@@ -70,6 +73,7 @@ nav .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;min
   .hero .lead{margin-inline:0;font-size:1rem;margin-bottom:28px}
   .hero-meta{justify-content:flex-start;margin-top:0}
   .hero-actions{justify-content:flex-start;margin-top:8px}
+  .hero-stat{text-align:left}
   .hero .kicker{margin-bottom:28px}
 }
 @keyframes rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
@@ -193,10 +197,10 @@ footer .logo{font-size:1.25rem;color:var(--ink)}
 <body>
 <nav aria-label="Primary"><div class="wrap">
 <a class="logo" href="#top">Hebelie</a>
-<div class="nav-mid"><a href="#studio-start" data-i18n="nav.atelier">Atelier</a><a href="#pricing" data-i18n="nav.pricing">Pricing</a><a href="#privacy" data-i18n="nav.privacy">Privacy</a><a href="#faq" data-i18n="nav.journal">Journal</a><a href="./auth.html" data-locale-href="/auth.html" data-i18n="nav.logIn">Log in</a><a href="./fr/" data-i18n="lang.switchFr">Français</a></div>
+<div class="nav-mid"><a href="#how" data-i18n="nav.atelier">How it works</a><a href="#pricing" data-i18n="nav.pricing">Pricing</a><a href="#privacy" data-i18n="nav.privacy">Trust</a><a href="#faq" data-i18n="nav.journal">FAQ</a><a href="./auth.html?as=professional" data-locale-href="/auth.html?as=professional" data-i18n="nav.logIn">Clinic login</a><a href="./fr/" data-i18n="lang.switchFr">Français</a></div>
 <div class="nav-cta-wrap">
 <a class="nav-pricing" href="#pricing" data-i18n="nav.pricing">Pricing</a>
-<a class="nav-cta" href="#studio-start" data-i18n="nav.enterStudio">Enter studio</a>
+<a class="nav-cta" href="./auth.html?as=professional" data-locale-href="/auth.html?as=professional" data-i18n="nav.enterStudio">Start for your clinic</a>
 </div>
 </div></nav>
 
@@ -204,34 +208,55 @@ footer .logo{font-size:1.25rem;color:var(--ink)}
 <div class="hero-glow" aria-hidden="true"></div>
 <div class="wrap hero-grid">
 <div class="hero-head">
-<h1 data-i18n-html="hero.titleHtml">See your <span class="hl">result</span>, before you <span class="hl">consult</span>.</h1>
+<span class="kicker" data-i18n="hero.kicker">For med spas &amp; aesthetic clinics</span>
+<h1 data-i18n-html="hero.titleHtml">They browse. They <span class="hl">don’t</span> leave a number. <span class="hl">Until this.</span></h1>
 </div>
 <div class="hero-visual">
 <div class="frame"><div class="cmp" id="heroCmp" data-i18n-aria="cmp.heroAria" aria-label="Before and after comparison"></div></div>
 </div>
 <div class="hero-tail">
-<p class="lead" data-i18n="hero.lead">A quiet preview on your own face so you know what to ask—not what to expect.</p>
-<div class="hero-actions"><a class="btn" href="#studio-start" data-i18n="hero.cta">Try on yourself</a></div>
+<p class="lead" data-i18n="hero.lead">80–90% of website visitors never fill your form. They will preview filler, Botox, or a lift on their own face—on your site, in your brand—then request the consult. You get the lead with the treatments they already chose.</p>
+<div class="hero-actions">
+<a class="btn" href="./auth.html?as=professional" data-locale-href="/auth.html?as=professional" data-i18n="hero.cta">Start capturing leads</a>
+<a class="btn ghost" href="#studio" data-i18n="hero.ctaDemo">See it as a visitor</a>
+</div>
+<p class="hero-stat"><span data-i18n="hero.stat">80–90%</span><span class="lbl" data-i18n="hero.statLabel">leave without contact info</span></p>
 </div>
 </div>
 </header>
 
 <section class="manifesto"><div class="wrap-tight">
-<blockquote data-i18n="manifesto.quote">“Luxury, in aesthetics, is clarity—knowing the direction before the first needle, the first incision, the first conversation.”</blockquote>
-<cite data-i18n="manifesto.cite">Hebelie philosophy</cite>
+<blockquote data-i18n="manifesto.quote">“Your contact form only hears from the brave 10%. Hebelie is built for the other 90%—curious, not ready to type their email into a box.”</blockquote>
+<cite data-i18n="manifesto.cite">Why clinics install Hebelie</cite>
 </div></section>
 
-<section class="ritual"><div class="wrap">
-<div class="ritual-item"><div class="idx">01</div><h3 data-i18n="ritual.1.title">Curate</h3><p data-i18n="ritual.1.p">Select up to three treatments you want to explore with your clinician.</p></div>
-<div class="ritual-item"><div class="idx">02</div><h3 data-i18n="ritual.2.title">Portrait</h3><p data-i18n="ritual.2.p">Front-facing light, natural expression. Your image remains yours until you choose to proceed.</p></div>
-<div class="ritual-item"><div class="idx">03</div><h3 data-i18n="ritual.3.title">Reveal</h3><p data-i18n="ritual.3.p">Compare with intention. Bring the preview to your consultation as a shared reference—not a contract.</p></div>
+<section class="ritual" id="how"><div class="wrap">
+<div class="ritual-item"><div class="idx">01</div><h3 data-i18n="ritual.1.title">Embed</h3><p data-i18n="ritual.1.p">One snippet on your site. Your colors, your booking link. Visitors never feel like they left your med spa.</p></div>
+<div class="ritual-item"><div class="idx">02</div><h3 data-i18n="ritual.2.title">They play</h3><p data-i18n="ritual.2.p">Up to three areas—lips, cheeks, toxin, jawline. A preview they can’t get from a price list. Still no form required to start.</p></div>
+<div class="ritual-item"><div class="idx">03</div><h3 data-i18n="ritual.3.title">You get the lead</h3><p data-i18n="ritual.3.p">When they ask for a consult, it lands in your dashboard: name, contact, treatments explored, and the visual. Your front desk walks in already briefed.</p></div>
+</div></section>
+
+<section id="pricing" class="pricing-band"><div class="wrap">
+<span class="kicker" data-i18n="pricing.kicker">Plans</span>
+<h2 data-i18n="pricing.title">Pay for previews. Collect the consults.</h2>
+<p class="lead" id="homePricingLead">Canadian dollars. Each completed preview on your website embed counts toward your plan. You control daily limits per visitor in your dashboard.</p>
+<div class="home-plans" id="homePlanGrid"></div>
+<p class="pricing-foot">Need more than 300 previews per month? <a href="mailto:onboarding@hebelie.com">Contact us</a>. See also <a href="./pricing.html" data-locale-href="/pricing.html">full pricing page</a>. Prices exclude applicable taxes.</p>
+</div></section>
+
+<section id="clinics" class="clinics-band"><div class="wrap">
+<span class="kicker" style="color:var(--bronze-light)" data-i18n="clinics.kicker">Install</span>
+<h2 data-i18n="clinics.title">Your brand. Their face. Your calendar.</h2>
+<p data-i18n="clinics.lead">White-label on the site you already pay to fill. Stop losing the 80–90% who window-shop injectables and leave. The ones who raise their hand show up pre-qualified.</p>
+<a class="btn" href="./auth.html?as=professional" data-locale-href="/auth.html?as=professional" data-i18n="clinics.pro">Create clinic account</a>
+<a class="btn ghost" href="./c/demo-medspa" style="margin-left:12px" data-i18n="clinics.demo">Open the live demo</a>
 </div></section>
 
 <section id="studio" class="studio-atrium"><div class="wrap">
 <div class="atrium-head">
-<span class="kicker" data-i18n="studio.kicker">The atelier</span>
-<h2 data-i18n="studio.title">Your session.</h2>
-<p data-i18n="studio.lead">A simulation environment for planning only. Licensed professionals determine what is achievable for your anatomy.</p>
+<span class="kicker" data-i18n="studio.kicker">The visitor experience</span>
+<h2 data-i18n="studio.title">This is what they do instead of bouncing.</h2>
+<p data-i18n="studio.lead">Try it the way a patient would on your website. On a live clinic embed, the consult request is theirs—and the lead is yours. Simulation only; your providers confirm what’s appropriate.</p>
 </div>
 <div class="atrium-panel">
 <div class="grid">
@@ -272,36 +297,19 @@ footer .logo{font-size:1.25rem;color:var(--ink)}
 <div><b data-i18n="privacy.outcome.t">Outcome</b><p data-i18n="privacy.outcome.p">Simulation only—your provider confirms feasibility and safety.</p></div>
 </div></div></section>
 
-<section id="clinics" class="clinics-band"><div class="wrap">
-<span class="kicker" style="color:var(--bronze-light)" data-i18n="clinics.kicker">For houses &amp; clinics</span>
-<h2 data-i18n="clinics.title">White-label the atelier.</h2>
-<p data-i18n="clinics.lead">Embed Hebelie on your estate site. Receive consultation requests with the treatments each guest explored—in your typography, your palette.</p>
-<a class="btn ghost" href="./c/demo-medspa" data-i18n="clinics.demo">Try embed demo</a>
-<a class="btn ghost" href="#pricing" style="margin-left:12px" data-i18n="clinics.viewPricing">View pricing</a>
-<a class="btn ghost" href="./auth.html?as=professional" data-locale-href="/auth.html?as=professional" style="margin-left:12px" data-i18n="clinics.pro">For professionals</a>
-</div></section>
-
-<section id="pricing" class="pricing-band"><div class="wrap">
-<span class="kicker" data-i18n="pricing.kicker">Clinic plans</span>
-<h2 data-i18n="pricing.title">Simple monthly pricing.</h2>
-<p class="lead" id="homePricingLead">Canadian dollars. Each completed preview on your website embed counts toward your plan. You control daily limits per visitor in your dashboard.</p>
-<div class="home-plans" id="homePlanGrid"></div>
-<p class="pricing-foot">Need more than 300 previews per month? <a href="mailto:onboarding@hebelie.com">Contact us</a>. See also <a href="./pricing.html">full pricing page</a>. Prices exclude applicable taxes.</p>
-</div></section>
-
 <section id="follow" class="follow"><div class="wrap follow-grid">
-<div><span class="kicker" data-i18n="follow.kicker">Concierge</span><h2 data-i18n="follow.title">Request a consultation.</h2><p class="muted" style="margin-top:16px" data-i18n="follow.lead">Leave your details. The practice will respond regarding the treatments you previewed.</p></div>
+<div><span class="kicker" data-i18n="follow.kicker">This week</span><h2 data-i18n="follow.title">Put it on the site that’s already getting the traffic.</h2><p class="muted" style="margin-top:16px" data-i18n="follow.lead">Create the clinic, pick a plan, drop the embed. Questions about volume or multi-location? Email onboarding—we answer clinics, not a public waitlist.</p></div>
 <div>
-<form id="form"><input type="text" data-i18n-placeholder="follow.namePh" placeholder="Full name" aria-label="Full name" required><input type="email" data-i18n-placeholder="follow.emailPh" placeholder="Email" aria-label="Email" required><button class="btn wide" type="submit" data-i18n="follow.submit">Submit inquiry</button></form>
-<p class="thanks" id="thanks" data-i18n="follow.thanks">Thank you. We will be in touch shortly.</p>
+<a class="btn wide" href="./auth.html?as=professional" data-locale-href="/auth.html?as=professional" data-i18n="follow.submit">Start clinic signup</a>
+<p class="hint" style="margin-top:16px"><a href="mailto:onboarding@hebelie.com">onboarding@hebelie.com</a></p>
 </div>
 </div></section>
 
 <section id="faq"><div class="wrap-tight">
-<span class="kicker" data-i18n="faq.kicker">Journal</span><h2 style="margin-bottom:40px" data-i18n="faq.title">Questions we hear often.</h2>
-<details><summary data-i18n="faq.q1">Is this my guaranteed result?</summary><p data-i18n="faq.a1">No. It is a directional illustration on your photograph. Healing, product, and technique define the true outcome.</p></details>
-<details><summary data-i18n="faq.q2">May I combine treatments?</summary><p data-i18n="faq.a2">Up to three at once. Previous previews remain accessible beneath the portrait for comparison.</p></details>
-<details><summary data-i18n="faq.q3">Which portrait reads best?</summary><p data-i18n="faq.a3">Straight-on, diffused daylight, relaxed expression, without filters or heavy makeup.</p></details>
+<span class="kicker" data-i18n="faq.kicker">For owners &amp; managers</span><h2 style="margin-bottom:40px" data-i18n="faq.title">The questions before you install.</h2>
+<details><summary data-i18n="faq.q1">We already have a contact form. Why this?</summary><p data-i18n="faq.a1">Forms only catch people ready to identify themselves—often 10–20% of visitors. The other 80–90% browse and leave. A treatment preview is something they’ll actually do. The consult request is the form, except you already know lips vs. jawline vs. toxin.</p></details>
+<details><summary data-i18n="faq.q2">Do you steal our patients?</summary><p data-i18n="faq.a2">No marketplace. The embed lives on your domain experience, booking goes to your link, and leads sit in your dashboard. Hebelie is infrastructure, not a directory.</p></details>
+<details><summary data-i18n="faq.q3">Is the picture a guaranteed result?</summary><p data-i18n="faq.a3">No. It’s a directional illustration so the consult starts further along. Healing, product, and your clinician’s technique decide the real outcome. Say that on your site; we say it in the product.</p></details>
 </div></section>
 
 <footer><div class="wrap">

@@ -8,9 +8,9 @@ fs.mkdirSync(outDir, { recursive: true });
 const FR_META = {
   "index.html": {
     lang: "fr",
-    title: "Hebelie – Votre résultat, avant la consultation | Med spa",
+    title: "Hebelie – Le trafic silencieux devient des demandes de consultation",
     description:
-      "Simulation de comblement, Botox et soins médico-esthétiques sur votre photo. Outil pour cliniques et patientes.",
+      "80 à 90 % des visiteurs d’un med spa partent sans coordonnées. Aperçu de traitements en marque blanche : la demande arrive avec les zones explorées.",
     page: "index",
   },
   "auth.html": {
