@@ -102,7 +102,8 @@ nav .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;min
 .cmp .bar{position:absolute;top:0;bottom:0;left:var(--p);width:1px;background:rgba(255,255,255,.9);box-shadow:0 0 24px rgba(0,0,0,.25);pointer-events:none}
 .cmp .knob{position:absolute;top:50%;left:var(--p);width:2px;height:72px;margin:-36px 0 0 -1px;background:#fff;pointer-events:none;box-shadow:0 0 20px rgba(0,0,0,.2)}
 .cmp .knob::before{content:"";position:absolute;top:50%;left:50%;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:#fff;border:1px solid rgba(20,20,18,.15)}
-.cmp input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0;touch-action:none;min-height:44px;min-width:100%}
+.cmp input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0;touch-action:none;min-height:44px;min-width:100%;z-index:4}
+.cmp .L img{pointer-events:none;-webkit-user-drag:none;user-select:none}
 .cmp-drag{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);font-size:.62rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.85);pointer-events:none;z-index:2;text-shadow:0 1px 12px rgba(0,0,0,.4)}
 .tag{position:absolute;bottom:20px;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.9);pointer-events:none;z-index:2;text-shadow:0 1px 8px rgba(0,0,0,.35)}
 .tag.b{left:20px}.tag.a{right:20px}
@@ -345,6 +346,6 @@ footer .logo{font-size:1.25rem;color:var(--ink)}
 </dialog>
 
 <script type="module" src="../lib/home-pricing.js?v=8"></script>
-<script type="module" src="../lib/app.js?v=25"></script>
+<script type="module" src="../lib/app.js?v=26"></script>
 </body>
 </html>
