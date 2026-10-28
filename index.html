@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-i18n-page="index">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Hebelie – See your result, before you consult</title>
 <meta name="description" content="Preview aesthetic treatments on your own portrait before you book. Private; sign in only to generate.">
+<link rel="canonical" href="https://hebelie.com/">
+<link rel="alternate" hreflang="en" href="https://hebelie.com/">
+<link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/">
+<link rel="alternate" hreflang="x-default" href="https://hebelie.com/">
 <link rel="icon" href="./logo.jpg" type="image/jpeg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -189,10 +193,10 @@ footer .logo{font-size:1.25rem;color:var(--ink)}
 <body>
 <nav aria-label="Primary"><div class="wrap">
 <a class="logo" href="#top">Hebelie</a>
-<div class="nav-mid"><a href="#studio-start">Atelier</a><a href="#pricing">Pricing</a><a href="#privacy">Privacy</a><a href="#faq">Journal</a><a href="./auth.html">Log in</a></div>
+<div class="nav-mid"><a href="#studio-start" data-i18n="nav.atelier">Atelier</a><a href="#pricing" data-i18n="nav.pricing">Pricing</a><a href="#privacy" data-i18n="nav.privacy">Privacy</a><a href="#faq" data-i18n="nav.journal">Journal</a><a href="./auth.html" data-locale-href="/auth.html" data-i18n="nav.logIn">Log in</a><a href="./fr/" data-i18n="lang.switchFr">Français</a></div>
 <div class="nav-cta-wrap">
-<a class="nav-pricing" href="#pricing">Pricing</a>
-<a class="nav-cta" href="#studio-start">Enter studio</a>
+<a class="nav-pricing" href="#pricing" data-i18n="nav.pricing">Pricing</a>
+<a class="nav-cta" href="#studio-start" data-i18n="nav.enterStudio">Enter studio</a>
 </div>
 </div></nav>
 
@@ -200,58 +204,58 @@ footer .logo{font-size:1.25rem;color:var(--ink)}
 <div class="hero-glow" aria-hidden="true"></div>
 <div class="wrap hero-grid">
 <div class="hero-head">
-<h1>See your <span class="hl">result</span>, before you <span class="hl">consult</span>.</h1>
+<h1 data-i18n-html="hero.titleHtml">See your <span class="hl">result</span>, before you <span class="hl">consult</span>.</h1>
 </div>
 <div class="hero-visual">
-<div class="frame"><div class="cmp" id="heroCmp" aria-label="Before and after comparison"></div></div>
+<div class="frame"><div class="cmp" id="heroCmp" data-i18n-aria="cmp.heroAria" aria-label="Before and after comparison"></div></div>
 </div>
 <div class="hero-tail">
-<p class="lead">A quiet preview on your own face so you know what to ask—not what to expect.</p>
-<div class="hero-actions"><a class="btn" href="#studio-start">Try on yourself</a></div>
+<p class="lead" data-i18n="hero.lead">A quiet preview on your own face so you know what to ask—not what to expect.</p>
+<div class="hero-actions"><a class="btn" href="#studio-start" data-i18n="hero.cta">Try on yourself</a></div>
 </div>
 </div>
 </header>
 
 <section class="manifesto"><div class="wrap-tight">
-<blockquote>“Luxury, in aesthetics, is clarity—knowing the direction before the first needle, the first incision, the first conversation.”</blockquote>
-<cite>Hebelie philosophy</cite>
+<blockquote data-i18n="manifesto.quote">“Luxury, in aesthetics, is clarity—knowing the direction before the first needle, the first incision, the first conversation.”</blockquote>
+<cite data-i18n="manifesto.cite">Hebelie philosophy</cite>
 </div></section>
 
 <section class="ritual"><div class="wrap">
-<div class="ritual-item"><div class="idx">01</div><h3>Curate</h3><p>Select up to three treatments you want to explore with your clinician.</p></div>
-<div class="ritual-item"><div class="idx">02</div><h3>Portrait</h3><p>Front-facing light, natural expression. Your image remains yours until you choose to proceed.</p></div>
-<div class="ritual-item"><div class="idx">03</div><h3>Reveal</h3><p>Compare with intention. Bring the preview to your consultation as a shared reference—not a contract.</p></div>
+<div class="ritual-item"><div class="idx">01</div><h3 data-i18n="ritual.1.title">Curate</h3><p data-i18n="ritual.1.p">Select up to three treatments you want to explore with your clinician.</p></div>
+<div class="ritual-item"><div class="idx">02</div><h3 data-i18n="ritual.2.title">Portrait</h3><p data-i18n="ritual.2.p">Front-facing light, natural expression. Your image remains yours until you choose to proceed.</p></div>
+<div class="ritual-item"><div class="idx">03</div><h3 data-i18n="ritual.3.title">Reveal</h3><p data-i18n="ritual.3.p">Compare with intention. Bring the preview to your consultation as a shared reference—not a contract.</p></div>
 </div></section>
 
 <section id="studio" class="studio-atrium"><div class="wrap">
 <div class="atrium-head">
-<span class="kicker">The atelier</span>
-<h2>Your session.</h2>
-<p>A simulation environment for planning only. Licensed professionals determine what is achievable for your anatomy.</p>
+<span class="kicker" data-i18n="studio.kicker">The atelier</span>
+<h2 data-i18n="studio.title">Your session.</h2>
+<p data-i18n="studio.lead">A simulation environment for planning only. Licensed professionals determine what is achievable for your anatomy.</p>
 </div>
 <div class="atrium-panel">
 <div class="grid">
 <div class="studio-controls">
-<div class="step" id="studio-start"><h3>Treatment selection</h3>
-<div class="chips" id="chips"></div><p class="hint">Three areas maximum.</p></div>
-<div class="step"><h3>Preview strength</h3>
-<div class="chips" id="intensityChips"></div><p class="hint">Visible is default—best for comparing on the slider.</p></div>
-<div class="step"><h3>Portrait</h3>
-<p class="hint" style="margin:0 0 16px">Even light · No filters · Natural expression</p>
-<div class="row"><label class="btn ghost" for="cam" tabindex="0">Take a picture</label><label class="btn ghost" for="up" tabindex="0">Upload</label></div>
+<div class="step" id="studio-start"><h3 data-i18n="studio.treatments">Treatment selection</h3>
+<div class="chips" id="chips"></div><p class="hint" data-i18n="studio.treatmentsHint">Three areas maximum.</p></div>
+<div class="step"><h3 data-i18n="studio.intensity">Preview strength</h3>
+<div class="chips" id="intensityChips"></div><p class="hint" data-i18n="studio.intensityHint">Visible is default—best for comparing on the slider.</p></div>
+<div class="step"><h3 data-i18n="studio.portrait">Portrait</h3>
+<p class="hint" style="margin:0 0 16px" data-i18n="studio.portraitHint">Even light · No filters · Natural expression</p>
+<div class="row"><label class="btn ghost" for="cam" tabindex="0" data-i18n="studio.takePhoto">Take a picture</label><label class="btn ghost" for="up" tabindex="0" data-i18n="studio.upload">Upload</label></div>
 <input id="cam" type="file" accept="image/*" capture="user" hidden><input id="up" type="file" accept="image/*" hidden>
-<p class="hint" id="pstate">No portrait yet.</p></div>
+<p class="hint" id="pstate" data-i18n="studio.noPortrait">No portrait yet.</p></div>
 </div>
 <div class="studio-preview">
 <div class="frame preview-wrap">
-<div id="studioCmp" aria-label="Your preview"></div>
-<div class="studio-overlay" id="studioOverlay" hidden><p id="overlayMsg">Working on your preview…</p></div>
+<div id="studioCmp" data-i18n-aria="cmp.studioAria" aria-label="Your preview"></div>
+<div class="studio-overlay" id="studioOverlay" hidden><p id="overlayMsg" data-i18n="app.overlay.working">Working on your preview…</p></div>
 </div>
-<button class="btn wide studio-go" id="go" type="button">View result</button>
-<p class="status" id="status" aria-live="polite">Choose treatments and add your portrait.</p>
+<button class="btn wide studio-go" id="go" type="button" data-i18n="studio.viewResult">View result</button>
+<p class="status" id="status" aria-live="polite" data-i18n="studio.chooseTreatments">Choose treatments and add your portrait.</p>
 <div class="pro-panel" id="proPanel" hidden>
-<p class="hint" style="margin:0 0 12px;text-align:center">Your preview was shared with the clinic.</p>
-<a class="btn wide" id="bookConsult" href="#" target="_blank" rel="noopener noreferrer">Book a consultation</a>
+<p class="hint" style="margin:0 0 12px;text-align:center" data-i18n="studio.sharedClinic">Your preview was shared with the clinic.</p>
+<a class="btn wide" id="bookConsult" href="#" target="_blank" rel="noopener noreferrer" data-i18n="studio.bookConsult">Book a consultation</a>
 </div>
 <div class="strip" id="strip"></div>
 </div>
@@ -260,69 +264,69 @@ footer .logo{font-size:1.25rem;color:var(--ink)}
 </div></section>
 
 <section id="privacy"><div class="wrap privacy-grid">
-<div><span class="kicker">Discretion</span><h2>Data with the weight of a medical appointment.</h2></div>
+<div><span class="kicker" data-i18n="privacy.kicker">Discretion</span><h2 data-i18n="privacy.title">Data with the weight of a medical appointment.</h2></div>
 <div class="privacy-list">
-<div><b>Portrait</b><p>Resized locally, used once for generation, then discarded from our flow.</p></div>
-<div><b>Training</b><p>Never contributed to AI training corpora.</p></div>
-<div><b>Identity</b><p>Sign in with Google or email when you compose a preview. Contact details only if you request a follow-up. <a href="./privacy-policy.html">Privacy policy</a> · <a href="./data-deletion.html">Delete my data</a></p></div>
-<div><b>Outcome</b><p>Simulation only—your provider confirms feasibility and safety.</p></div>
+<div><b data-i18n="privacy.portrait.t">Portrait</b><p data-i18n="privacy.portrait.p">Resized locally, used once for generation, then discarded from our flow.</p></div>
+<div><b data-i18n="privacy.training.t">Training</b><p data-i18n="privacy.training.p">Never contributed to AI training corpora.</p></div>
+<div><b data-i18n="privacy.identity.t">Identity</b><p><span data-i18n="privacy.identity.p">Sign in with Google or email when you compose a preview. Contact details only if you request a follow-up.</span> <a href="./privacy-policy.html" data-i18n="footer.privacy">Privacy policy</a> · <a href="./data-deletion.html" data-i18n="footer.deletion">Delete my data</a></p></div>
+<div><b data-i18n="privacy.outcome.t">Outcome</b><p data-i18n="privacy.outcome.p">Simulation only—your provider confirms feasibility and safety.</p></div>
 </div></div></section>
 
 <section id="clinics" class="clinics-band"><div class="wrap">
-<span class="kicker" style="color:var(--bronze-light)">For houses &amp; clinics</span>
-<h2>White-label the atelier.</h2>
-<p>Embed Hebelie on your estate site. Receive consultation requests with the treatments each guest explored—in your typography, your palette.</p>
-<a class="btn ghost" href="./c/demo-medspa">Try embed demo</a>
-<a class="btn ghost" href="#pricing" style="margin-left:12px">View pricing</a>
-<a class="btn ghost" href="./auth.html?as=professional" style="margin-left:12px">For professionals</a>
+<span class="kicker" style="color:var(--bronze-light)" data-i18n="clinics.kicker">For houses &amp; clinics</span>
+<h2 data-i18n="clinics.title">White-label the atelier.</h2>
+<p data-i18n="clinics.lead">Embed Hebelie on your estate site. Receive consultation requests with the treatments each guest explored—in your typography, your palette.</p>
+<a class="btn ghost" href="./c/demo-medspa" data-i18n="clinics.demo">Try embed demo</a>
+<a class="btn ghost" href="#pricing" style="margin-left:12px" data-i18n="clinics.viewPricing">View pricing</a>
+<a class="btn ghost" href="./auth.html?as=professional" data-locale-href="/auth.html?as=professional" style="margin-left:12px" data-i18n="clinics.pro">For professionals</a>
 </div></section>
 
 <section id="pricing" class="pricing-band"><div class="wrap">
-<span class="kicker">Clinic plans</span>
-<h2>Simple monthly pricing.</h2>
-<p class="lead">Canadian dollars. Each completed preview on your website embed counts toward your plan. You control daily limits per visitor in your dashboard.</p>
+<span class="kicker" data-i18n="pricing.kicker">Clinic plans</span>
+<h2 data-i18n="pricing.title">Simple monthly pricing.</h2>
+<p class="lead" id="homePricingLead">Canadian dollars. Each completed preview on your website embed counts toward your plan. You control daily limits per visitor in your dashboard.</p>
 <div class="home-plans" id="homePlanGrid"></div>
 <p class="pricing-foot">Need more than 300 previews per month? <a href="mailto:onboarding@hebelie.com">Contact us</a>. See also <a href="./pricing.html">full pricing page</a>. Prices exclude applicable taxes.</p>
 </div></section>
 
 <section id="follow" class="follow"><div class="wrap follow-grid">
-<div><span class="kicker">Concierge</span><h2>Request a consultation.</h2><p class="muted" style="margin-top:16px">Leave your details. The practice will respond regarding the treatments you previewed.</p></div>
+<div><span class="kicker" data-i18n="follow.kicker">Concierge</span><h2 data-i18n="follow.title">Request a consultation.</h2><p class="muted" style="margin-top:16px" data-i18n="follow.lead">Leave your details. The practice will respond regarding the treatments you previewed.</p></div>
 <div>
-<form id="form"><input type="text" placeholder="Full name" aria-label="Full name" required><input type="email" placeholder="Email" aria-label="Email" required><button class="btn wide" type="submit">Submit inquiry</button></form>
-<p class="thanks" id="thanks">Thank you. We will be in touch shortly.</p>
+<form id="form"><input type="text" data-i18n-placeholder="follow.namePh" placeholder="Full name" aria-label="Full name" required><input type="email" data-i18n-placeholder="follow.emailPh" placeholder="Email" aria-label="Email" required><button class="btn wide" type="submit" data-i18n="follow.submit">Submit inquiry</button></form>
+<p class="thanks" id="thanks" data-i18n="follow.thanks">Thank you. We will be in touch shortly.</p>
 </div>
 </div></section>
 
 <section id="faq"><div class="wrap-tight">
-<span class="kicker">Journal</span><h2 style="margin-bottom:40px">Questions we hear often.</h2>
-<details><summary>Is this my guaranteed result?</summary><p>No. It is a directional illustration on your photograph. Healing, product, and technique define the true outcome.</p></details>
-<details><summary>May I combine treatments?</summary><p>Up to three at once. Previous previews remain accessible beneath the portrait for comparison.</p></details>
-<details><summary>Which portrait reads best?</summary><p>Straight-on, diffused daylight, relaxed expression, without filters or heavy makeup.</p></details>
+<span class="kicker" data-i18n="faq.kicker">Journal</span><h2 style="margin-bottom:40px" data-i18n="faq.title">Questions we hear often.</h2>
+<details><summary data-i18n="faq.q1">Is this my guaranteed result?</summary><p data-i18n="faq.a1">No. It is a directional illustration on your photograph. Healing, product, and technique define the true outcome.</p></details>
+<details><summary data-i18n="faq.q2">May I combine treatments?</summary><p data-i18n="faq.a2">Up to three at once. Previous previews remain accessible beneath the portrait for comparison.</p></details>
+<details><summary data-i18n="faq.q3">Which portrait reads best?</summary><p data-i18n="faq.a3">Straight-on, diffused daylight, relaxed expression, without filters or heavy makeup.</p></details>
 </div></section>
 
 <footer><div class="wrap">
 <a class="logo" href="#top">Hebelie</a>
-<p>AI-generated simulation for illustration only. Outcomes vary. Consult a licensed professional before any treatment. Hebelie does not provide medical advice. <a href="#clinics">Clinic partnerships</a></p>
-<div class="legal-links"><a href="#pricing">Pricing</a><a href="./privacy-policy.html">Privacy policy</a><a href="./terms.html">Terms</a><a href="./data-deletion.html">Data deletion</a></div>
+<p><span data-i18n="footer.tagline">AI-generated simulation for illustration only. Outcomes vary. Consult a licensed professional before any treatment. Hebelie does not provide medical advice.</span> <a href="#clinics" data-i18n="footer.partnerships">Clinic partnerships</a></p>
+<div class="legal-links"><a href="#pricing" data-i18n="footer.pricing">Pricing</a><a href="./privacy-policy.html" data-i18n="footer.privacy">Privacy policy</a><a href="./terms.html" data-i18n="footer.terms">Terms</a><a href="./data-deletion.html" data-i18n="footer.deletion">Data deletion</a></div>
 </div></footer>
 
 <dialog class="auth-dlg" id="authDlg" aria-labelledby="authTitle">
-<h2 id="authTitle">Sign in to generate your preview</h2>
-<p>For patients only. Your portrait stays on this device until you sign in.</p>
+<h2 id="authTitle" data-i18n="authDlg.title">Sign in to generate your preview</h2>
+<p data-i18n="authDlg.lead">For patients only. Your portrait stays on this device until you sign in.</p>
 <div class="auth-oauth">
-<button class="btn wide" type="button" id="authGoogle">Continue with Google</button>
+<button class="btn wide" type="button" id="authGoogle" data-i18n="authDlg.google">Continue with Google</button>
 </div>
-<p class="auth-divider">or email</p>
+<p class="auth-divider" data-i18n="authDlg.orEmail">or email</p>
 <form id="authEmail">
-<label class="field-label" for="authEmailInput" style="display:block;font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);margin-bottom:8px">Email address</label>
+<label class="field-label" for="authEmailInput" style="display:block;font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);margin-bottom:8px" data-i18n="authDlg.emailLabel">Email address</label>
 <input type="email" id="authEmailInput" placeholder="you@example.com" required autocomplete="email">
-<button class="btn wide" type="submit">Submit</button>
+<button class="btn wide" type="submit" data-i18n="authDlg.submit">Submit</button>
 </form>
 <p class="auth-msg" id="authMsg" aria-live="polite"></p>
 <p class="auth-legal">By continuing you agree to our <a href="./terms.html" target="_blank" rel="noopener">Terms</a> and <a href="./privacy-policy.html" target="_blank" rel="noopener">Privacy policy</a>.</p>
 </dialog>
 
-<script type="module" src="./lib/home-pricing.js?v=2"></script>
-<script type="module" src="./lib/app.js?v=19"></script>
+<script type="module" src="./lib/home-pricing.js?v=3"></script>
+<script type="module" src="./lib/app.js?v=20"></script>
 </body>
 </html>

@@ -1,9 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-i18n-page="auth">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Log in – Hebelie</title>
+<meta name="description" content="Sign in to preview aesthetic treatments or register your medspa for Hebelie embeds and leads.">
+<link rel="canonical" href="https://hebelie.com/auth.html">
+<link rel="alternate" hreflang="en" href="https://hebelie.com/auth.html">
+<link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/auth.html">
 <link rel="icon" href="./logo.jpg" type="image/jpeg">
 <link rel="stylesheet" href="./lib/legal.css">
 <style>
@@ -30,48 +34,47 @@
 <body>
 <main class="wrap">
 <p style="margin:0 0 24px;font:400 1.35rem/1 var(--serif);letter-spacing:.04em"><a href="./" style="text-decoration:none;color:inherit">Hebelie</a></p>
-<h1>Log in or sign up</h1>
-<p class="meta">Choose how you use Hebelie.</p>
+<h1 data-i18n="auth.pageTitle">Log in or sign up</h1>
+<p class="meta" data-i18n="auth.pageLead">Choose how you use Hebelie.</p>
 
 <div class="choice" role="tablist">
-<button type="button" id="tabUser" role="tab" aria-selected="true">For patients</button>
-<button type="button" id="tabPro" role="tab" aria-selected="false">For professionals</button>
+<button type="button" id="tabUser" role="tab" aria-selected="true" data-i18n="auth.tabPatient">For patients</button>
+<button type="button" id="tabPro" role="tab" aria-selected="false" data-i18n="auth.tabPro">For professionals</button>
 </div>
 
 <div id="panelUser" class="panel" role="tabpanel">
-<p class="hint">Preview treatments on your portrait before a consultation.</p>
-<button class="btn" type="button" id="userGoogle">Continue with Google</button>
-<p class="divider">or email</p>
+<p class="hint" data-i18n="auth.patientHint">Preview treatments on your portrait before a consultation.</p>
+<button class="btn" type="button" id="userGoogle" data-i18n="authDlg.google">Continue with Google</button>
+<p class="divider" data-i18n="auth.orEmail">or email</p>
 <form id="userEmail">
-<label class="field-label" for="userEmailInput">Email address</label>
+<label class="field-label" for="userEmailInput" data-i18n="authDlg.emailLabel">Email address</label>
 <input class="field" type="email" id="userEmailInput" placeholder="you@example.com" required autocomplete="email">
-<button class="btn" type="submit">Submit</button>
+<button class="btn" type="submit" data-i18n="authDlg.submit">Submit</button>
 </form>
 </div>
 
 <div id="panelPro" class="panel" role="tabpanel" hidden>
-<p class="hint">Embed Hebelie on your site and receive leads in your dashboard.</p>
-<label class="field-label" for="clinicName">Clinic or practice name</label>
-<input class="field" type="text" id="clinicName" placeholder="e.g. Acme Medspa" required minlength="2" autocomplete="organization">
-<label class="field-label" for="billingCountry">Clinic country</label>
-<select class="field" id="billingCountry" required aria-describedby="countryHint"></select>
-<p class="hint" id="countryHint">We use this for billing currency (Canada: CAD, elsewhere: USD).</p>
-<label class="field-label" for="billingRegion" id="billingRegionLabel">State or province</label>
+<p class="hint" data-i18n="auth.proHint">Embed Hebelie on your site and receive leads in your dashboard.</p>
+<label class="field-label" for="clinicName" data-i18n="auth.clinicName">Clinic or practice name</label>
+<input class="field" type="text" id="clinicName" data-i18n-placeholder="auth.clinicNamePh" placeholder="e.g. Acme Medspa" required minlength="2" autocomplete="organization">
+<label class="field-label" for="billingCountry" data-i18n="auth.clinicCountry">Clinic country</label>
+<select class="field" id="billingCountry" required></select>
+<label class="field-label" for="billingRegion" id="billingRegionLabel" data-i18n="auth.regionLabel.other">State or province</label>
 <select class="field" id="billingRegion" aria-describedby="regionHint"></select>
-<input class="field" type="text" id="billingRegionText" placeholder="State, province, or region" hidden maxlength="80" autocomplete="address-level1">
-<p class="hint" id="regionHint">Required for Canada and the United States.</p>
-<button class="btn" type="button" id="proGoogle">Continue with Google</button>
-<p class="divider">or email</p>
+<input class="field" type="text" id="billingRegionText" data-i18n-placeholder="auth.regionPh" placeholder="State, province, or region" hidden maxlength="80" autocomplete="address-level1">
+<p class="hint" id="regionHint" data-i18n="auth.regionHint.required">Required for Canada and the United States.</p>
+<button class="btn" type="button" id="proGoogle" data-i18n="authDlg.google">Continue with Google</button>
+<p class="divider" data-i18n="auth.orEmail">or email</p>
 <form id="proEmail">
-<label class="field-label" for="proEmailInput">Work email</label>
-<input class="field" type="email" id="proEmailInput" placeholder="you@clinic.com" required autocomplete="email">
-<button class="btn" type="submit">Submit</button>
+<label class="field-label" for="proEmailInput" data-i18n="auth.workEmail">Work email</label>
+<input class="field" type="email" id="proEmailInput" data-i18n-placeholder="auth.workEmailPh" placeholder="you@clinic.com" required autocomplete="email">
+<button class="btn" type="submit" data-i18n="authDlg.submit">Submit</button>
 </form>
 </div>
 
 <p class="msg" id="authMsg" aria-live="polite"></p>
-<p class="hint"><a href="./privacy-policy.html">Privacy policy</a> · <a href="./terms.html">Terms</a></p>
+<p class="hint"><a href="./privacy-policy.html" data-i18n="footer.privacy">Privacy policy</a> · <a href="./terms.html" data-i18n="footer.terms">Terms</a> · <a href="./fr/auth.html" data-i18n="lang.switchFr">Français</a></p>
 </main>
-<script type="module" src="./lib/auth-page.js?v=19"></script>
+<script type="module" src="./lib/auth-page.js?v=20"></script>
 </body>
 </html>

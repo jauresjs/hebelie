@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr" data-i18n-page="auth" data-locale="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Connexion – Hebelie</title>
+<meta name="description" content="Connexion patientes et professionnelles — intégrez l’aperçu esthétique Hebelie à votre med spa.">
+
+<link rel="canonical" href="https://hebelie.com/fr/auth.html">
+<link rel="alternate" hreflang="en" href="https://hebelie.com/auth.html">
+<link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/auth.html">
+<link rel="alternate" hreflang="x-default" href="https://hebelie.com/auth.html">
+<link rel="icon" href="../logo.jpg" type="image/jpeg">
+<link rel="stylesheet" href="../lib/legal.css">
+<style>
+.choice{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:28px 0 24px}
+.choice button{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;padding:14px 12px;border:1px solid var(--line);background:var(--ivory);cursor:pointer;color:var(--muted)}
+.choice button[aria-selected="true"]{border-color:var(--bronze);color:var(--ink);background:var(--cream)}
+.panel{display:grid;gap:12px}
+.panel[hidden]{display:none!important}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 24px;border:1px solid var(--ink);background:var(--ink);color:var(--ivory);font:400 .68rem var(--sans);letter-spacing:.14em;text-transform:uppercase;cursor:pointer;width:100%}
+.btn.ghost{background:transparent;color:var(--ink)}
+.btn:disabled{opacity:.45;pointer-events:none}
+.field-label{display:block;font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);margin:0 0 8px}
+.field{font:400 1rem var(--sans);padding:12px 14px;border:1px solid var(--line);background:var(--cream);color:var(--ink);width:100%;border-radius:0}
+.field::placeholder{color:var(--muted);opacity:1}
+.field:focus{outline:none;border-color:var(--bronze);box-shadow:0 0 0 1px var(--bronze)}
+.field:read-only{opacity:.85}
+.hint{font-size:.82rem;color:var(--muted);margin:0 0 8px}
+.msg{min-height:1.4em;font-size:.9rem;line-height:1.5;color:var(--bronze);margin-top:8px}
+.msg--success{color:var(--ink)}
+.msg--success strong{display:block;margin-bottom:6px;font-weight:500}
+.divider{text-align:center;font-size:.68rem;color:var(--muted);margin:12px 0}
+</style>
+</head>
+<body>
+<main class="wrap">
+<p style="margin:0 0 24px;font:400 1.35rem/1 var(--serif);letter-spacing:.04em"><a href="./" style="text-decoration:none;color:inherit">Hebelie</a></p>
+<h1 data-i18n="auth.pageTitle">Log in or sign up</h1>
+<p class="meta" data-i18n="auth.pageLead">Choose how you use Hebelie.</p>
+
+<div class="choice" role="tablist">
+<button type="button" id="tabUser" role="tab" aria-selected="true" data-i18n="auth.tabPatient">For patients</button>
+<button type="button" id="tabPro" role="tab" aria-selected="false" data-i18n="auth.tabPro">For professionals</button>
+</div>
+
+<div id="panelUser" class="panel" role="tabpanel">
+<p class="hint" data-i18n="auth.patientHint">Preview treatments on your portrait before a consultation.</p>
+<button class="btn" type="button" id="userGoogle" data-i18n="authDlg.google">Continue with Google</button>
+<p class="divider" data-i18n="auth.orEmail">or email</p>
+<form id="userEmail">
+<label class="field-label" for="userEmailInput" data-i18n="authDlg.emailLabel">Email address</label>
+<input class="field" type="email" id="userEmailInput" placeholder="you@example.com" required autocomplete="email">
+<button class="btn" type="submit" data-i18n="authDlg.submit">Submit</button>
+</form>
+</div>
+
+<div id="panelPro" class="panel" role="tabpanel" hidden>
+<p class="hint" data-i18n="auth.proHint">Embed Hebelie on your site and receive leads in your dashboard.</p>
+<label class="field-label" for="clinicName" data-i18n="auth.clinicName">Clinic or practice name</label>
+<input class="field" type="text" id="clinicName" data-i18n-placeholder="auth.clinicNamePh" placeholder="e.g. Acme Medspa" required minlength="2" autocomplete="organization">
+<label class="field-label" for="billingCountry" data-i18n="auth.clinicCountry">Clinic country</label>
+<select class="field" id="billingCountry" required></select>
+<label class="field-label" for="billingRegion" id="billingRegionLabel" data-i18n="auth.regionLabel.other">State or province</label>
+<select class="field" id="billingRegion" aria-describedby="regionHint"></select>
+<input class="field" type="text" id="billingRegionText" data-i18n-placeholder="auth.regionPh" placeholder="State, province, or region" hidden maxlength="80" autocomplete="address-level1">
+<p class="hint" id="regionHint" data-i18n="auth.regionHint.required">Required for Canada and the United States.</p>
+<button class="btn" type="button" id="proGoogle" data-i18n="authDlg.google">Continue with Google</button>
+<p class="divider" data-i18n="auth.orEmail">or email</p>
+<form id="proEmail">
+<label class="field-label" for="proEmailInput" data-i18n="auth.workEmail">Work email</label>
+<input class="field" type="email" id="proEmailInput" data-i18n-placeholder="auth.workEmailPh" placeholder="you@clinic.com" required autocomplete="email">
+<button class="btn" type="submit" data-i18n="authDlg.submit">Submit</button>
+</form>
+</div>
+
+<p class="msg" id="authMsg" aria-live="polite"></p>
+<p class="hint"><a href="../privacy-policy.html" data-i18n="footer.privacy">Privacy policy</a> · <a href="../terms.html" data-i18n="footer.terms">Terms</a> · <a href="../auth.html" data-i18n="lang.switchEn">English</a></p>
+</main>
+<script type="module" src="../lib/auth-page.js?v=20"></script>
+</body>
+</html>

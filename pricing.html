@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-i18n-page="pricing">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Pricing – Hebelie for clinics</title>
 <meta name="description" content="Simple monthly plans in CAD for treatment preview embeds on your clinic website.">
+<link rel="canonical" href="https://hebelie.com/pricing.html">
+<link rel="alternate" hreflang="en" href="https://hebelie.com/pricing.html">
+<link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/pricing.html">
 <link rel="icon" href="./logo.jpg" type="image/jpeg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -50,13 +53,14 @@ footer a{color:var(--ink)}
 <body>
 <nav><div class="wrap">
 <a class="logo" href="./">Hebelie</a>
-<a class="nav-link" href="./auth.html?as=professional">Clinic sign in</a>
+<a class="nav-link" href="./auth.html?as=professional" data-locale-href="/auth.html?as=professional" data-i18n="nav.clinicSignIn">Clinic sign in</a>
+<a class="nav-link" href="./fr/pricing.html" data-i18n="lang.switchFr">Français</a>
 </div></nav>
 
 <header class="hero"><div class="wrap">
-<span class="kicker">For clinics</span>
-<h1>Preview embeds, priced simply.</h1>
-<p class="lead">Monthly plans in Canadian dollars. Each completed patient preview on your website counts toward your quota. Cancel anytime from your dashboard.</p>
+<span class="kicker" data-i18n="pricingPage.kicker">For clinics</span>
+<h1 data-i18n="pricingPage.title">Preview embeds, priced simply.</h1>
+<p class="lead" id="pricingPageLead">Monthly plans in Canadian dollars. Each completed patient preview on your website counts toward your quota. Cancel anytime from your dashboard.</p>
 </div></header>
 
 <main class="wrap">
@@ -69,7 +73,12 @@ footer a{color:var(--ink)}
 </div></footer>
 
 <script type="module">
+import { applyDocumentI18n, initI18n } from "./lib/i18n.js";
 import { initLandingPricing } from "./lib/pricing-display.js";
+
+const force = document.documentElement.dataset.locale;
+await initI18n(force === "fr" || force === "en" ? { force } : {});
+applyDocumentI18n("pricing");
 
 const grid = document.getElementById("planGrid");
 const foot = document.querySelector(".note");
