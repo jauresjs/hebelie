@@ -48,15 +48,21 @@ Deno.serve(async (req) => {
 
   let clinic_name: string;
   let lead_email: string | undefined;
+  let billing_country: string;
+  let billing_region: string | null;
   try {
     const body = await req.json();
     clinic_name = String(body?.clinic_name ?? "").trim();
     lead_email = body?.lead_email ? String(body.lead_email).trim() : undefined;
+    billing_country = String(body?.billing_country ?? "CA").trim().toUpperCase();
+    billing_region = body?.billing_region ? String(body.billing_region).trim() : null;
   } catch {
     return json({ error: "bad_request" }, 400);
   }
 
   if (clinic_name.length < 2) return json({ error: "invalid_name" }, 400);
+  if (!/^[A-Z]{2}$/.test(billing_country)) return json({ error: "invalid_country" }, 400);
+  if (billing_region && billing_region.length > 80) billing_region = billing_region.slice(0, 80);
 
   const admin = createClient(
     Deno.env.get("SUPABASE_URL") ?? "",
@@ -94,6 +100,8 @@ Deno.serve(async (req) => {
       slug,
       name: clinic_name,
       lead_email: email,
+      billing_country,
+      billing_region,
     })
     .select("id, slug, name")
     .single();

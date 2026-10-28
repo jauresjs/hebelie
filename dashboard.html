@@ -99,32 +99,18 @@ th{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;col
 
 <div class="tabs" role="tablist">
 <button type="button" role="tab" id="tabLeads" aria-selected="true">Leads</button>
-<button type="button" role="tab" id="tabUsage" aria-selected="false">Usage</button>
 <button type="button" role="tab" id="tabEmbed" aria-selected="false">Customize &amp; install</button>
 <button type="button" role="tab" id="tabBilling" aria-selected="false">Billing</button>
+<button type="button" role="tab" id="tabUsage" aria-selected="false">Usage</button>
 </div>
 
 <section class="panel" id="panelLeads" role="tabpanel">
+<p class="msg ok" id="leadsCheckoutMsg" hidden aria-live="polite"></p>
 <table>
 <thead><tr><th>When</th><th>Name</th><th>Contact</th><th>Treatments</th><th>Preview</th></tr></thead>
 <tbody id="leadRows"></tbody>
 </table>
 <p class="empty" id="noLeads" hidden>No leads yet. Add the embed button to your website.</p>
-</section>
-
-<section class="panel" id="panelUsage" role="tabpanel" hidden>
-<h2 class="embed-step-title">Preview usage</h2>
-<p class="embed-step-lead">Completed previews on your website embed count toward your plan. Usage resets at the start of each billing period.</p>
-<div class="usage-stat">
-<p class="usage-big" id="usageRemaining">—</p>
-<p class="meta" id="usageHeadline">Loading…</p>
-</div>
-<div class="usage-bar" id="usageTabBar" hidden><span id="usageTabFill" style="width:0%"></span></div>
-<dl class="usage-details" id="usageDetails"></dl>
-<p class="meta" id="usageFootnote" style="margin-top:20px;max-width:480px"></p>
-<div class="snippet-actions" style="margin-top:16px">
-<button class="btn ghost" type="button" id="usageGoBilling" hidden>View plans &amp; billing</button>
-</div>
 </section>
 
 <section class="panel" id="panelEmbed" role="tabpanel" hidden>
@@ -278,12 +264,27 @@ th{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;col
 </div>
 <div id="planPicker" hidden>
 <h3 style="font:400 1rem Georgia,serif;margin:28px 0 12px">Choose a plan</h3>
-<p class="meta">All prices in CAD per month.</p>
+<p class="meta" id="billingCurrencyNote">Billing currency follows your clinic country (Canada: CAD, elsewhere: USD).</p>
 <div class="plan-grid" id="billingPlanGrid"></div>
 </div>
 <p class="msg" id="billingMsg" aria-live="polite"></p>
 </section>
+
+<section class="panel" id="panelUsage" role="tabpanel" hidden>
+<h2 class="embed-step-title">Preview usage</h2>
+<p class="embed-step-lead">Completed previews on your website embed count toward your plan. Usage resets at the start of each billing period.</p>
+<div class="usage-stat">
+<p class="usage-big" id="usageRemaining">—</p>
+<p class="meta" id="usageHeadline">Loading…</p>
+</div>
+<div class="usage-bar" id="usageTabBar" hidden><span id="usageTabFill" style="width:0%"></span></div>
+<dl class="usage-details" id="usageDetails"></dl>
+<p class="meta" id="usageFootnote" style="margin-top:20px;max-width:480px"></p>
+<div class="snippet-actions" style="margin-top:16px">
+<button class="btn ghost" type="button" id="usageGoBilling" hidden>View plans &amp; billing</button>
+</div>
+</section>
 </main>
-<script type="module" src="./lib/dashboard.js?v=32"></script>
+<script type="module" src="./lib/dashboard.js?v=33"></script>
 </body>
 </html>

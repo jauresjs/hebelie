@@ -59,6 +59,8 @@ Events:
 
 ## 6. Frontend config
 
+Set **`stripePublishableKey`** (`pk_live_…` or `pk_test_…`) in `config.js` if you add Stripe.js on the client. Checkout today uses server-side Sessions, so the **secret** key (`sk_live_…`) must live only in Supabase secrets—not in git.
+
 Copy price IDs into `config.js` (optional, for display only):
 
 ```js
@@ -72,3 +74,24 @@ stripePrices: {
 ## 7. Customer portal
 
 Stripe Dashboard → Settings → Billing → Customer portal → enable subscription management.
+
+## Production (current Supabase setup)
+
+Supabase uses **Stripe live** (`sk_live_…`, live price IDs, live webhook `we_1UV0B9…` → `stripe-webhook`).
+
+Live lookup keys (CAD): `hebelie_starter_monthly_cad`, `hebelie_growth_monthly_cad`, `hebelie_pro_monthly_cad`.
+
+USD (non-Canada clinics, same dollar amounts): `hebelie_starter_monthly_usd`, `hebelie_growth_monthly_usd`, `hebelie_pro_monthly_usd`.
+
+Optional secrets: `STRIPE_PRICE_STARTER_USD`, `STRIPE_PRICE_GROWTH_USD`, `STRIPE_PRICE_PRO_USD`.
+
+Clinic `billing_country` is set at professional signup (IP-prefilled); **CA → CAD**, else **USD**.
+
+After switching from test, run migration `20261027200000_reset_stripe_for_live.sql` (or equivalent SQL) so clinics re-subscribe with live customers.
+
+## Test mode (optional)
+
+1. Stripe Dashboard → **Test mode**.
+2. Set Supabase secrets to `sk_test_…`, test `STRIPE_PRICE_*`, test webhook `whsec_…`.
+3. Checkout card: `4242 4242 4242 4242`.
+4. Use migration `20261027152000_reset_stripe_links_for_test.sql` when switching back from live.

@@ -1,6 +1,10 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 import Stripe from "npm:stripe@17";
-import { resolvePriceId, type BillingPlan } from "../_shared/billing.ts";
+import {
+  billingCurrencyForCountry,
+  resolvePriceId,
+  type BillingPlan,
+} from "../_shared/billing.ts";
 
 const cors = {
   "Access-Control-Allow-Origin": "*",
@@ -115,7 +119,7 @@ Deno.serve(async (req) => {
 
   const { data: clinic, error: clinicErr } = await admin
     .from("clinics")
-    .select("id, name, lead_email, stripe_customer_id, billing_exempt")
+    .select("id, name, lead_email, stripe_customer_id, billing_exempt, billing_country")
     .eq("id", clinic_id)
     .eq("active", true)
     .maybeSingle();
@@ -124,7 +128,8 @@ Deno.serve(async (req) => {
   const stripe = new Stripe(stripeKey, { apiVersion: "2024-06-20" });
 
   try {
-    const priceId = await resolvePriceId(stripe, plan);
+    const currency = billingCurrencyForCountry(clinic.billing_country);
+    const priceId = await resolvePriceId(stripe, plan, currency);
     if (!priceId) return json({ error: "price_not_configured" }, 503);
 
     const customerId = await ensureStripeCustomer(
@@ -145,7 +150,7 @@ Deno.serve(async (req) => {
         metadata: { clinic_id: clinic.id, hebelie_plan: plan as BillingPlan },
       },
       metadata: { clinic_id: clinic.id, hebelie_plan: plan },
-      success_url: `${siteUrl}/dashboard.html?tab=billing&checkout=success`,
+      success_url: `${siteUrl}/dashboard.html?checkout=success`,
       cancel_url: `${siteUrl}/pricing.html?checkout=canceled`,
     });
 

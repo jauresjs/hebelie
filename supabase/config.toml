@@ -11,3 +11,39 @@ verify_jwt = true
 
 [functions.stripe-webhook]
 verify_jwt = false
+
+[auth]
+additional_redirect_urls = ["https://hebelie.com/**", "https://www.hebelie.com/**", "https://jauresjs.github.io/hebelie/**", "http://localhost:8000/**", "http://127.0.0.1:8000/**", "https://hebelie.com/auth.html**"]
+site_url = "https://hebelie.com/"
+
+[auth.email]
+enable_confirmations = true
+max_frequency = "1m0s"
+otp_length = 8
+
+[auth.email.smtp]
+enabled = true
+host = "smtp.resend.com"
+port = 465
+user = "resend"
+pass = "env(RESEND_API_KEY)"
+admin_email = "auth@hebelie.com"
+sender_name = "Hebelie"
+
+[auth.rate_limit]
+email_sent = 100
+
+[auth.external.google]
+client_id = "474286991086-kdrvt6hsr0v71n9t9i20huj1i8iefo2s.apps.googleusercontent.com"
+enabled = true
+
+[auth.mfa.totp]
+enroll_enabled = true
+verify_enabled = true
+
+[db.pooler]
+default_pool_size = 15
+max_client_conn = 200
+
+[storage.vector]
+enabled = false

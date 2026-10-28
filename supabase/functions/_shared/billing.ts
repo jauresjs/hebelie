@@ -1,4 +1,5 @@
 export type BillingPlan = "starter" | "growth" | "pro";
+export type BillingCurrency = "cad" | "usd";
 
 export const PLAN_QUOTA: Record<BillingPlan, number> = {
   starter: 100,
@@ -6,39 +7,55 @@ export const PLAN_QUOTA: Record<BillingPlan, number> = {
   pro: 300,
 };
 
+export function billingCurrencyForCountry(countryCode: string | null | undefined): BillingCurrency {
+  const c = String(countryCode ?? "").trim().toUpperCase();
+  return c === "CA" ? "cad" : "usd";
+}
+
+export function lookupKeyForPlan(plan: BillingPlan, currency: BillingCurrency): string {
+  return `hebelie_${plan}_monthly_${currency}`;
+}
+
+function envPriceId(plan: BillingPlan, currency: BillingCurrency): string | null {
+  const suffix = currency === "usd" ? "_USD" : "";
+  const key = `STRIPE_PRICE_${plan.toUpperCase()}${suffix}`;
+  return Deno.env.get(key) ?? (currency === "cad" ? Deno.env.get(`STRIPE_PRICE_${plan.toUpperCase()}`) : null);
+}
+
 export function planFromPriceId(priceId: string): BillingPlan | null {
-  const starter = Deno.env.get("STRIPE_PRICE_STARTER");
-  const growth = Deno.env.get("STRIPE_PRICE_GROWTH");
-  const pro = Deno.env.get("STRIPE_PRICE_PRO");
-  if (priceId === starter) return "starter";
-  if (priceId === growth) return "growth";
-  if (priceId === pro) return "pro";
+  const ids: { plan: BillingPlan; env: string }[] = [
+    { plan: "starter", env: "STRIPE_PRICE_STARTER" },
+    { plan: "growth", env: "STRIPE_PRICE_GROWTH" },
+    { plan: "pro", env: "STRIPE_PRICE_PRO" },
+    { plan: "starter", env: "STRIPE_PRICE_STARTER_USD" },
+    { plan: "growth", env: "STRIPE_PRICE_GROWTH_USD" },
+    { plan: "pro", env: "STRIPE_PRICE_PRO_USD" },
+  ];
+  for (const { plan, env } of ids) {
+    const id = Deno.env.get(env);
+    if (id && priceId === id) return plan;
+  }
   return null;
 }
 
-export function priceIdForPlan(plan: string): string | null {
+export function priceIdForPlan(plan: string, currency: BillingCurrency): string | null {
   const p = plan as BillingPlan;
-  if (p === "starter") return Deno.env.get("STRIPE_PRICE_STARTER") ?? null;
-  if (p === "growth") return Deno.env.get("STRIPE_PRICE_GROWTH") ?? null;
-  if (p === "pro") return Deno.env.get("STRIPE_PRICE_PRO") ?? null;
-  return null;
-}
-
-export function lookupKeyForPlan(plan: BillingPlan): string {
-  return `hebelie_${plan}_monthly_cad`;
+  if (!PLAN_QUOTA[p]) return null;
+  return envPriceId(p, currency);
 }
 
 /** Env price ID first, then Stripe price lookup_key. */
 export async function resolvePriceId(
   stripe: { prices: { list: (p: Record<string, unknown>) => Promise<{ data: { id: string }[] }> } },
   plan: string,
+  currency: BillingCurrency,
 ): Promise<string | null> {
-  const fromEnv = priceIdForPlan(plan);
+  const fromEnv = priceIdForPlan(plan, currency);
   if (fromEnv) return fromEnv;
   const p = plan as BillingPlan;
   if (!PLAN_QUOTA[p]) return null;
   const listed = await stripe.prices.list({
-    lookup_keys: [lookupKeyForPlan(p)],
+    lookup_keys: [lookupKeyForPlan(p, currency)],
     active: true,
     limit: 1,
   });

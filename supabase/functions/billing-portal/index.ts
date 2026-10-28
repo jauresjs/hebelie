@@ -66,7 +66,7 @@ Deno.serve(async (req) => {
   const stripe = new Stripe(stripeKey, { apiVersion: "2024-06-20" });
   const portal = await stripe.billingPortal.sessions.create({
     customer: clinic.stripe_customer_id,
-    return_url: `${siteUrl}/dashboard.html?tab=billing`,
+    return_url: `${siteUrl}/dashboard.html`,
   });
 
   return json({ url: portal.url });

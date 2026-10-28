@@ -69,26 +69,11 @@ footer a{color:var(--ink)}
 </div></footer>
 
 <script type="module">
-import { BILLING_PLANS } from "./lib/billing-plans.js";
+import { initLandingPricing } from "./lib/pricing-display.js";
 
 const grid = document.getElementById("planGrid");
-grid.innerHTML = BILLING_PLANS.map((p) => {
-  const rec = p.recommended ? " rec" : "";
-  const badge = p.recommended ? '<span class="badge">Recommended</span>' : "";
-  const href = `./auth.html?as=professional&plan=${encodeURIComponent(p.id)}`;
-  return `<article class="plan${rec}">
-${badge}
-<h3>${p.name}</h3>
-<p class="price">$${p.priceCad} <small>CAD / month</small></p>
-<ul>
-<li><strong>${p.previews}</strong> previews per month</li>
-<li>Embeds on your website</li>
-<li>Leads in your dashboard</li>
-<li>${p.description}</li>
-</ul>
-<a class="btn${p.recommended ? "" : " ghost"}" href="${href}">Get started</a>
-</article>`;
-}).join("");
+const foot = document.querySelector(".note");
+void initLandingPricing(grid, foot, { cardClass: "plan", badgeClass: "badge" });
 </script>
 </body>
 </html>

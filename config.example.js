@@ -3,6 +3,8 @@ export const CONFIG = {
   siteUrl: "https://hebelie.com/",
   supabaseUrl: "https://vqetbgdduoyxbszbrxkl.supabase.co",
   supabaseAnonKey: "YOUR_ANON_KEY",
+  /** Live/test publishable key (pk_…) — safe in frontend; used if you add Stripe.js later. */
+  stripePublishableKey: "",
   /** Optional — checkout resolves Stripe lookup keys if omitted. */
   stripePrices: {
     starter: "",
