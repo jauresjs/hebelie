@@ -75,14 +75,14 @@ footer a{color:var(--ink)}
 </div></footer>
 
 <script type="module">
-import { applyDocumentI18n, initI18n } from "../lib/i18n.js";
+import { applyDocumentI18n, initI18n } from "../lib/i18n.js?v=2";
 
 const force = document.documentElement.dataset.locale;
 await initI18n(force === "fr" || force === "en" ? { force } : {});
 applyDocumentI18n("pricing");
 
 try {
-  const { initLandingPricing } = await import("../lib/pricing-display.js?v=4");
+  const { initLandingPricing } = await import("../lib/pricing-display.js?v=5");
   const grid = document.getElementById("planGrid");
   const foot = document.querySelector(".note");
   await initLandingPricing(grid, foot, { cardClass: "plan", badgeClass: "badge" });
