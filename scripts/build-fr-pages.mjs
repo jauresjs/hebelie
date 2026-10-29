@@ -53,7 +53,7 @@ function localizeHtml(name, source) {
   html = html.replace(/\.\/lib\//g, "../lib/");
   html = html.replace(/href="\.\/logo\.jpg"/g, 'href="../logo.jpg"');
   html = html.replace(/src="\.\/lib\//g, 'src="../lib/');
-  html = html.replace(/href="\.\/(privacy-policy|terms|data-deletion)\.html/g, 'href="../$1.html');
+  html = html.replace(/href="\.\/(privacy-policy|terms|data-deletion)\.html/g, 'href="./$1.html');
   html = html.replace(/href="\.\/c\//g, 'href="../c/');
   html = html.replace(/href="\.\/auth\.html/g, 'href="./auth.html');
   html = html.replace(/href="\.\/pricing\.html/g, 'href="./pricing.html');
@@ -61,16 +61,16 @@ function localizeHtml(name, source) {
   html = html.replace(/href="\.\/(\?|#)/g, 'href="./$1');
 
   html = html.replace(
-    /<a href="\.\/fr\/"[^>]*data-i18n="lang\.switchFr"[^>]*>[\s\S]*?<\/a>/,
-    '<a href="../" data-i18n="lang.switchEn">English</a>',
+    /<a [^>]*href="\.\/fr\/"[^>]*data-i18n="lang\.switchFr"[^>]*>[\s\S]*?<\/a>/,
+    '<a class="nav-link" href="../" data-i18n="lang.switchEn">English</a>',
   );
   html = html.replace(
-    /<a href="\.\/fr\/auth\.html"[^>]*data-i18n="lang\.switchFr"[^>]*>[\s\S]*?<\/a>/,
+    /<a [^>]*href="\.\/fr\/auth\.html"[^>]*data-i18n="lang\.switchFr"[^>]*>[\s\S]*?<\/a>/,
     '<a href="../auth.html" data-i18n="lang.switchEn">English</a>',
   );
   html = html.replace(
-    /<a href="\.\/fr\/pricing\.html"[^>]*data-i18n="lang\.switchFr"[^>]*>[\s\S]*?<\/a>/,
-    '<a href="../pricing.html" data-i18n="lang.switchEn">English</a>',
+    /<a [^>]*href="\.\/fr\/pricing\.html"[^>]*data-i18n="lang\.switchFr"[^>]*>[\s\S]*?<\/a>/,
+    '<a class="nav-link" href="../pricing.html" data-i18n="lang.switchEn">English</a>',
   );
 
   const canonical = `https://hebelie.com/fr/${name === "index.html" ? "" : name}`;

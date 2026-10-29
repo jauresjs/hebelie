@@ -65,21 +65,21 @@ footer a{color:var(--ink)}
 
 <main class="wrap">
 <div class="plans" id="planGrid"></div>
-<p class="note">Need more than 300 previews per month? <a href="mailto:onboarding@hebelie.com">Contact us</a> for custom volume. Prices exclude applicable taxes. Demo embed on <a href="./c/demo-medspa/">demo medspa</a> is not metered.</p>
+<p class="note" id="pricingFootnote"></p>
 </main>
 
 <footer><div class="wrap">
-<p><a href="./">Hebelie</a> · <a href="./terms.html">Terms</a> · <a href="./privacy-policy.html">Privacy</a></p>
+<p><a href="./">Hebelie</a> · <a href="./terms.html" data-locale-href="/terms.html" data-i18n="footer.terms">Terms</a> · <a href="./privacy-policy.html" data-locale-href="/privacy-policy.html" data-i18n="footer.privacy">Privacy</a></p>
 </div></footer>
 
 <script type="module">
-import { applyDocumentI18n, initI18n } from "./lib/i18n.js?v=8";
+import { applyDocumentI18n, initI18n } from "./lib/i18n.js?v=9";
 
 const force = document.documentElement.dataset.locale;
 await initI18n(force === "fr" || force === "en" ? { force } : {});
 
 try {
-  const { initLandingPricing } = await import("./lib/pricing-display.js?v=8");
+  const { initLandingPricing } = await import("./lib/pricing-display.js?v=9");
   const grid = document.getElementById("planGrid");
   const foot = document.querySelector(".note");
   await initLandingPricing(grid, foot, { cardClass: "plan", badgeClass: "badge" });
