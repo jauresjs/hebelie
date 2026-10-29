@@ -38,6 +38,17 @@ Save, then trigger a test from **Authentication → Email Templates** or submit 
 
 `https://hebelie.com/auth.html?as=professional`
 
+### Branded HTML (magic link)
+
+Default Supabase templates are plain. Paste a styled template into **Authentication → Email Templates → Magic Link**:
+
+- English: [`docs/auth-magic-link-email.html`](docs/auth-magic-link-email.html)
+- French (optional alternate): [`docs/auth-magic-link-email-fr.html`](docs/auth-magic-link-email-fr.html)
+
+Suggested subject: **Sign in to Hebelie** (or **Connexion à Hebelie** for FR).
+
+Lead notification emails (`notify-lead`, `create-preview`) use the shared layout in `supabase/functions/_shared/hebelie-email.ts` and deploy with your Edge Functions.
+
 ## 3. Redirect URLs (still required)
 
 **Authentication → URL configuration**

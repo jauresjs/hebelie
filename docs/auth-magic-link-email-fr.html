@@ -1,0 +1,45 @@
+<!--
+  Supabase → Authentication → Email Templates → Magic Link (French copy)
+
+  Subject suggestion: Connexion à Hebelie
+
+  Supabase allows one template per type; use this if your audience is primarily FR,
+  or alternate manually. For per-user locale you would need a custom auth hook.
+-->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Connexion à Hebelie</title>
+</head>
+<body style="margin:0;padding:0;background-color:#FAF8F4;-webkit-text-size-adjust:100%">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#FAF8F4">
+<tr><td align="center" style="padding:40px 16px 48px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px">
+<tr><td style="padding:0 0 24px;border-bottom:1px solid #E0DBD2">
+<a href="https://hebelie.com/fr/" style="text-decoration:none">
+<span style="font-family:Georgia,'Times New Roman',serif;font-size:26px;font-weight:400;letter-spacing:0.04em;color:#141412">Hebelie</span>
+</a>
+</td></tr>
+<tr><td style="padding:32px 28px;background-color:#F3F0E8;border:1px solid #E0DBD2">
+<p style="margin:0 0 12px;font-family:system-ui,-apple-system,Segoe UI,sans-serif;font-size:10px;font-weight:500;letter-spacing:0.28em;text-transform:uppercase;color:#9A8565">Connexion sécurisée</p>
+<h1 style="margin:0 0 16px;font-family:Georgia,'Times New Roman',serif;font-size:28px;font-weight:400;line-height:1.15;color:#141412">Votre aperçu est à un clic</h1>
+<p style="margin:0 0 20px;font-family:system-ui,-apple-system,Segoe UI,sans-serif;font-size:15px;font-weight:400;line-height:1.65;color:#141412">Utilisez le bouton ci-dessous pour vous connecter à <strong>Hebelie</strong> avec <span style="color:#6E6A63">{{ .Email }}</span>. Ce lien expire bientôt et ne fonctionne qu’une fois.</p>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:8px 0 0">
+<tr><td align="center" style="background-color:#141412">
+<a href="{{ .ConfirmationURL }}" target="_blank" rel="noopener" style="display:inline-block;padding:14px 28px;font-family:system-ui,-apple-system,Segoe UI,sans-serif;font-size:11px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;color:#FAF8F4;text-decoration:none">Se connecter</a>
+</td></tr></table>
+<p style="margin:24px 0 0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;font-size:13px;line-height:1.6;color:#6E6A63">Si vous n’êtes pas à l’origine de cette demande, ignorez ce message. Aide : <a href="mailto:privacy@hebelie.com" style="color:#141412">privacy@hebelie.com</a>.</p>
+<p style="margin:16px 0 0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;font-size:12px;line-height:1.5;color:#6E6A63;word-break:break-all">Ou copiez ce lien :<br>{{ .ConfirmationURL }}</p>
+</td></tr>
+<tr><td style="padding:28px 8px 0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;font-size:12px;line-height:1.6;color:#6E6A63;text-align:center">
+<p style="margin:0 0 8px">Simulation seulement — pas un avis médical.</p>
+<p style="margin:0"><a href="https://hebelie.com/fr/privacy-policy.html" style="color:#141412">Confidentialité</a> · <a href="https://hebelie.com/fr/terms.html" style="color:#141412">Conditions</a></p>
+</td></tr>
+</table>
+</td></tr>
+</table>
+</body>
+</html>

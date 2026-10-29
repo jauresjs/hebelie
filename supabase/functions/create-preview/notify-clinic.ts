@@ -1,13 +1,6 @@
 import { type SupabaseClient, type User } from "npm:@supabase/supabase-js@2";
+import { buildLeadEmailContent, sendResendEmail } from "../_shared/hebelie-email.ts";
 import { signedImageUrl } from "./storage.ts";
-
-function escapeHtml(s: string) {
-  return s
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
 
 function leadName(user: User) {
   const meta = user.user_metadata ?? {};
@@ -69,8 +62,7 @@ export async function createLeadAndNotifyClinic(
     return { leadId: lead.id, emailSent: false };
   }
 
-  const resendKey = Deno.env.get("RESEND_API_KEY");
-  if (!resendKey) {
+  if (!Deno.env.get("RESEND_API_KEY")) {
     console.log("create-preview: no RESEND_API_KEY for lead", lead.id);
     return { leadId: lead.id, emailSent: false };
   }
@@ -79,54 +71,25 @@ export async function createLeadAndNotifyClinic(
   const beforeLink = opts.beforePath ? await signedImageUrl(admin, opts.beforePath) : null;
   const afterLink = opts.afterPath ? await signedImageUrl(admin, opts.afterPath) : null;
 
-  const text = [
-    `New preview lead for ${clinic.name}`,
-    "",
-    "A patient completed a treatment preview on your embed.",
-    "",
-    `Name: ${name}`,
-    `Email: ${email}`,
-    treatmentLine ? `Treatments explored: ${treatmentLine}` : "",
-    beforeLink ? `Before photo: ${beforeLink}` : "",
-    afterLink ? `After preview: ${afterLink}` : "",
-    "",
-    "Open your Hebelie dashboard to view leads and images.",
-    "",
-    "Sent via Hebelie.",
-  ]
-    .filter(Boolean)
-    .join("\n");
-
-  const htmlParts = [
-    `<p>New preview lead for <strong>${escapeHtml(clinic.name)}</strong>.</p>`,
-    `<p><strong>Name:</strong> ${escapeHtml(name)}<br>`,
-    `<strong>Email:</strong> ${escapeHtml(email)}</p>`,
-    treatmentLine
-      ? `<p><strong>Treatments:</strong> ${escapeHtml(treatmentLine)}</p>`
-      : "",
-    beforeLink && afterLink
-      ? `<p><strong>Before / after</strong></p><p><a href="${beforeLink}">Before</a> · <a href="${afterLink}">After preview</a></p>`
-      : "",
-    `<p>Follow up to book a consultation. View all leads in your Hebelie dashboard.</p>`,
-  ].join("");
-
-  const mail = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${resendKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: Deno.env.get("RESEND_FROM") ?? "Hebelie <onboarding@resend.dev>",
-      to: [clinic.lead_email],
-      subject: `New preview lead – ${name}`,
-      text,
-      html: htmlParts,
-    }),
+  const { subject, text, html } = buildLeadEmailContent({
+    clinicName: clinic.name,
+    kind: "preview",
+    leadName: name,
+    leadEmail: email,
+    treatments: treatmentLine,
+    beforeUrl: beforeLink,
+    afterUrl: afterLink,
   });
 
-  if (!mail.ok) {
-    console.error("create-preview notify resend", await mail.text());
+  const sent = await sendResendEmail({
+    to: [clinic.lead_email],
+    subject,
+    text,
+    html,
+  });
+
+  if (!sent.ok) {
+    console.error("create-preview notify resend", sent.detail);
     return { leadId: lead.id, emailSent: false };
   }
 

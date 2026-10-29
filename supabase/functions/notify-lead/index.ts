@@ -1,4 +1,5 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
+import { buildLeadEmailContent, sendResendEmail } from "../_shared/hebelie-email.ts";
 
 const cors = {
   "Access-Control-Allow-Origin": "*",
@@ -61,8 +62,7 @@ Deno.serve(async (req) => {
   if (!clinic?.lead_email) return json({ sent: false, reason: "no_email" });
   if (clinic.notify_lead_email === false) return json({ sent: false, reason: "opted_out" });
 
-  const resendKey = Deno.env.get("RESEND_API_KEY");
-  if (!resendKey) {
+  if (!Deno.env.get("RESEND_API_KEY")) {
     console.log("notify-lead: no RESEND_API_KEY", lead.id, clinic.lead_email);
     return json({ sent: false, reason: "mail_not_configured" });
   }
@@ -81,37 +81,26 @@ Deno.serve(async (req) => {
     afterLink = data?.signedUrl ?? null;
   } else afterLink = pathAfter;
 
-  const text = [
-    `New consultation request for ${clinic.name}`,
-    "",
-    `Name: ${lead.name}`,
-    `Email: ${lead.email}`,
-    lead.phone ? `Phone: ${lead.phone}` : "",
-    treatments ? `Treatments: ${treatments}` : "",
-    beforeLink ? `Before photo: ${beforeLink}` : "",
-    afterLink ? `After preview: ${afterLink}` : "",
-    "",
-    "Sent via Hebelie embed.",
-  ]
-    .filter(Boolean)
-    .join("\n");
-
-  const mail = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${resendKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      from: Deno.env.get("RESEND_FROM") ?? "Hebelie <onboarding@resend.dev>",
-      to: [clinic.lead_email],
-      subject: `New lead – ${lead.name}`,
-      text,
-    }),
+  const { subject, text, html } = buildLeadEmailContent({
+    clinicName: clinic.name,
+    kind: "consultation",
+    leadName: lead.name,
+    leadEmail: lead.email,
+    phone: lead.phone,
+    treatments,
+    beforeUrl: beforeLink,
+    afterUrl: afterLink,
   });
 
-  if (!mail.ok) {
-    console.error("notify-lead resend", await mail.text());
+  const sent = await sendResendEmail({
+    to: [clinic.lead_email],
+    subject,
+    text,
+    html,
+  });
+
+  if (!sent.ok) {
+    console.error("notify-lead resend", sent.detail);
     return json({ sent: false, reason: "send_failed" }, 502);
   }
 
