@@ -1,4 +1,4 @@
-"""Regenerate site hero before.png (aged) and after.png (enhanced) via fal edit."""
+"""Regenerate hero before.png (aged) and after.png (treatments) from the current before.png only."""
 import base64
 import json
 import os
@@ -13,18 +13,24 @@ MODEL = "fal-ai/nano-banana/edit"
 QUEUE = "https://queue.fal.run"
 W, H = 1086, 1448
 
+TREATMENTS = {
+    "lips": ("Lip filler", "lips", "clearly fuller lips with defined border", "no duck lip"),
+    "skin": ("Skin rejuvenation", "full face", "brighter, more even tone; healthy glow", "keep pores"),
+    "facelift": ("Facelift", "lower face and jaw", "marked reduction in jowling; tighter jawline", "same identity"),
+    "botox": ("Botox", "forehead and crow's feet", "forehead lines and crow's feet clearly softened", "natural brow"),
+    "cheeks": ("Cheek filler", "cheekbones", "restored mid-face volume and lift", "no chipmunk cheeks"),
+}
+
 BEFORE_PROMPT = (
-    "Edit this portrait for a medspa marketing BEFORE slider frame. Same person, pose, crop, hair, "
-    "background, lighting. Make visible aging cues: more forehead and crow's-feet wrinkles, thinner lips, "
-    "slightly sagging jowls and lower-face skin, mild under-eye hollowing, a bit dull uneven skin tone. "
-    "Still photorealistic and dignified—not caricature. No text or watermarks."
+    "Edit this portrait for a medspa BEFORE slider frame. Same person, pose, crop, hair, background, lighting. "
+    "Subtle but visible aging: more fine lines on forehead and crow's feet, slightly thinner lips, mild jowl "
+    "softness and lower-face laxity, gentle under-eye tiredness, slightly duller skin tone. Photorealistic, "
+    "same identity—not a different person, not caricature. No text or watermarks."
 )
 
-AFTER_PROMPT = (
-    "Edit this portrait for a medspa marketing AFTER slider frame. Same person, pose, crop, hair, "
-    "background, lighting. Clear aesthetic improvement: fuller shapely lips, tighter jawline and cheeks, "
-    "smoother forehead and eye area, firmer lifted skin, even luminous complexion—beautiful but believable. "
-    "No duck lips. No text or watermarks."
+DEMO_NOTE = (
+    "Marketing AFTER slider: clearly improved at a glance—firmer jaw and cheeks, smoother forehead and eye area, "
+    "fuller lips, more even luminous skin—same person, same pose, same crop. No text overlays."
 )
 
 
@@ -51,16 +57,7 @@ def api(url, key, method="GET", body=None):
         return json.loads(r.read().decode())
 
 
-def run_edit(key, data_url, prompt):
-    body = {
-        "prompt": prompt,
-        "image_urls": [data_url],
-        "num_images": 1,
-        "output_format": "jpeg",
-        "aspect_ratio": "auto",
-        "sync_mode": False,
-        "limit_generations": True,
-    }
+def run_edit_job(key, body):
     job = api(f"{QUEUE}/{MODEL}", key, "POST", body)
     delay = 1.5
     started = time.time()
@@ -79,13 +76,47 @@ def run_edit(key, data_url, prompt):
     raise TimeoutError("fal job timed out")
 
 
-def to_data_url(path: Path) -> str:
+def baseline_data_url(src: Path) -> str:
     from PIL import Image
 
-    im = cover(Image.open(path).convert("RGB"), W, H)
+    im = cover(Image.open(src).convert("RGB"), W, H)
     buf = BytesIO()
     im.save(buf, format="JPEG", quality=92)
     return "data:image/jpeg;base64," + base64.b64encode(buf.getvalue()).decode()
+
+
+def build_after_request(data_url: str):
+    preserve = (
+        "Edit the supplied portrait. Same individual, age, ethnicity, hair, clothes, background, framing, lighting. "
+        "No text, labels, arrows, or watermarks. Photorealistic clinical photography."
+    )
+    procs = ["facelift", "botox", "cheeks", "lips", "skin"]
+    steps = []
+    for i, pid in enumerate(procs, 1):
+        label, area, change, excl = TREATMENTS[pid]
+        steps.append(f"{i}. {label}. Area: {area}. Change: {change}. Exclusions: {excl}.")
+    prompt = "Retouch with these treatments together. " + preserve + " " + " ".join(steps) + " " + DEMO_NOTE
+    return {
+        "prompt": prompt,
+        "image_urls": [data_url],
+        "num_images": 1,
+        "output_format": "jpeg",
+        "aspect_ratio": "auto",
+        "sync_mode": False,
+        "limit_generations": True,
+    }
+
+
+def build_before_request(data_url: str):
+    return {
+        "prompt": BEFORE_PROMPT,
+        "image_urls": [data_url],
+        "num_images": 1,
+        "output_format": "jpeg",
+        "aspect_ratio": "auto",
+        "sync_mode": False,
+        "limit_generations": True,
+    }
 
 
 def save_png(raw: bytes, dest: Path) -> None:
@@ -102,25 +133,22 @@ def main():
     if not key:
         raise SystemExit("Set FAL_KEY in the environment to run this script.")
 
-    src = ROOT / "before.png.bak"
+    src = ROOT / "before.png"
     if not src.is_file():
-        src = ROOT / "before.png"
-    if not src.is_file():
-        raise SystemExit("Missing before.png or before.png.bak")
+        raise SystemExit("Missing before.png")
 
-    for name in ("before.png", "after.png"):
-        p = ROOT / name
-        if p.is_file():
-            bak = ROOT / f"{name}.bak"
-            if not bak.is_file():
-                shutil.copy2(p, bak)
+    archive = ROOT / "hero_baseline.png"
+    shutil.copy2(src, archive)
+    print("Baseline snapshot:", archive)
 
-    print("Generating BEFORE (aged)...")
-    before_raw = run_edit(key, to_data_url(src), BEFORE_PROMPT)
+    data_url = baseline_data_url(src)
+
+    print("Generating BEFORE (aged) from current hero source...")
+    before_raw = run_edit_job(key, build_before_request(data_url))
     save_png(before_raw, ROOT / "before.png")
 
-    print("Generating AFTER (enhanced)...")
-    after_raw = run_edit(key, to_data_url(ROOT / "before.png"), AFTER_PROMPT)
+    print("Generating AFTER (treatments) from same hero source...")
+    after_raw = run_edit_job(key, build_after_request(data_url))
     save_png(after_raw, ROOT / "after.png")
 
 
