@@ -47,6 +47,12 @@ Default Supabase templates are plain. Paste a styled template into **Authenticat
 
 Suggested subject: **Sign in to Hebelie** (or **Connexion à Hebelie** for FR).
 
+From the repo (uses your `supabase login` token on Windows):
+
+```powershell
+.\scripts\push-auth-email-template.ps1
+```
+
 Lead notification emails (`notify-lead`, `create-preview`) use the shared layout in `supabase/functions/_shared/hebelie-email.ts` and deploy with your Edge Functions.
 
 ## 3. Redirect URLs (still required)
