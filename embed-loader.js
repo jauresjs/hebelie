@@ -110,8 +110,8 @@ function mountPrompt(cfg) {
   const clinicName = escapeHtml(cfg.name || "Your clinic");
   const labelSafe = escapeHtml(label);
   const origin = siteOrigin();
-  const beforeImg = `${origin}/before.png?v=8`;
-  const afterImg = `${origin}/after.png?v=8`;
+  const beforeImg = `${origin}/before.png?v=9`;
+  const afterImg = `${origin}/after.png?v=9`;
 
   root.innerHTML = `
 <style>

@@ -153,8 +153,8 @@ ${treatmentLis}
 <h2 id="demoTitle">Example preview</h2>
 <p>Drag to compare before and after—then try it on your own photo.</p>
 <div class="cmp" id="demoCmp" aria-label="Example before and after">
-<div class="L"><img src="/before.png?v=8" alt="Before example"></div>
-<div class="L after"><img src="/after.png?v=8" alt="After example"></div>
+<div class="L"><img src="/before.png?v=9" alt="Before example"></div>
+<div class="L after"><img src="/after.png?v=9" alt="After example"></div>
 <div class="bar"></div><div class="knob"></div>
 <span class="tag b">Before</span><span class="tag a">After</span>
 <div class="cmp-drag">Drag to compare</div>
