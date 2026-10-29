@@ -73,13 +73,13 @@ footer a{color:var(--ink)}
 </div></footer>
 
 <script type="module">
-import { applyDocumentI18n, initI18n } from "./lib/i18n.js?v=7";
+import { applyDocumentI18n, initI18n } from "./lib/i18n.js?v=8";
 
 const force = document.documentElement.dataset.locale;
 await initI18n(force === "fr" || force === "en" ? { force } : {});
 
 try {
-  const { initLandingPricing } = await import("./lib/pricing-display.js?v=7");
+  const { initLandingPricing } = await import("./lib/pricing-display.js?v=8");
   const grid = document.getElementById("planGrid");
   const foot = document.querySelector(".note");
   await initLandingPricing(grid, foot, { cardClass: "plan", badgeClass: "badge" });
