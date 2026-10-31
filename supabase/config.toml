@@ -12,6 +12,9 @@ verify_jwt = true
 [functions.stripe-webhook]
 verify_jwt = false
 
+[functions.book-onboarding-call]
+verify_jwt = false
+
 [auth]
 additional_redirect_urls = ["https://hebelie.com/**", "https://www.hebelie.com/**", "https://jauresjs.github.io/hebelie/**", "http://localhost:8000/**", "http://127.0.0.1:8000/**", "https://hebelie.com/auth.html**"]
 site_url = "https://hebelie.com/"

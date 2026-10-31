@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr" data-i18n-page="bookCall" data-locale="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Réserver un appel – Hebelie</title>
+<meta name="description" content="Planifiez un appel d’introduction de 20 minutes avec Hebelie pour votre clinique ou med spa.">
+<link rel="canonical" href="https://hebelie.com/fr/book-call.html">
+<link rel="alternate" hreflang="en" href="https://hebelie.com/book-call.html">
+<link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/book-call.html">
+<link rel="icon" href="../logo.jpg" type="image/jpeg">
+<link rel="stylesheet" href="../lib/book-call.css">
+</head>
+<body class="book-call">
+<div class="shell">
+<a class="back" href="./" data-i18n="bookCall.back">Back to Hebelie</a>
+<span class="kicker" data-i18n="bookCall.kicker">For clinics</span>
+<h1 data-i18n="bookCall.title">Book a 20-minute intro call</h1>
+<p class="lead" data-i18n="bookCall.lead">Walk through embed setup, pricing, and how Hebelie captures leads on your site—no sales deck, just a conversation.</p>
+
+<div class="card" id="bookCard">
+<p class="step-label" data-i18n="bookCall.stepDay">Choose a day</p>
+<div class="day-strip" id="dayStrip" role="group" aria-label="Available days"></div>
+
+<p class="step-label" data-i18n="bookCall.stepTime">Choose a time</p>
+<div class="time-grid" id="timeGrid"></div>
+<p class="tz-note" data-i18n="bookCall.tzNote">Times shown in Eastern (Toronto). We’ll confirm by email.</p>
+
+<form id="bookForm" novalidate>
+<p class="step-label" data-i18n="bookCall.stepDetails">Your details</p>
+<div class="summary" id="slotSummary" hidden></div>
+<label class="field-label" for="name" data-i18n="bookCall.name">Your name</label>
+<input class="field" type="text" id="name" name="name" autocomplete="name" required minlength="2" data-i18n-placeholder="bookCall.namePh" placeholder="Alex Martin">
+<label class="field-label" for="clinic" data-i18n="bookCall.clinic">Clinic or practice</label>
+<input class="field" type="text" id="clinic" name="clinic" autocomplete="organization" required minlength="2" data-i18n-placeholder="bookCall.clinicPh" placeholder="Demo Medspa">
+<label class="field-label" for="email" data-i18n="bookCall.email">Work email</label>
+<input class="field" type="email" id="email" name="email" autocomplete="email" required data-i18n-placeholder="bookCall.emailPh" placeholder="you@clinic.com">
+<label class="field-label" for="note" data-i18n="bookCall.note">Anything we should know? (optional)</label>
+<textarea class="field" id="note" name="note" rows="2" data-i18n-placeholder="bookCall.notePh" placeholder="Locations, current website platform, timeline…"></textarea>
+<input class="hp" type="text" id="company" name="company" tabindex="-1" autocomplete="off">
+<button class="btn-submit" type="submit" id="submitBtn" disabled data-i18n="bookCall.submit">Request this time</button>
+<p class="msg" id="formMsg" aria-live="polite"></p>
+</form>
+</div>
+
+<div class="card success-panel" id="successPanel" hidden>
+<h2 data-i18n="bookCall.successTitle">You’re on the calendar</h2>
+<p data-i18n="bookCall.successBody">We sent a confirmation to your inbox. If plans change, reply to that email and we’ll find another time.</p>
+</div>
+</div>
+<script type="module" src="../lib/book-call.js?v=1"></script>
+</body>
+</html>
