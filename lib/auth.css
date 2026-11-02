@@ -1,0 +1,227 @@
+.auth-page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--ivory, #faf8f4);
+}
+
+.auth-shell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px 48px;
+  max-width: 100%;
+}
+
+.auth-logo {
+  font: 400 1.35rem/1 var(--serif, Georgia, serif);
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  color: var(--ink, #141412);
+  margin-bottom: 28px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 32px 28px 28px;
+  background: var(--cream, #f5f2ec);
+  border: 1px solid var(--line, #e0dbd2);
+  box-shadow: 0 12px 40px rgba(20, 20, 18, 0.06);
+}
+
+.auth-title {
+  font: 400 1.65rem/1.2 var(--serif, Georgia, serif);
+  letter-spacing: 0.02em;
+  margin: 0 0 10px;
+  color: var(--ink, #141412);
+}
+
+.auth-lead {
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--muted, #6b6560);
+  margin: 0 0 24px;
+}
+
+.auth-segment {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.auth-segment button {
+  font: 500 0.78rem var(--sans, system-ui, sans-serif);
+  letter-spacing: 0.02em;
+  text-transform: none;
+  padding: 11px 10px;
+  border: 1px solid var(--line, #e0dbd2);
+  background: var(--ivory, #faf8f4);
+  cursor: pointer;
+  color: var(--muted, #6b6560);
+  border-radius: 6px;
+}
+
+.auth-segment button[aria-selected="true"] {
+  border-color: var(--bronze, #9a8565);
+  color: var(--ink, #141412);
+  background: #fff;
+  box-shadow: 0 1px 0 rgba(20, 20, 18, 0.04);
+}
+
+.auth-panel[hidden],
+.auth-panel-inner[hidden] {
+  display: none !important;
+}
+
+.auth-panel {
+  display: grid;
+  gap: 0;
+}
+
+.auth-form {
+  display: grid;
+  gap: 14px;
+  margin: 0 0 8px;
+}
+
+.auth-page .field-label {
+  display: block;
+  font: 500 0.75rem var(--sans, system-ui, sans-serif);
+  letter-spacing: 0.04em;
+  text-transform: none;
+  color: var(--ink, #141412);
+  margin: 0 0 6px;
+}
+
+.auth-page .field {
+  font: 400 1rem var(--sans, system-ui, sans-serif);
+  padding: 12px 14px;
+  border: 1px solid var(--line, #e0dbd2);
+  background: #fff;
+  color: var(--ink, #141412);
+  width: 100%;
+  border-radius: 6px;
+}
+
+.auth-page .field:focus {
+  outline: none;
+  border-color: var(--bronze, #9a8565);
+  box-shadow: 0 0 0 3px rgba(154, 133, 101, 0.15);
+}
+
+.auth-page .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 20px;
+  border: 1px solid var(--ink, #141412);
+  background: var(--ink, #141412);
+  color: var(--ivory, #faf8f4);
+  font: 500 0.8rem var(--sans, system-ui, sans-serif);
+  letter-spacing: 0.06em;
+  text-transform: none;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 6px;
+}
+
+.auth-page .btn.btn-google {
+  background: #fff;
+  color: var(--ink, #141412);
+  border-color: var(--line, #e0dbd2);
+  margin-bottom: 4px;
+}
+
+.auth-page .btn.btn-google:hover {
+  border-color: var(--bronze, #9a8565);
+}
+
+.auth-page .divider {
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--muted, #6b6560);
+  margin: 16px 0;
+}
+
+.auth-page .hint {
+  font-size: 0.82rem;
+  color: var(--muted, #6b6560);
+  margin: 0;
+  line-height: 1.45;
+}
+
+.auth-forgot {
+  margin: -4px 0 0;
+  text-align: right;
+}
+
+.auth-link {
+  font: inherit;
+  font-size: 0.82rem;
+  color: var(--bronze, #9a8565);
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.auth-link:hover {
+  color: var(--ink, #141412);
+}
+
+.auth-switch {
+  margin: 20px 0 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--line, #e0dbd2);
+  font-size: 0.88rem;
+  color: var(--muted, #6b6560);
+  text-align: center;
+}
+
+.auth-switch .auth-link {
+  margin-left: 6px;
+  font-size: 0.88rem;
+}
+
+.auth-page .msg {
+  min-height: 1.4em;
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--bronze, #9a8565);
+  margin-top: 16px;
+}
+
+.auth-page .msg--success {
+  color: var(--ink, #141412);
+}
+
+.auth-foot {
+  margin-top: 24px;
+  font-size: 0.78rem;
+  color: var(--muted, #6b6560);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  justify-content: center;
+}
+
+.auth-foot a {
+  color: var(--muted, #6b6560);
+  text-decoration: none;
+}
+
+.auth-foot a:hover {
+  color: var(--ink, #141412);
+}
+
+body.auth-clinic .auth-card {
+  margin-top: 0;
+}
