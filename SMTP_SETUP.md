@@ -81,6 +81,7 @@ You may use the same Resend account; using **two API keys** (Auth SMTP vs functi
 |---------|--------|
 | **Error sending confirmation email** | Auth SMTP **sender** must be a **verified domain** (e.g. `auth@hebelie.com`). `onboarding@resend.dev` only delivers to your Resend account email—not patient/clinic signups. Run `scripts/configure-auth-smtp.ps1` after setting `RESEND_API_KEY` in `.env`. |
 | No email at all | Resend **Logs**; Supabase **Auth logs**; sender domain verified |
+| Lead in dashboard, no owner email | Edge secret **`RESEND_FROM`** must be a **verified** sender (e.g. `Hebelie <auth@hebelie.com>`), not `onboarding@resend.dev` |
 | “Rate limit” after 2 sends | SMTP not enabled or wrong password → still on default mail |
 | Link opens signup, no dashboard | Deploy latest `auth-page.js`; redirect URLs; request a **new** link after deploy |
 | `onboarding@resend.dev` | Do **not** use as Auth SMTP sender in production |

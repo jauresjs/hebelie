@@ -65,7 +65,7 @@ export async function emailClinicAboutLead(
 
   if (!sent.ok) {
     console.error("clinic-lead-notify resend", opts.kind, sent.detail);
-    return { ok: false, reason: "send_failed" };
+    return { ok: false, reason: "send_failed", detail: sent.detail };
   }
 
   return { ok: true };

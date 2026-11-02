@@ -196,7 +196,7 @@ export async function sendResendEmail(opts: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: Deno.env.get("RESEND_FROM") ?? "Hebelie <onboarding@resend.dev>",
+      from: Deno.env.get("RESEND_FROM") ?? "Hebelie <auth@hebelie.com>",
       to: opts.to,
       subject: opts.subject,
       text: opts.text,
@@ -204,8 +204,10 @@ export async function sendResendEmail(opts: {
     }),
   });
 
+  const bodyText = await mail.text();
   if (!mail.ok) {
-    return { ok: false, detail: await mail.text() };
+    console.error("sendResendEmail failed", mail.status, bodyText);
+    return { ok: false, detail: bodyText, status: mail.status };
   }
-  return { ok: true };
+  return { ok: true, detail: bodyText };
 }
