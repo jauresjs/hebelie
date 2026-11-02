@@ -69,9 +69,25 @@
 </div>
 
 <div id="panelPro" class="panel" role="tabpanel" hidden>
-<p class="hint" id="proHintSignUp" data-i18n="auth.proHint">Embed Hebelie on your site and receive leads in your dashboard.</p>
-<p class="hint" id="proHintSignIn" hidden data-i18n="auth.proSignInHint">Sign in with the Google or work email you used when you registered your clinic.</p>
-<p class="pro-mode-switch"><button type="button" id="proModeToggle" data-i18n="auth.switchSignIn">Already have a clinic? Sign in</button></p>
+<div class="choice pro-choice" role="tablist" aria-label="Clinic account">
+<button type="button" id="proTabSignIn" role="tab" aria-selected="true" data-i18n="auth.proTabSignIn">Sign in</button>
+<button type="button" id="proTabSignUp" role="tab" aria-selected="false" data-i18n="auth.proTabSignUp">Create account</button>
+</div>
+<div id="proSignInPanel" role="tabpanel">
+<p class="hint" data-i18n="auth.proSignInHint">Sign in with Google or your work email and password.</p>
+<button class="btn" type="button" id="proGoogle" data-i18n="authDlg.google">Continue with Google</button>
+<p class="divider" data-i18n="auth.orEmail">or email</p>
+<form id="proSignInForm">
+<label class="field-label" for="proSignInEmailInput" data-i18n="auth.workEmail">Work email</label>
+<input class="field" type="email" id="proSignInEmailInput" data-i18n-placeholder="auth.workEmailPh" placeholder="you@clinic.com" required autocomplete="email">
+<label class="field-label" for="proPasswordInput" data-i18n="auth.password">Password</label>
+<input class="field" type="password" id="proPasswordInput" required autocomplete="current-password" minlength="8">
+<p class="pro-mode-switch" style="margin:4px 0 16px"><button type="button" id="proForgotPassword" data-i18n="auth.forgotPassword">Forgot password?</button></p>
+<button class="btn" type="submit" data-i18n="auth.signInBtn">Log in</button>
+</form>
+</div>
+<div id="proSignUpPanel" role="tabpanel" hidden>
+<p class="hint" data-i18n="auth.proHint">Embed Hebelie on your site and receive leads in your dashboard.</p>
 <div id="proSignupFields">
 <label class="field-label" for="clinicName" data-i18n="auth.clinicName">Clinic or practice name</label>
 <input class="field" type="text" id="clinicName" data-i18n-placeholder="auth.clinicNamePh" placeholder="e.g. Acme Medspa" required minlength="2" autocomplete="organization">
@@ -83,19 +99,15 @@
 <p class="hint" id="regionHint" data-i18n="auth.regionHint.requiredShort">Required.</p>
 </div>
 </div>
-<button class="btn" type="button" id="proGoogle" data-i18n="authDlg.google">Continue with Google</button>
+<button class="btn" type="button" id="proGoogleSignUp" data-i18n="authDlg.google">Continue with Google</button>
 <p class="divider" data-i18n="auth.orEmail">or email</p>
-<form id="proEmail">
-<label class="field-label" for="proEmailInput" data-i18n="auth.workEmail">Work email</label>
-<input class="field" type="email" id="proEmailInput" data-i18n-placeholder="auth.workEmailPh" placeholder="you@clinic.com" required autocomplete="email">
-<div id="proPasswordWrap" hidden>
-<label class="field-label" for="proPasswordInput" data-i18n="auth.password">Password</label>
-<input class="field" type="password" id="proPasswordInput" autocomplete="current-password" minlength="8">
-<p class="pro-mode-switch" style="margin:8px 0 0"><button type="button" id="proForgotPassword" data-i18n="auth.forgotPassword">Forgot password?</button></p>
-</div>
-<button class="btn" type="submit" id="proEmailSubmit" data-i18n="authDlg.submit">Submit</button>
-<p class="hint" id="proMagicLinkHint" data-i18n="auth.magicLinkHint">We’ll email you a one-time link to sign in.</p>
+<form id="proSignUpForm">
+<label class="field-label" for="proSignUpEmailInput" data-i18n="auth.workEmail">Work email</label>
+<input class="field" type="email" id="proSignUpEmailInput" data-i18n-placeholder="auth.workEmailPh" placeholder="you@clinic.com" required autocomplete="email">
+<button class="btn" type="submit" data-i18n="authDlg.submit">Submit</button>
+<p class="hint" data-i18n="auth.magicLinkHint">We’ll email you a one-time link to finish sign-up.</p>
 </form>
+</div>
 </div>
 
 <p class="msg" id="authMsg" aria-live="polite"></p>
@@ -125,6 +137,6 @@
 </ul>
 </nav>
 </div></footer>
-<script type="module" src="../lib/auth-page.js?v=27"></script>
+<script type="module" src="../lib/auth-page.js?v=28"></script>
 </body>
 </html>
