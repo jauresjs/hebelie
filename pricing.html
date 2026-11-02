@@ -106,10 +106,9 @@ footer a:hover{color:var(--ink)}
 </div></footer>
 
 <script type="module">
-import { applyDocumentI18n, initI18n } from "./lib/i18n.js?v=25";
+import { applyDocumentI18n, initI18n } from "./lib/i18n.js?v=26";
 
-const force = document.documentElement.dataset.locale;
-await initI18n(force === "fr" || force === "en" ? { force } : {});
+await initI18n();
 
 try {
   const { initLandingPricing } = await import("./lib/pricing-display.js?v=12");
