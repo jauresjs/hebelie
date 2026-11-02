@@ -187,9 +187,15 @@ summary::-webkit-details-marker{display:none}summary::after{content:"";width:24p
 details[open] summary::after{width:48px}
 details p{color:var(--muted);margin-top:16px;font-size:.95rem;max-width:52ch;line-height:1.65}
 footer{padding:56px 0 72px;border-top:1px solid var(--line);font-size:.78rem;color:var(--muted);background:var(--ivory)}
-footer .wrap{display:grid;grid-template-columns:1fr 2fr;gap:48px;align-items:start}
-footer .logo{font-size:1.25rem;color:var(--ink)}
-@media(max-width:700px){footer .wrap{grid-template-columns:1fr}}
+footer .logo{font-size:1.25rem;color:var(--ink);text-decoration:none}
+.footer-grid{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(3,minmax(0,1fr));gap:40px 28px;align-items:start}
+.footer-brand .footer-tagline{margin:12px 0 0;font-size:.78rem;line-height:1.55;color:var(--muted);max-width:36ch}
+.footer-nav h3{font:400 .68rem/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--bronze);margin:0 0 14px}
+.footer-nav ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.footer-nav a{text-decoration:none;color:var(--muted);font-size:.82rem;line-height:1.4}
+.footer-nav a:hover{color:var(--ink)}
+@media(max-width:820px){.footer-grid{grid-template-columns:1fr 1fr}.footer-brand{grid-column:1/-1}}
+@media(max-width:480px){.footer-grid{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 .auth-dlg{border:1px solid var(--line);background:var(--cream);padding:clamp(28px,5vw,40px);max-width:22rem;width:calc(100% - 32px);color:var(--ink)}
 .auth-dlg::backdrop{background:rgba(20,20,18,.35)}
@@ -324,10 +330,35 @@ footer .logo{font-size:1.25rem;color:var(--ink)}
 <details><summary data-i18n="faq.q3">Is the picture a guaranteed result?</summary><p data-i18n="faq.a3">No. The preview is directional AI—not a result your clinic guarantees. It helps consults start further along. Healing, product, and the provider’s technique decide the real outcome. Say that on your site; we say it in the product.</p></details>
 </div></section>
 
-<footer><div class="wrap">
+<footer><div class="wrap footer-grid">
+<div class="footer-brand">
 <a class="logo" href="#top">Hebelie</a>
-<p><span data-i18n="footer.tagline">AI-generated simulation for illustration only. Outcomes vary. Consult a licensed professional before any treatment. Hebelie does not provide medical advice.</span> <a href="#clinics" data-i18n="footer.partnerships">Clinic partnerships</a></p>
-<div class="legal-links"><a href="#pricing" data-i18n="footer.pricing">Pricing</a><a href="./privacy-policy.html" data-locale-href="/privacy-policy.html" data-i18n="footer.privacy">Privacy policy</a><a href="./terms.html" data-locale-href="/terms.html" data-i18n="footer.terms">Terms</a><a href="./data-deletion.html" data-locale-href="/data-deletion.html" data-i18n="footer.deletion">Data deletion</a></div>
+<p class="footer-tagline" data-i18n="footer.tagline">AI-generated simulation for illustration only. Outcomes vary. Consult a licensed professional before any treatment. Hebelie does not provide medical advice.</p>
+</div>
+<nav class="footer-nav" aria-labelledby="footer-about-heading">
+<h3 id="footer-about-heading" data-i18n="footer.aboutHeading">About</h3>
+<ul>
+<li><a href="#how" data-i18n="nav.atelier">How it works</a></li>
+<li><a href="#studio" data-i18n="hero.cta">Try the live demo</a></li>
+<li><a href="#clinics" data-i18n="footer.partnerships">Clinic partnerships</a></li>
+<li><a href="#pricing" data-i18n="footer.pricing">Pricing</a></li>
+<li><a href="./book-call.html" data-locale-href="/book-call.html" data-i18n="clinics.bookCall">Book a call</a></li>
+</ul>
+</nav>
+<nav class="footer-nav" aria-labelledby="footer-legal-heading">
+<h3 id="footer-legal-heading" data-i18n="footer.legalHeading">Legal</h3>
+<ul>
+<li><a href="./privacy-policy.html" data-locale-href="/privacy-policy.html" data-i18n="footer.privacy">Privacy policy</a></li>
+<li><a href="./terms.html" data-locale-href="/terms.html" data-i18n="footer.terms">Terms</a></li>
+<li><a href="./data-deletion.html" data-locale-href="/data-deletion.html" data-i18n="footer.deletion">Data deletion</a></li>
+</ul>
+</nav>
+<nav class="footer-nav" aria-labelledby="footer-lang-heading">
+<h3 id="footer-lang-heading" data-i18n="footer.languageHeading">Language</h3>
+<ul>
+<li><a href="../" data-locale-href="/" data-i18n="lang.switchEn">English</a></li>
+</ul>
+</nav>
 </div></footer>
 
 <dialog class="auth-dlg" id="authDlg" aria-labelledby="authTitle">
@@ -346,7 +377,7 @@ footer .logo{font-size:1.25rem;color:var(--ink)}
 <p class="auth-legal"><span data-i18n="authDlg.legalBefore">By continuing you agree to our</span> <a href="./terms.html" data-locale-href="/terms.html" target="_blank" rel="noopener" data-i18n="footer.terms">Terms</a> <span data-i18n="authDlg.legalAnd">and</span> <a href="./privacy-policy.html" data-locale-href="/privacy-policy.html" target="_blank" rel="noopener" data-i18n="footer.privacy">Privacy policy</a>.</p>
 </dialog>
 
-<script type="module" src="../lib/home-pricing.js?v=11"></script>
-<script type="module" src="../lib/app.js?v=31"></script>
+<script type="module" src="../lib/home-pricing.js?v=12"></script>
+<script type="module" src="../lib/app.js?v=32"></script>
 </body>
 </html>

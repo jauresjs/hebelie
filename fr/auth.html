@@ -31,6 +31,14 @@
 .msg--success{color:var(--ink)}
 .msg--success strong{display:block;margin-bottom:6px;font-weight:500}
 .divider{text-align:center;font-size:.68rem;color:var(--muted);margin:12px 0}
+.auth-footer{margin-top:48px;padding:40px 0 56px;border-top:1px solid var(--line);font-size:.78rem;color:var(--muted)}
+.auth-footer a{text-decoration:none;color:var(--muted)}
+.auth-footer a:hover{color:var(--ink)}
+.auth-footer .footer-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 20px;text-align:left}
+.auth-footer .footer-nav h3{font:400 .68rem/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--bronze);margin:0 0 12px}
+.auth-footer .footer-nav ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.auth-footer .footer-nav a{font-size:.82rem}
+@media(max-width:640px){.auth-footer .footer-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -76,8 +84,31 @@
 </div>
 
 <p class="msg" id="authMsg" aria-live="polite"></p>
-<p class="hint"><a href="./privacy-policy.html" data-locale-href="/privacy-policy.html" data-i18n="footer.privacy">Privacy policy</a> · <a href="./terms.html" data-locale-href="/terms.html" data-i18n="footer.terms">Terms</a> · <a href="../auth.html" data-i18n="lang.switchEn">English</a></p>
 </main>
+<footer class="auth-footer"><div class="wrap footer-grid">
+<nav class="footer-nav" aria-labelledby="footer-about-heading">
+<h3 id="footer-about-heading" data-i18n="footer.aboutHeading">About</h3>
+<ul>
+<li><a href="../#how" data-locale-href="/#how" data-i18n="nav.atelier">How it works</a></li>
+<li><a href="../#pricing" data-locale-href="/#pricing" data-i18n="footer.pricing">Pricing</a></li>
+<li><a href="../" data-locale-href="/fr/" data-i18n="footer.aboutHome">Home</a></li>
+</ul>
+</nav>
+<nav class="footer-nav" aria-labelledby="footer-legal-heading">
+<h3 id="footer-legal-heading" data-i18n="footer.legalHeading">Legal</h3>
+<ul>
+<li><a href="./privacy-policy.html" data-locale-href="/privacy-policy.html" data-i18n="footer.privacy">Privacy policy</a></li>
+<li><a href="./terms.html" data-locale-href="/terms.html" data-i18n="footer.terms">Terms</a></li>
+<li><a href="./data-deletion.html" data-locale-href="/data-deletion.html" data-i18n="footer.deletion">Data deletion</a></li>
+</ul>
+</nav>
+<nav class="footer-nav" aria-labelledby="footer-lang-heading">
+<h3 id="footer-lang-heading" data-i18n="footer.languageHeading">Language</h3>
+<ul>
+<li><a href="../auth.html" data-locale-href="/auth.html" data-i18n="lang.switchEn">English</a></li>
+</ul>
+</nav>
+</div></footer>
 <script type="module" src="../lib/auth-page.js?v=26"></script>
 </body>
 </html>
