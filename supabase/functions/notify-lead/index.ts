@@ -1,5 +1,5 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
-import { buildLeadEmailContent, sendResendEmail } from "../_shared/hebelie-email.ts";
+import { emailClinicAboutLead } from "../_shared/clinic-lead-notify.ts";
 
 const cors = {
   "Access-Control-Allow-Origin": "*",
@@ -43,7 +43,7 @@ Deno.serve(async (req) => {
 
   const { data: lead, error: leadErr } = await admin
     .from("atelier_leads")
-    .select("id, name, email, phone, treatments, user_id, clinic_id, preview_id, before_url, after_url")
+    .select("id, user_id, clinic_id")
     .eq("id", leadId)
     .maybeSingle();
 
@@ -53,55 +53,10 @@ Deno.serve(async (req) => {
 
   if (!lead.clinic_id) return json({ sent: false, reason: "no_clinic" });
 
-  const { data: clinic } = await admin
-    .from("clinics")
-    .select("name, lead_email, notify_lead_email")
-    .eq("id", lead.clinic_id)
-    .maybeSingle();
-
-  if (!clinic?.lead_email) return json({ sent: false, reason: "no_email" });
-  if (clinic.notify_lead_email === false) return json({ sent: false, reason: "opted_out" });
-
-  if (!Deno.env.get("RESEND_API_KEY")) {
-    console.log("notify-lead: no RESEND_API_KEY", lead.id, clinic.lead_email);
-    return json({ sent: false, reason: "mail_not_configured" });
-  }
-
-  const treatments = Array.isArray(lead.treatments) ? lead.treatments.join(", ") : "";
-  let beforeLink: string | null = null;
-  let afterLink: string | null = null;
-  const pathBefore = lead.before_url as string | null;
-  const pathAfter = lead.after_url as string | null;
-  if (pathBefore && !/^https?:\/\//i.test(pathBefore)) {
-    const { data } = await admin.storage.from("clinic-leads").createSignedUrl(pathBefore, 604800);
-    beforeLink = data?.signedUrl ?? null;
-  } else beforeLink = pathBefore;
-  if (pathAfter && !/^https?:\/\//i.test(pathAfter)) {
-    const { data } = await admin.storage.from("clinic-leads").createSignedUrl(pathAfter, 604800);
-    afterLink = data?.signedUrl ?? null;
-  } else afterLink = pathAfter;
-
-  const { subject, text, html } = buildLeadEmailContent({
-    clinicName: clinic.name,
-    kind: "consultation",
-    leadName: lead.name,
-    leadEmail: lead.email,
-    phone: lead.phone,
-    treatments,
-    beforeUrl: beforeLink,
-    afterUrl: afterLink,
-  });
-
-  const sent = await sendResendEmail({
-    to: [clinic.lead_email],
-    subject,
-    text,
-    html,
-  });
-
-  if (!sent.ok) {
-    console.error("notify-lead resend", sent.detail);
-    return json({ sent: false, reason: "send_failed" }, 502);
+  const mailed = await emailClinicAboutLead(admin, { leadId, kind: "consultation" });
+  if (!mailed.ok) {
+    const status = mailed.reason === "send_failed" ? 502 : 200;
+    return json({ sent: false, reason: mailed.reason ?? "failed" }, status);
   }
 
   return json({ sent: true });

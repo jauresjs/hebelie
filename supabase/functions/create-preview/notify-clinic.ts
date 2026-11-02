@@ -1,6 +1,5 @@
 import { type SupabaseClient, type User } from "npm:@supabase/supabase-js@2";
-import { buildLeadEmailContent, sendResendEmail } from "../_shared/hebelie-email.ts";
-import { signedImageUrl } from "./storage.ts";
+import { emailClinicAboutLead } from "../_shared/clinic-lead-notify.ts";
 
 function leadName(user: User) {
   const meta = user.user_metadata ?? {};
@@ -58,40 +57,6 @@ export async function createLeadAndNotifyClinic(
     return { leadId: null, emailSent: false };
   }
 
-  if (clinic.notify_lead_email === false) {
-    return { leadId: lead.id, emailSent: false };
-  }
-
-  if (!Deno.env.get("RESEND_API_KEY")) {
-    console.log("create-preview: no RESEND_API_KEY for lead", lead.id);
-    return { leadId: lead.id, emailSent: false };
-  }
-
-  const treatmentLine = opts.treatments?.length ? opts.treatments.join(", ") : "";
-  const beforeLink = opts.beforePath ? await signedImageUrl(admin, opts.beforePath) : null;
-  const afterLink = opts.afterPath ? await signedImageUrl(admin, opts.afterPath) : null;
-
-  const { subject, text, html } = buildLeadEmailContent({
-    clinicName: clinic.name,
-    kind: "preview",
-    leadName: name,
-    leadEmail: email,
-    treatments: treatmentLine,
-    beforeUrl: beforeLink,
-    afterUrl: afterLink,
-  });
-
-  const sent = await sendResendEmail({
-    to: [clinic.lead_email],
-    subject,
-    text,
-    html,
-  });
-
-  if (!sent.ok) {
-    console.error("create-preview notify resend", sent.detail);
-    return { leadId: lead.id, emailSent: false };
-  }
-
-  return { leadId: lead.id, emailSent: true };
+  const mailed = await emailClinicAboutLead(admin, { leadId: lead.id, kind: "preview" });
+  return { leadId: lead.id, emailSent: mailed.ok };
 }

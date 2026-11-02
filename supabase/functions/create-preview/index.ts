@@ -178,8 +178,10 @@ Deno.serve(async (req) => {
     }
 
     let leadCreated = false;
+    let leadId: string | null = null;
+    let ownerEmailSent = false;
     if (clinic_id && preview?.id) {
-      const { leadId } = await createLeadAndNotifyClinic(admin, {
+      const leadResult = await createLeadAndNotifyClinic(admin, {
         user: userData.user,
         clinicId: clinic_id,
         previewId: preview.id,
@@ -187,6 +189,8 @@ Deno.serve(async (req) => {
         beforePath,
         afterPath,
       });
+      leadId = leadResult.leadId;
+      ownerEmailSent = leadResult.emailSent;
       leadCreated = Boolean(leadId);
     }
 
@@ -195,6 +199,8 @@ Deno.serve(async (req) => {
       previewId: preview?.id ?? null,
       bookingUrl: booking_url,
       leadCreated,
+      leadId,
+      ownerEmailSent,
     });
   } catch (e) {
     if (e && typeof e === "object" && "kind" in e) {
