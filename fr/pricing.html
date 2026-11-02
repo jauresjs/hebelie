@@ -81,7 +81,7 @@ const force = document.documentElement.dataset.locale;
 await initI18n(force === "fr" || force === "en" ? { force } : {});
 
 try {
-  const { initLandingPricing } = await import("../lib/pricing-display.js?v=10");
+  const { initLandingPricing } = await import("../lib/pricing-display.js?v=11");
   const grid = document.getElementById("planGrid");
   const foot = document.querySelector(".note");
   await initLandingPricing(grid, foot, { cardClass: "plan", badgeClass: "badge" });
