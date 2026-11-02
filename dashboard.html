@@ -16,7 +16,9 @@
 .tabs button[aria-selected="true"]{border-color:var(--bronze);color:var(--ink);background:var(--cream)}
 .usage-bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;max-width:480px;margin:12px 0}
 .usage-bar span{display:block;height:100%;background:var(--bronze);border-radius:4px}
-.plan-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;max-width:720px;margin-top:20px}
+.plan-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;max-width:960px;margin-top:20px;align-items:stretch}
+@media(min-width:900px){.plan-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:520px){.plan-grid{grid-template-columns:1fr}}
 .plan-card{border:1px solid var(--line);padding:20px;background:var(--ivory)}
 .plan-card h4{margin:0 0 8px;font:400 1rem Georgia,serif}
 .plan-card .price{font:300 1.75rem Georgia,serif;margin:0 0 12px}
