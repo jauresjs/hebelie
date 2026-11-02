@@ -155,6 +155,7 @@ nav .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px
 .pricing-band{background:var(--ivory);border-bottom:1px solid var(--line)}
 .pricing-band .wrap{text-align:center}
 .pricing-band .lead{color:var(--muted);max-width:46ch;margin:16px auto 0;font-size:.95rem}
+.pricing-book-call{margin:28px 0 4px;display:flex;justify-content:center}
 .home-plans{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin:clamp(40px,6vw,56px) auto 0;max-width:1080px;text-align:left}
 @media(max-width:900px){.home-plans{grid-template-columns:1fr;max-width:400px}}
 .plan-card{border:1px solid var(--line);background:var(--cream);padding:28px 24px;display:flex;flex-direction:column;gap:14px;position:relative}
@@ -227,7 +228,7 @@ footer .logo{font-size:1.25rem;color:var(--ink)}
 <p class="lead" data-i18n="hero.lead">Hebelie lets potential patients preview aesthetic treatments on their own face. To see their personalized results, they sign up, turning anonymous visitors into leads with contact details and treatment interests your clinic can follow up with.</p>
 <div class="hero-actions">
 <a class="btn" href="#studio" data-i18n="hero.cta">Try the live demo</a>
-<a class="btn ghost" href="./book-call.html" data-locale-href="/book-call.html" data-i18n="clinics.bookCall">Book a call</a>
+<a class="btn ghost" href="./auth.html?as=professional" data-locale-href="/auth.html?as=professional" data-i18n="hero.getStarted">Get started</a>
 </div>
 </div>
 </div>
@@ -247,8 +248,8 @@ footer .logo{font-size:1.25rem;color:var(--ink)}
 <section id="pricing" class="pricing-band"><div class="wrap">
 <span class="kicker" data-i18n="pricing.kicker">Plans</span>
 <h2 data-i18n="pricing.title">Pay for previews. Collect the consults.</h2>
-<p class="lead" id="homePricingLead">Canadian dollars. Each completed preview on your website embed counts toward your plan. You control daily limits per visitor in your dashboard.</p>
 <div class="home-plans" id="homePlanGrid"></div>
+<p class="pricing-book-call"><a class="btn ghost" href="./book-call.html" data-locale-href="/book-call.html" data-i18n="clinics.bookCall">Book a call</a></p>
 <p class="pricing-foot"><span data-i18n="pricing.footBefore">Need more than 300 previews per month?</span> <a href="mailto:contact@hebelie.com" data-i18n="pricing.contact">Contact us</a>. <span data-i18n="pricing.footMid">See also</span> <a href="./pricing.html" data-locale-href="/pricing.html" data-i18n="pricing.fullPage">full pricing page</a>. <span data-i18n="pricing.footTax">Prices exclude applicable taxes.</span></p>
 </div></section>
 
