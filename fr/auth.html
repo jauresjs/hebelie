@@ -88,7 +88,13 @@
 <form id="proEmail">
 <label class="field-label" for="proEmailInput" data-i18n="auth.workEmail">Work email</label>
 <input class="field" type="email" id="proEmailInput" data-i18n-placeholder="auth.workEmailPh" placeholder="you@clinic.com" required autocomplete="email">
-<button class="btn" type="submit" data-i18n="authDlg.submit">Submit</button>
+<div id="proPasswordWrap" hidden>
+<label class="field-label" for="proPasswordInput" data-i18n="auth.password">Password</label>
+<input class="field" type="password" id="proPasswordInput" autocomplete="current-password" minlength="8">
+<p class="pro-mode-switch" style="margin:8px 0 0"><button type="button" id="proForgotPassword" data-i18n="auth.forgotPassword">Forgot password?</button></p>
+</div>
+<button class="btn" type="submit" id="proEmailSubmit" data-i18n="authDlg.submit">Submit</button>
+<p class="hint" id="proMagicLinkHint" data-i18n="auth.magicLinkHint">We’ll email you a one-time link to sign in.</p>
 </form>
 </div>
 
@@ -119,6 +125,6 @@
 </ul>
 </nav>
 </div></footer>
-<script type="module" src="../lib/auth-page.js?v=26"></script>
+<script type="module" src="../lib/auth-page.js?v=27"></script>
 </body>
 </html>
