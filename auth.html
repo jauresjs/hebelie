@@ -78,8 +78,12 @@
 <form id="proSignUpForm" class="auth-form">
 <label class="field-label" for="proSignUpEmailInput" data-i18n="auth.workEmail">Work email</label>
 <input class="field" type="email" id="proSignUpEmailInput" data-i18n-placeholder="auth.workEmailPh" placeholder="you@clinic.com" required autocomplete="email">
+<label class="field-label" for="proSignUpPasswordInput" data-i18n="auth.password">Password</label>
+<input class="field" type="password" id="proSignUpPasswordInput" required autocomplete="new-password" minlength="8">
+<label class="field-label" for="proSignUpPasswordConfirmInput" data-i18n="auth.passwordConfirm">Confirm password</label>
+<input class="field" type="password" id="proSignUpPasswordConfirmInput" required autocomplete="new-password" minlength="8">
 <button class="btn" type="submit" data-i18n="auth.signUpBtn">Create account</button>
-<p class="hint" data-i18n="auth.magicLinkHint">We’ll email you a one-time link to finish sign-up.</p>
+<p class="hint" data-i18n="auth.signUpConfirmHint">If email confirmation is enabled, check your inbox—then you can log in.</p>
 </form>
 <p class="auth-switch" id="proSwitchSignIn">
 <span data-i18n="auth.clinicHaveAccount">Already have an account?</span>
@@ -99,6 +103,6 @@
 <a href="./fr/auth.html" data-locale-href="/fr/auth.html" data-i18n="lang.switchFr">Français</a>
 </p>
 </main>
-<script type="module" src="./lib/auth-page.js?v=30"></script>
+<script type="module" src="./lib/auth-page.js?v=31"></script>
 </body>
 </html>
