@@ -75,7 +75,7 @@ Deno.serve(async (req) => {
   if (!slot) return json({ error: "invalid_slot" }, 400);
 
   const when = formatSlot(slot, locale);
-  const internalTo = Deno.env.get("ONBOARDING_CALL_EMAIL") ?? "onboarding@hebelie.com";
+  const internalTo = Deno.env.get("ONBOARDING_CALL_EMAIL") ?? "contact@hebelie.com";
 
   const internalHtml = renderHebelieEmail({
     preheader: `${clinic} · ${when}`,

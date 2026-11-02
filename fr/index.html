@@ -37,7 +37,7 @@ section{padding:clamp(88px,14vh,140px) 0}
 .muted{color:var(--muted)}
 .kicker{display:block;font:400 .68rem/1 var(--sans);letter-spacing:.28em;text-transform:uppercase;color:var(--bronze);margin-bottom:28px}
 nav{position:sticky;top:0;z-index:50;background:rgba(250,248,244,.92);color:var(--ink);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
-nav .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;min-height:64px;height:auto;padding-top:12px;padding-bottom:12px}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;min-height:64px;height:auto;padding-top:12px;padding-bottom:12px}
 .logo{justify-self:start;display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font:400 1.25rem/1 var(--serif);letter-spacing:.04em}
 .nav-mid{justify-self:center;display:flex;gap:clamp(16px,4vw,36px);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase}
 .nav-mid a{text-decoration:none;color:var(--muted)}.nav-mid a:hover{color:var(--ink)}
@@ -210,11 +210,7 @@ footer .logo{font-size:1.25rem;color:var(--ink)}
 <body>
 <nav aria-label="Primary"><div class="wrap">
 <a class="logo" href="#top">Hebelie</a>
-<div class="nav-mid"><a href="#how" data-i18n="nav.atelier">How it works</a><a href="#pricing" data-i18n="nav.pricing">Pricing</a><a href="#privacy" data-i18n="nav.privacy">Trust</a><a href="#faq" data-i18n="nav.journal">FAQ</a><a href="./auth.html?as=professional" data-locale-href="/auth.html?as=professional" data-i18n="nav.logIn">Clinic login</a><a class="nav-link" href="../" data-i18n="lang.switchEn">English</a></div>
-<div class="nav-cta-wrap">
-<a class="nav-pricing" href="#pricing" data-i18n="nav.pricing">Pricing</a>
 <a class="nav-cta" href="./auth.html?as=professional" data-locale-href="/auth.html?as=professional" data-i18n="nav.enterStudio">Start for your clinic</a>
-</div>
 </div></nav>
 
 <header class="hero" id="top">
@@ -254,7 +250,7 @@ footer .logo{font-size:1.25rem;color:var(--ink)}
 <h2 data-i18n="pricing.title">Pay for previews. Collect the consults.</h2>
 <p class="lead" id="homePricingLead">Canadian dollars. Each completed preview on your website embed counts toward your plan. You control daily limits per visitor in your dashboard.</p>
 <div class="home-plans" id="homePlanGrid"></div>
-<p class="pricing-foot"><span data-i18n="pricing.footBefore">Need more than 300 previews per month?</span> <a href="mailto:onboarding@hebelie.com" data-i18n="pricing.contact">Contact us</a>. <span data-i18n="pricing.footMid">See also</span> <a href="./pricing.html" data-locale-href="/pricing.html" data-i18n="pricing.fullPage">full pricing page</a>. <span data-i18n="pricing.footTax">Prices exclude applicable taxes.</span></p>
+<p class="pricing-foot"><span data-i18n="pricing.footBefore">Need more than 300 previews per month?</span> <a href="mailto:contact@hebelie.com" data-i18n="pricing.contact">Contact us</a>. <span data-i18n="pricing.footMid">See also</span> <a href="./pricing.html" data-locale-href="/pricing.html" data-i18n="pricing.fullPage">full pricing page</a>. <span data-i18n="pricing.footTax">Prices exclude applicable taxes.</span></p>
 </div></section>
 
 <section id="clinics" class="clinics-band"><div class="wrap">
@@ -272,7 +268,7 @@ footer .logo{font-size:1.25rem;color:var(--ink)}
 <div class="atrium-head">
 <span class="kicker" data-i18n="studio.kicker">The visitor experience</span>
 <h2 data-i18n="studio.title">This is what they do instead of bouncing.</h2>
-<p data-i18n="studio.lead">Try it the way a patient would on your website. On a live clinic embed, the consult request is theirs—and the lead is yours.</p>
+<p data-i18n="studio.lead">Testez le parcours comme une patiente sur le site de votre clinique. Une fois l’outil en place, c’est elle qui demande la consultation — et c’est vous qui récupérez le prospect.</p>
 </div>
 <div class="atrium-panel">
 <div class="grid">
@@ -316,7 +312,7 @@ footer .logo{font-size:1.25rem;color:var(--ink)}
 <div><span class="kicker" data-i18n="follow.kicker">This week</span><h2 data-i18n="follow.title">Put it on the site that’s already getting the traffic.</h2><p class="muted" style="margin-top:16px" data-i18n="follow.lead">Create the clinic, pick a plan, drop the embed. Questions about volume or multi-location? Email onboarding—we answer clinics, not a public waitlist.</p></div>
 <div>
 <a class="btn wide" href="./auth.html?as=professional" data-locale-href="/auth.html?as=professional" data-i18n="follow.submit">Start clinic signup</a>
-<p class="hint" style="margin-top:16px"><a href="mailto:onboarding@hebelie.com">onboarding@hebelie.com</a></p>
+<p class="hint" style="margin-top:16px"><a href="mailto:contact@hebelie.com">contact@hebelie.com</a></p>
 </div>
 </div></section>
 
