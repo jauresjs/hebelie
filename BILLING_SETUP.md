@@ -81,11 +81,21 @@ Supabase uses **Stripe live** (`sk_live_…`, live price IDs, live webhook `we_1
 
 Live lookup keys (CAD): `hebelie_starter_monthly_cad`, `hebelie_growth_monthly_cad`, `hebelie_pro_monthly_cad`.
 
-USD (non-Canada clinics, same dollar amounts): `hebelie_starter_monthly_usd`, `hebelie_growth_monthly_usd`, `hebelie_pro_monthly_usd`.
+USD (non-Canada, non-Europe clinics, same numeric amounts): `hebelie_starter_monthly_usd`, `hebelie_growth_monthly_usd`, `hebelie_pro_monthly_usd`.
 
-Optional secrets: `STRIPE_PRICE_STARTER_USD`, `STRIPE_PRICE_GROWTH_USD`, `STRIPE_PRICE_PRO_USD`.
+EUR (EU/EEA + CH, same numeric amounts — €99 / €180 / €250):
 
-Clinic `billing_country` is set at professional signup (IP-prefilled); **CA → CAD**, else **USD**.
+```bash
+# Starter €99 → unit_amount=9900, lookup_key=hebelie_starter_monthly_eur
+# Growth €180 → unit_amount=18000, lookup_key=hebelie_growth_monthly_eur
+# Pro €250 → unit_amount=25000, lookup_key=hebelie_pro_monthly_eur
+stripe prices create -d product=prod_xxx -d currency=eur -d unit_amount=9900 \
+  -d "recurring[interval]=month" -d lookup_key=hebelie_starter_monthly_eur
+```
+
+Optional secrets: `STRIPE_PRICE_STARTER_USD`, `STRIPE_PRICE_GROWTH_USD`, `STRIPE_PRICE_PRO_USD`, and `STRIPE_PRICE_STARTER_EUR`, `STRIPE_PRICE_GROWTH_EUR`, `STRIPE_PRICE_PRO_EUR`.
+
+Clinic `billing_country` is set at professional signup (IP-prefilled); **CA → CAD**, **EU/EEA/CH → EUR** (see `EUR_BILLING_COUNTRIES` in `lib/billing-locale.js`), else **USD**.
 
 After switching from test, run migration `20261027200000_reset_stripe_for_live.sql` (or equivalent SQL) so clinics re-subscribe with live customers.
 
