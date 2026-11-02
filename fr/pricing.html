@@ -113,7 +113,7 @@ import { applyDocumentI18n, initI18n } from "../lib/i18n.js?v=26";
 await initI18n();
 
 try {
-  const { initLandingPricing } = await import("../lib/pricing-display.js?v=12");
+  const { initLandingPricing } = await import("../lib/pricing-display.js?v=32");
   const grid = document.getElementById("planGrid");
   const foot = document.querySelector(".note");
   await initLandingPricing(grid, foot, { cardClass: "plan", badgeClass: "badge" });
