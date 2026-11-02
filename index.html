@@ -90,6 +90,12 @@ nav .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px
 .manifesto{text-align:center;padding:clamp(100px,16vh,160px) 0;background:var(--cream)}
 .manifesto blockquote{margin:0;font:300 clamp(1.75rem,3.5vw,2.75rem)/1.35 var(--serif);letter-spacing:-.02em;max-width:22em;margin-inline:auto}
 .manifesto cite{display:block;margin-top:32px;font:400 .68rem var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--bronze);font-style:normal}
+.about-band{padding:clamp(88px,14vh,120px) 0;border-top:1px solid var(--line);background:var(--ivory)}
+.about-band .lead{color:var(--muted);font-size:1.02rem;line-height:1.65;margin:20px 0 0;max-width:42em}
+.about-office{margin-top:36px;padding-top:28px;border-top:1px solid var(--line);max-width:22em}
+.about-office h3{font:400 .68rem var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--bronze);margin:0 0 12px}
+.about-address{font-style:normal;font-size:.88rem;line-height:1.65;color:var(--ink)}
+.about-address a{color:var(--ink)}
 .ritual .wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(32px,5vw,64px)}
 .ritual-item{padding-top:24px;border-top:1px solid var(--line)}
 .ritual-item .idx{font:300 3.5rem/1 var(--serif);color:var(--bronze-light);margin-bottom:20px}
@@ -329,6 +335,16 @@ footer .logo{font-size:1.25rem;color:var(--ink);text-decoration:none}
 <details><summary data-i18n="faq.q3">Is the picture a guaranteed result?</summary><p data-i18n="faq.a3">No. The preview is directional AI—not a result your clinic guarantees. It helps consults start further along. Healing, product, and the provider’s technique decide the real outcome. Say that on your site; we say it in the product.</p></details>
 </div></section>
 
+<section id="about" class="about-band"><div class="wrap-tight">
+<span class="kicker" data-i18n="about.kicker">Hebelie</span>
+<h2 data-i18n="about.title">Who we are</h2>
+<p class="lead" data-i18n="about.mission">We build white-label AI preview tools for medspas and aesthetic clinics. Most visitors leave without sharing their contact details—we give them something worth doing first: a private before/after on their own photo. When curiosity becomes a consult request, the lead lands in your dashboard with treatment interests already captured. We are infrastructure for clinic owners, not a patient marketplace.</p>
+<div class="about-office">
+<h3 data-i18n="about.officeHeading">Montréal</h3>
+<address class="about-address" data-i18n-html="about.addressHtml">Air Canada Tower<br>525 Avenue Viger Ouest, Suite 9600<br>Montréal, QC H2Z 1G6<br>Canada · <a href="mailto:contact@hebelie.com">contact@hebelie.com</a></address>
+</div>
+</div></section>
+
 <footer><div class="wrap footer-grid">
 <div class="footer-brand">
 <a class="logo" href="#top">Hebelie</a>
@@ -337,6 +353,7 @@ footer .logo{font-size:1.25rem;color:var(--ink);text-decoration:none}
 <nav class="footer-nav" aria-labelledby="footer-about-heading">
 <h3 id="footer-about-heading" data-i18n="footer.aboutHeading">About</h3>
 <ul>
+<li><a href="#about" data-i18n="about.title">Who we are</a></li>
 <li><a href="#how" data-i18n="nav.atelier">How it works</a></li>
 <li><a href="#studio" data-i18n="hero.cta">Try the live demo</a></li>
 <li><a href="#clinics" data-i18n="footer.partnerships">Clinic partnerships</a></li>
@@ -377,6 +394,6 @@ footer .logo{font-size:1.25rem;color:var(--ink);text-decoration:none}
 </dialog>
 
 <script type="module" src="./lib/home-pricing.js?v=12"></script>
-<script type="module" src="./lib/app.js?v=32"></script>
+<script type="module" src="./lib/app.js?v=33"></script>
 </body>
 </html>
