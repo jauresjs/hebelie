@@ -1,4 +1,5 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
+import { FREE_TRIAL_PREVIEW_QUOTA } from "../_shared/billing.ts";
 
 const cors = {
   "Access-Control-Allow-Origin": "*",
@@ -102,6 +103,10 @@ Deno.serve(async (req) => {
       lead_email: email,
       billing_country,
       billing_region,
+      subscription_status: "trial",
+      billing_plan: "free_trial",
+      preview_quota_monthly: FREE_TRIAL_PREVIEW_QUOTA,
+      previews_used_period: 0,
     })
     .select("id, slug, name")
     .single();

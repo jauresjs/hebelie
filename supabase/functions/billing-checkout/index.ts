@@ -36,9 +36,16 @@ async function ensureStripeCustomer(
     lead_email: string | null;
     stripe_customer_id: string | null;
     billing_exempt?: boolean;
+    subscription_status?: string | null;
+    billing_plan?: string | null;
+    stripe_subscription_id?: string | null;
   },
   userEmail: string | undefined,
 ): Promise<string> {
+  const onHebelieFreeTrial =
+    clinic.billing_plan === "free_trial" &&
+    clinic.subscription_status === "trial" &&
+    !clinic.stripe_subscription_id;
   let customerId = clinic.stripe_customer_id;
 
   if (customerId) {
@@ -59,14 +66,18 @@ async function ensureStripeCustomer(
 
   const billingPatch: Record<string, unknown> = {
     stripe_customer_id: customer.id,
-    stripe_subscription_id: null,
-    subscription_status: null,
-    billing_plan: null,
-    previews_used_period: 0,
-    billing_period_start: null,
-    billing_period_end: null,
   };
-  if (!clinic.billing_exempt) billingPatch.preview_quota_monthly = 0;
+  if (!onHebelieFreeTrial) {
+    Object.assign(billingPatch, {
+      stripe_subscription_id: null,
+      subscription_status: null,
+      billing_plan: null,
+      previews_used_period: 0,
+      billing_period_start: null,
+      billing_period_end: null,
+    });
+    if (!clinic.billing_exempt) billingPatch.preview_quota_monthly = 0;
+  }
 
   await admin.from("clinics").update(billingPatch).eq("id", clinic.id);
 
@@ -119,7 +130,9 @@ Deno.serve(async (req) => {
 
   const { data: clinic, error: clinicErr } = await admin
     .from("clinics")
-    .select("id, name, lead_email, stripe_customer_id, billing_exempt, billing_country")
+    .select(
+      "id, name, lead_email, stripe_customer_id, billing_exempt, billing_country, subscription_status, billing_plan, stripe_subscription_id",
+    )
     .eq("id", clinic_id)
     .eq("active", true)
     .maybeSingle();

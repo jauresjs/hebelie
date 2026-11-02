@@ -1,6 +1,9 @@
 export type BillingPlan = "starter" | "growth" | "pro";
 export type BillingCurrency = "cad" | "usd" | "eur";
 
+/** One-time embed previews for new clinics (no card). */
+export const FREE_TRIAL_PREVIEW_QUOTA = 10;
+
 export const PLAN_QUOTA: Record<BillingPlan, number> = {
   starter: 100,
   growth: 200,

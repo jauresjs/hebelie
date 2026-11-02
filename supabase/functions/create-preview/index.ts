@@ -118,7 +118,8 @@ Deno.serve(async (req) => {
           .maybeSingle();
         if (billingRow && !billingRow.billing_exempt) {
           const active = billingRow.subscription_status === "active" ||
-            billingRow.subscription_status === "trialing";
+            billingRow.subscription_status === "trialing" ||
+            billingRow.subscription_status === "trial";
           if (!active) return json({ error: "subscription_required" }, 402);
           if (
             billingRow.preview_quota_monthly > 0 &&
