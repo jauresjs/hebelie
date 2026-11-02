@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr" data-locale="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Démo — Hebelie sur le site de votre clinique</title>
+<meta name="description" content="Parcours visiteur : bouton aperçu ou popup à 3 secondes, traitements, connexion et capture de lead — pour les cliniques.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../lib/demo-tour.css">
+</head>
+<body class="demo-tour">
+<a class="tour-back-link" href="./">← Hebelie</a>
+
+<div class="demo-site" id="demoSite">
+<header class="demo-site-header">
+<span class="demo-site-logo">Demo Medspa</span>
+<nav class="demo-site-nav" aria-hidden="true">
+<span>Services</span><span>À propos</span><span>Contact</span>
+</nav>
+</header>
+<main class="demo-site-hero">
+<h1>Esthétique raffinée, résultats naturels</h1>
+<p>Explorez les traitements avec un aperçu IA privé sur votre photo—avant la consultation.</p>
+<div class="cta-row">
+<a class="btn-line" href="#demoSite">Réserver une consultation</a>
+</div>
+</main>
+<ul class="demo-site-services">
+<li><b>Lip filler</b><span>Volume et contour naturels.</span></li>
+<li><b>Botox</b><span>Atténuation des rides d’expression.</span></li>
+<li><b>Cheek filler</b><span>Contour du visage et lift.</span></li>
+<li><b>Skin rejuvenation</b><span>Teint unifié et peau rafraîchie.</span></li>
+</ul>
+</div>
+
+<button type="button" id="hebelie-fab" aria-label="Preview treatments">Preview treatments</button>
+
+<div class="demo-embed-panel" id="demoEmbedPanel" hidden>
+<iframe id="demoEmbedFrame" title="Aperçu traitement — démo" allow="camera; microphone"></iframe>
+</div>
+
+<div class="tour-dim" id="tourDim" hidden aria-hidden="true"></div>
+
+<article class="tour-lead-card" id="tourLeadCard" hidden>
+<h3>Nouvelle lead aperçu</h3>
+<p style="margin:0;color:var(--muted);font-size:.9rem">Tableau de bord Demo Medspa (simulation)</p>
+<dl>
+<div><dt>Nom</dt><dd>Visiteuse démo</dd></div>
+<div><dt>Courriel</dt><dd>demo.visitor@example.com</dd></div>
+<div><dt>Traitements</dt><dd>Lip filler · Botox · Cheek filler</dd></div>
+<div><dt>Statut</dt><dd>Prête pour le suivi</dd></div>
+</dl>
+</article>
+
+<footer class="tour-bar" role="region" aria-label="Démo guidée">
+<div class="tour-bar-top">
+<span class="tour-kicker" id="tourKicker">Step 1</span>
+<span class="tour-step-count" id="tourStepCount">1 / 7</span>
+</div>
+<h2 id="tourTitle">Tour title</h2>
+<p id="tourBody">Tour body</p>
+<div class="tour-actions">
+<button type="button" class="ghost" id="tourBack" hidden>Back</button>
+<button type="button" id="tourNext">Next</button>
+</div>
+</footer>
+
+<script type="module" src="../lib/demo-tour.js"></script>
+</body>
+</html>
