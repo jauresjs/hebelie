@@ -61,10 +61,11 @@
 <input class="field" type="text" id="clinicName" data-i18n-placeholder="auth.clinicNamePh" placeholder="e.g. Acme Medspa" required minlength="2" autocomplete="organization">
 <label class="field-label" for="billingCountry" data-i18n="auth.clinicCountry">Clinic country</label>
 <select class="field" id="billingCountry" required></select>
+<div id="billingRegionGroup">
 <label class="field-label" for="billingRegion" id="billingRegionLabel" data-i18n="auth.regionLabel.other">State or province</label>
 <select class="field" id="billingRegion" aria-describedby="regionHint"></select>
-<input class="field" type="text" id="billingRegionText" data-i18n-placeholder="auth.regionPh" placeholder="State, province, or region" hidden maxlength="80" autocomplete="address-level1">
-<p class="hint" id="regionHint" data-i18n="auth.regionHint.required">Required for Canada and the United States.</p>
+<p class="hint" id="regionHint" data-i18n="auth.regionHint.requiredShort">Required.</p>
+</div>
 <button class="btn" type="button" id="proGoogle" data-i18n="authDlg.google">Continue with Google</button>
 <p class="divider" data-i18n="auth.orEmail">or email</p>
 <form id="proEmail">
@@ -77,6 +78,6 @@
 <p class="msg" id="authMsg" aria-live="polite"></p>
 <p class="hint"><a href="./privacy-policy.html" data-locale-href="/privacy-policy.html" data-i18n="footer.privacy">Privacy policy</a> · <a href="./terms.html" data-locale-href="/terms.html" data-i18n="footer.terms">Terms</a> · <a href="../auth.html" data-i18n="lang.switchEn">English</a></p>
 </main>
-<script type="module" src="../lib/auth-page.js?v=25"></script>
+<script type="module" src="../lib/auth-page.js?v=26"></script>
 </body>
 </html>
