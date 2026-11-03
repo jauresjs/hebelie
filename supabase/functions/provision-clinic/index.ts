@@ -51,12 +51,21 @@ Deno.serve(async (req) => {
   let lead_email: string | undefined;
   let billing_country: string;
   let billing_region: string | null;
+  let embed_locale: "en" | "fr";
   try {
     const body = await req.json();
     clinic_name = String(body?.clinic_name ?? "").trim();
     lead_email = body?.lead_email ? String(body.lead_email).trim() : undefined;
     billing_country = String(body?.billing_country ?? "CA").trim().toUpperCase();
     billing_region = body?.billing_region ? String(body.billing_region).trim() : null;
+    const rawLocale = String(body?.embed_locale ?? "").toLowerCase();
+    if (rawLocale === "fr" || rawLocale === "en") {
+      embed_locale = rawLocale;
+    } else if (billing_country === "FR") {
+      embed_locale = "fr";
+    } else {
+      embed_locale = "en";
+    }
   } catch {
     return json({ error: "bad_request" }, 400);
   }
@@ -107,6 +116,7 @@ Deno.serve(async (req) => {
       billing_plan: "free_trial",
       preview_quota_monthly: FREE_TRIAL_PREVIEW_QUOTA,
       previews_used_period: 0,
+      embed_locale,
     })
     .select("id, slug, name")
     .single();

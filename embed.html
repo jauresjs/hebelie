@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" data-locale="en">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Treatment preview</title>
+<title data-i18n="embed.pageTitle">Treatment preview</title>
 <meta name="robots" content="noindex">
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32">
@@ -15,42 +15,42 @@
 <header class="embed-head">
 <div class="embed-brand" id="embedBrand">
 <img class="clinic-logo" id="embedLogo" alt="" hidden>
-<span class="logo-word" id="embedName">Loading…</span>
+<span class="logo-word" id="embedName" data-i18n="embed.loadingClinic">Loading…</span>
 </div>
-<p class="embed-powered">Powered by <a href="https://hebelie.com/" target="_blank" rel="noopener">Hebelie</a></p>
+<p class="embed-powered"><span data-i18n="embed.poweredBy">Powered by</span> <a href="https://hebelie.com/" target="_blank" rel="noopener">Hebelie</a></p>
 </header>
 
 <section id="embedWelcome" class="embed-welcome">
-<h2 class="embed-welcome-title">See your result before you consult</h2>
-<div class="intro-frame"><div id="introCmp" aria-label="Example before and after preview"></div></div>
-<p class="embed-welcome-cta">See how it could look on you</p>
-<button type="button" class="btn wide" id="startStudio">Try on myself</button>
-<p class="hint embed-welcome-disclaimer">A quiet preview to shape your consultation—your professional will guide what is right for you.</p>
+<h2 class="embed-welcome-title" data-i18n="embed.welcomeTitle">See your result before you consult</h2>
+<div class="intro-frame"><div id="introCmp" data-i18n-aria="cmp.heroAria" aria-label="Before and after comparison"></div></div>
+<p class="embed-welcome-cta" data-i18n="embed.welcomeCta">See how it could look on you</p>
+<button type="button" class="btn wide" id="startStudio" data-i18n="embed.tryOn">Try on myself</button>
+<p class="hint embed-welcome-disclaimer" data-i18n="embed.welcomeDisclaimer">A quiet preview to shape your consultation—your professional will guide what is right for you.</p>
 </section>
 
 <section id="studio" class="studio-atrium" hidden>
 <div class="atrium-panel">
 <div class="grid">
 <div class="studio-controls">
-<div class="step" id="studio-start"><h3>Treatment selection</h3>
-<div class="chips" id="chips"></div><p class="hint">Three areas maximum.</p></div>
+<div class="step" id="studio-start"><h3 data-i18n="studio.treatments">Treatment selection</h3>
+<div class="chips" id="chips"></div><p class="hint" data-i18n="studio.treatmentsHint">Three areas maximum.</p></div>
 <div class="step"><p class="hint studio-sim-disclaimer" data-i18n="studio.simDisclaimer">This preview is an AI simulation for illustration only—not a guaranteed result. A licensed professional will determine what’s safe and appropriate for you.</p></div>
-<div class="step"><h3>Portrait</h3>
-<p class="hint" style="margin:0 0 12px">Even light · No filters · Natural expression</p>
-<div class="row"><label class="btn ghost" for="cam" tabindex="0">Take a picture</label><label class="btn ghost" for="up" tabindex="0">Upload</label></div>
+<div class="step"><h3 data-i18n="studio.portrait">Portrait</h3>
+<p class="hint" style="margin:0 0 12px" data-i18n="studio.portraitHint">Even light · No filters · Natural expression</p>
+<div class="row"><label class="btn ghost" for="cam" tabindex="0" data-i18n="studio.takePhoto">Take a picture</label><label class="btn ghost" for="up" tabindex="0" data-i18n="studio.upload">Upload</label></div>
 <input id="cam" type="file" accept="image/*" capture="user" hidden><input id="up" type="file" accept="image/*" hidden>
-<p class="hint" id="pstate">No portrait yet.</p></div>
+<p class="hint" id="pstate" data-i18n="studio.noPortrait">No portrait yet.</p></div>
 </div>
 <div class="studio-preview">
 <div class="frame preview-wrap">
-<div id="studioCmp" aria-label="Your preview"></div>
-<div class="studio-overlay" id="studioOverlay" hidden><p id="overlayMsg">Working on your preview…</p></div>
+<div id="studioCmp" data-i18n-aria="cmp.studioAria" aria-label="Your preview"></div>
+<div class="studio-overlay" id="studioOverlay" hidden><p id="overlayMsg" data-i18n="app.overlay.working">Working on your preview…</p></div>
 </div>
-<button class="btn wide studio-go" id="go" type="button">View result</button>
-<p class="status" id="status" aria-live="polite">Choose treatments and add your portrait.</p>
+<button class="btn wide studio-go" id="go" type="button" data-i18n="studio.viewResult">View result</button>
+<p class="status" id="status" aria-live="polite" data-i18n="studio.chooseTreatments">Choose treatments and add your portrait.</p>
 <div class="pro-panel" id="proPanel" hidden>
-<p class="hint" style="margin:0 0 12px;text-align:center">Your preview was shared with the clinic.</p>
-<a class="btn wide" id="bookConsult" href="#" target="_blank" rel="noopener noreferrer">Book a consultation</a>
+<p class="hint" style="margin:0 0 12px;text-align:center" data-i18n="studio.sharedClinic">Your preview was shared with the clinic.</p>
+<a class="btn wide" id="bookConsult" href="#" target="_blank" rel="noopener noreferrer" data-i18n="studio.bookConsult">Book a consultation</a>
 </div>
 <div class="strip" id="strip"></div>
 </div>
@@ -60,21 +60,21 @@
 </div>
 
 <dialog class="auth-dlg" id="authDlg" aria-labelledby="authTitle">
-<h2 id="authTitle">Continue</h2>
-<p>Sign in to generate your preview. Your portrait stays on this device until then.</p>
+<h2 id="authTitle" data-i18n="embed.authTitle">Continue</h2>
+<p data-i18n="embed.authLead">Sign in to generate your preview. Your portrait stays on this device until then.</p>
 <div class="auth-oauth">
-<button class="btn wide" type="button" id="authGoogle">Continue with Google</button>
+<button class="btn wide" type="button" id="authGoogle" data-i18n="embed.authGoogle">Continue with Google</button>
 </div>
-<p class="auth-divider">or email</p>
+<p class="auth-divider" data-i18n="auth.orEmail">or email</p>
 <form id="authEmail">
-<label for="authEmailInput" style="display:block;font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);margin-bottom:8px">Email address</label>
-<input type="email" id="authEmailInput" placeholder="you@example.com" required autocomplete="email" style="font:400 1rem var(--sans);padding:12px 14px;border:1px solid var(--line);background:var(--ivory);color:var(--ink);width:100%">
-<button class="btn wide" type="submit">Submit</button>
+<label for="authEmailInput" style="display:block;font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);margin-bottom:8px" data-i18n="embed.authEmailLabel">Email address</label>
+<input type="email" id="authEmailInput" data-i18n-placeholder="auth.workEmailPh" placeholder="you@example.com" required autocomplete="email" style="font:400 1rem var(--sans);padding:12px 14px;border:1px solid var(--line);background:var(--ivory);color:var(--ink);width:100%">
+<button class="btn wide" type="submit" data-i18n="embed.authSubmit">Submit</button>
 </form>
 <p class="auth-msg" id="authMsg" aria-live="polite"></p>
-<p class="auth-legal"><a href="./privacy-policy.html" target="_blank" rel="noopener">Privacy policy</a></p>
+<p class="auth-legal"><a href="./privacy-policy.html" target="_blank" rel="noopener" data-i18n="embed.authPrivacy">Privacy policy</a></p>
 </dialog>
 
-<script type="module" src="./lib/app.js?v=34"></script>
+<script type="module" src="./lib/app.js?v=36"></script>
 </body>
 </html>

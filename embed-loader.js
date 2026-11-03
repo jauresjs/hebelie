@@ -92,23 +92,57 @@ function escapeHtml(s) {
     .replace(/"/g, "&quot;");
 }
 
-function openPreview(slug, label, bg, fg) {
+const PROMPT_I18N = {
+  en: {
+    title: "See how it could look on you",
+    clinicLine: (name) => `${name} — try a private preview on your own photo.`,
+    notNow: "Not now",
+    close: "Close",
+    before: "Before",
+    after: "After",
+    drag: "Drag to compare",
+    cmpAria: "Example before and after preview",
+    rangeAria: "Compare before and after example",
+    defaultLabel: "Preview treatments",
+  },
+  fr: {
+    title: "Voyez à quoi cela pourrait ressembler sur vous",
+    clinicLine: (name) => `${name} — essayez un aperçu privé sur votre propre photo.`,
+    notNow: "Pas maintenant",
+    close: "Fermer",
+    before: "Avant",
+    after: "Après",
+    drag: "Glisser pour comparer",
+    cmpAria: "Exemple avant / après",
+    rangeAria: "Comparer l'exemple avant et après",
+    defaultLabel: "Aperçu des traitements",
+  },
+};
+
+function embedLocaleFromConfig(cfg) {
+  return String(cfg?.embed_locale || "").toLowerCase() === "fr" ? "fr" : "en";
+}
+
+function openPreview(slug, locale) {
   const base = siteOrigin();
   const source = encodeURIComponent(location.origin);
-  const url = `${base}/embed.html?clinic=${encodeURIComponent(slug)}&source=${source}&start=studio`;
+  const lang = locale === "fr" ? "&lang=fr" : "";
+  const url = `${base}/embed.html?clinic=${encodeURIComponent(slug)}&source=${source}&start=studio${lang}`;
   window.open(url, "hebelie", "width=440,height=920,noopener");
 }
 
 function mountPrompt(cfg) {
   const slug = cfg.slug;
+  const locale = embedLocaleFromConfig(cfg);
+  const copy = PROMPT_I18N[locale];
   const host = document.createElement("div");
   host.id = "hebelie-embed-prompt-root";
   const root = host.attachShadow({ mode: "open" });
   const bg = cfg.embed_button_bg || "#9A8565";
   const fg = cfg.embed_button_text || "#FFFFFF";
-  const label = cfg.embed_button_label || "Preview treatments";
-  const clinicName = escapeHtml(cfg.name || "Your clinic");
+  const label = cfg.embed_button_label || copy.defaultLabel;
   const labelSafe = escapeHtml(label);
+  const clinicLine = escapeHtml(copy.clinicLine(cfg.name || "Your clinic"));
   const origin = siteOrigin();
   const beforeImg = `${origin}/before.png?v=9`;
   const afterImg = `${origin}/after.png?v=9`;
@@ -145,20 +179,20 @@ function mountPrompt(cfg) {
 </style>
 <div class="backdrop" role="presentation">
   <div class="card" role="dialog" aria-modal="true" aria-labelledby="hbTitle">
-    <button type="button" class="close" aria-label="Close">&times;</button>
-    <h2 id="hbTitle">See how it could look on you</h2>
-    <div class="cmp" aria-label="Example before and after preview">
-      <div class="L"><img src="${beforeImg}" alt="Before example"></div>
-      <div class="L after"><img src="${afterImg}" alt="After example"></div>
+    <button type="button" class="close" aria-label="${escapeHtml(copy.close)}">&times;</button>
+    <h2 id="hbTitle">${escapeHtml(copy.title)}</h2>
+    <div class="cmp" aria-label="${escapeHtml(copy.cmpAria)}">
+      <div class="L"><img src="${beforeImg}" alt="${escapeHtml(copy.before)}"></div>
+      <div class="L after"><img src="${afterImg}" alt="${escapeHtml(copy.after)}"></div>
       <div class="bar"></div><div class="knob"></div>
-      <span class="tag b">Before</span><span class="tag a">After</span>
-      <div class="cmp-drag">Drag to compare</div>
-      <input type="range" min="0" max="100" value="50" aria-label="Compare before and after example">
+      <span class="tag b">${escapeHtml(copy.before)}</span><span class="tag a">${escapeHtml(copy.after)}</span>
+      <div class="cmp-drag">${escapeHtml(copy.drag)}</div>
+      <input type="range" min="0" max="100" value="50" aria-label="${escapeHtml(copy.rangeAria)}">
     </div>
-    <p>${clinicName} — try a private preview on your own photo.</p>
+    <p>${clinicLine}</p>
     <div class="cta">
       <button type="button" class="btn primary">${labelSafe}</button>
-      <button type="button" class="btn ghost">Not now</button>
+      <button type="button" class="btn ghost">${escapeHtml(copy.notNow)}</button>
     </div>
   </div>
 </div>`;
@@ -203,7 +237,7 @@ function mountPrompt(cfg) {
   });
   primary.addEventListener("click", () => {
     markShownSession(slug);
-    openPreview(slug, label, bg, fg);
+    openPreview(slug, locale);
     close();
   });
   card.addEventListener("click", (e) => e.stopPropagation());
