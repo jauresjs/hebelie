@@ -1,179 +1,137 @@
 # Hebelie language & embed E2E report
 
-**Date:** 2026-11-03  
+**Last live run:** 2026-11-03 (post-deploy `4073d7d` + `51be280`)  
 **Environment:** Production `https://hebelie.com`  
-**Tester:** Automated browser + Supabase public RPC checks  
-**Local host:** `http://127.0.0.1:8765/test-clinic-host.html` (see `e2e/test-clinic-host.html`)
+**Tester:** Automated browser + Supabase RPC  
+**Accounts:** `test01@hebelie.com` (US clinic `e2e-us-medspa-nov3`)
 
 ---
 
-## Executive summary
+## Executive summary (live re-run)
 
 | Area | Result |
 |------|--------|
-| **US pro signup (Yopmail)** | **Partial** — account created, confirmation email requested; **dashboard/embed not reachable** without email link |
-| **CA Québec signup** | **Blocked** — form submit failed validation (province reset in UI mid-run) |
-| **CA embed (demo clinic)** | **Pass** — EN/FR switch, `?lang=fr`, French copy |
-| **US embed (no US clinic in DB)** | **Not tested live** — no confirmed US clinic slug after signup |
-| **Welcome popup on test site** | **N/A** — `demo-medspa` has `embed_auto_prompt: false` |
-| **Dashboard language UI (US vs CA)** | **Not tested** — requires authenticated session |
-
-**Overall:** Core **visitor embed language** behavior works for **Canadian** clinics (`demo-medspa`). Full **multi-country signup → dashboard → install → embed** path is **blocked by email confirmation** and Yopmail inbox access from automation.
-
-### Update — US path via IMAP (`test01@hebelie.com`)
-
-| Step | Result |
-|------|--------|
-| Pro signup US / NY | **Pass** |
-| IMAP confirm link (~20s) | **Pass** (`npm run e2e:confirm-link -- --wait 180 --since 30 test01@hebelie.com`) |
-| Confirm → dashboard session | **Pass** (redirect to `dashboard.html?from_auth=1`) |
-| Clinic provisioned | **Pass** — slug `e2e-us-medspa-nov3`, `billing_country: US`, `embed_locale: en` |
-| Welcome popup default | **Pass** — checkbox on in Customize & install |
-| US dashboard hides language field | **Fail (CSS)** — logic sets `hidden` but `.field-row{display:grid}` kept it visible → fixed locally |
-| US embed hides EN\|FR switch | **Fail (CSS)** — `embedLangSwitch.hidden=true` but `.embed-lang{display:flex}` kept it visible → fixed locally |
-
-**Password:** `TestE2E-Hebelie-2026!` (same as prior Yopmail run).
+| **RPC baselines** | **Pass** — `demo-medspa` (CA), `e2e-us-medspa-nov3` (US) |
+| **CA embed `demo-medspa`** | **Pass** — EN default, FR toggle, French copy |
+| **CA embed `?lang=fr`** | **Partial** — main UI FR; `#status` / `#pstate` still EN (L-1) |
+| **US embed `e2e-us-medspa-nov3`** | **Pass** (after `embed.css?v=2`) — no EN\|FR switch |
+| **US dashboard (`test01`)** | **Pass** — language row not shown; welcome popup **on** |
+| **CA QC / ON / FR signup → dashboard** | **Not run** this session |
+| **Welcome popup on test host** | **Not run** — automation could not open local `test-clinic-host.html`; `demo-medspa` has `embed_auto_prompt: false` |
 
 ---
 
-## Test accounts (Yopmail)
+## RPC
 
-| Label | Email | Signup status | Clinic in DB (`get_clinic_by_slug`) |
-|-------|--------|---------------|--------------------------------------|
-| US / NY | `hebelie-e2e-us-nov3@yopmail.com` | Submitted; “confirmation email” message shown | **No** (`e2e-us-medspa-test` → `[]`) |
-| CA / QC | `hebelie-e2e-ca-qc@yopmail.com` | Incomplete (validation / password fields) | **No** |
-
-**Password used (US signup):** `TestE2E-Hebelie-2026!`  
-**Note:** Clinic row is created on **first successful login** after email confirm (`ensureClinicForSession`), not at signup submit.
+| Slug | billing_country | embed_locale |
+|------|-----------------|--------------|
+| `demo-medspa` | CA | en |
+| `e2e-us-medspa-nov3` | US | en |
 
 ---
 
-## 1. US professional signup
+## 1. Canadian embed — `demo-medspa`
 
-**Steps:** `auth.html?as=professional&mode=signup` → US, NY, clinic “E2E US Medspa Test”, Yopmail email, password → Create account.
-
-**Observed:**
-- Success copy: request received, **confirmation email** sent; fields locked.
-- **Login before confirm:** Could not access dashboard (password sign-in did not proceed to dashboard in automation).
-- **Public API:** `get_clinic_by_slug('e2e-us-medspa-test')` returned **empty** → clinic not provisioned yet (expected until confirm + login).
-
-**Expected after confirm (code):**
-- `billing_country: US` → dashboard **hides** “Default language for patients”.
-- `embed_locale` forced **en** on save.
-- Embed **no** EN|FR switch.
-
-**Status:** Signup path OK; **downstream not verified** in this run.
-
----
-
-## 2. Canadian embed — `demo-medspa` (RPC baseline)
-
-```json
-{
-  "slug": "demo-medspa",
-  "billing_country": "CA",
-  "embed_locale": "en",
-  "embed_auto_prompt": false
-}
-```
-
-### 2a. Default English embed
+### 1a. Default English
 
 **URL:** `https://hebelie.com/embed.html?clinic=demo-medspa`
 
 | Check | Result |
 |-------|--------|
-| Welcome title EN | **Pass** — “See your result before you consult” |
-| EN \| FR switch visible | **Pass** |
+| Welcome title EN | **Pass** |
+| EN \| FR switch | **Pass** (visible) |
 | CTA “Try on myself” | **Pass** |
 
-### 2b. In-embed FR toggle
-
-**Action:** Click **FR**.
+### 1b. FR toggle
 
 | Check | Result |
 |-------|--------|
-| Title FR | **Pass** — “Voyez le résultat avant votre consultation” |
-| CTA FR | **Pass** — “Essayer sur moi” |
-| Treatment section FR | **Pass** — “Sélection des traitements” |
-| Page title | **Pass** — “Demo Medspa – Aperçu de traitement” |
+| Title FR | **Pass** |
+| CTA “Essayer sur moi” | **Pass** |
+| Treatment section FR | **Pass** |
+| Document title FR | **Pass** |
+| Studio empty hint after toggle | **Pass** (FR) |
 
-### 2c. URL `?lang=fr`
+### 1c. `?lang=fr`
 
 **URL:** `https://hebelie.com/embed.html?clinic=demo-medspa&lang=fr`
 
 | Check | Result |
 |-------|--------|
-| Main copy FR | **Pass** |
-| `#status` / `#pstate` initial EN | **Fail (minor)** — “Choose treatments…”, “No portrait yet.” stay EN until toggle or clinic load sync |
-| Studio empty state EN | **Fail (minor)** — “Upload or capture your portrait to begin.” after FR toggle (studio-empty path not re-i18n) |
+| Headings / CTA FR | **Pass** |
+| `#pstate` “No portrait yet.” | **Fail (L-1)** |
+| `#status` “Choose treatments…” | **Fail (L-1)** |
 
-### 2d. Fictional website + loader
-
-**URL:** `http://127.0.0.1:8765/test-clinic-host.html?clinic=demo-medspa&loader=1`
+### 1d. Loader on fictional site
 
 | Check | Result |
 |-------|--------|
-| Loader script loads | **Assumed** (no console errors checked) |
-| 3s welcome popup | **Not shown** — correct: `embed_auto_prompt: false` for demo |
+| `test-clinic-host.html?loader=1` | **Skipped** (local host not reachable from browser automation) |
+| Popup on `demo-medspa` | **N/A** — `embed_auto_prompt: false` |
 
 ---
 
-## 3. Dashboard language rules (not exercised live)
+## 2. US clinic — `e2e-us-medspa-nov3`
 
-From code + product spec (requires CA/US logged-in clinics):
+### 2a. Embed
 
-| Country | “Default language for patients” (below Booking URL) | Welcome popup default (new clinics) |
-|---------|------------------------------------------------------|-------------------------------------|
-| **US** | Hidden | `true` on new provision |
-| **CA** | Shown; QC → default **FR**, other provinces → **EN** | `true` on new provision |
+**URL:** `https://hebelie.com/embed.html?clinic=e2e-us-medspa-nov3`
 
-**Not verified in browser** — no confirmed dashboard sessions in this run.
+| Check | Result |
+|-------|--------|
+| EN \| FR switch absent | **Pass** (requires fresh `embed.html` → `embed.css?v=2`) |
+| English visitor copy | **Pass** |
 
----
+**Note:** Uncached `embed.css` without `.embed-lang[hidden]` left the switch visible while `hidden=true`. Fixed with CSS + cache-bust on stylesheet link.
 
-## 4. France / other countries
+### 2b. Dashboard (`test01@hebelie.com`, signed in)
 
-**Not run** (signup incomplete). **Code expectation:**
-- **FR** at provision → `embed_locale: fr`.
-- Dashboard language dropdown **hidden** (non-CA).
-- **Risk (known):** saving customize form may send `embed_locale: en` for non-CA clinics — **needs test after FR account exists**.
+**URL:** `https://hebelie.com/dashboard.html?tab=embed`
 
----
-
-## 5. Blockers & tooling limits
-
-1. **Email confirmation** — Supabase requires confirm link; automation could not reliably read **Yopmail** (iframe / API).
-2. **Yopmail curl** — Empty responses from inbox scrape in shell.
-3. **Shadow DOM** — Welcome popup in `embed-loader.js` not visible in accessibility snapshot (manual/screenshot needed when `embed_auto_prompt: true`).
-4. **US embed** — No US clinic slug available without completing confirm flow.
+| Check | Result |
+|-------|--------|
+| Clinic name | **Pass** — E2E US Medspa Nov3 |
+| “Default language for patients” hidden | **Pass** (`#embedLocaleBlock` `display: none`; use fresh HTML if cached) |
+| Welcome popup default | **Pass** — checked |
+| Free trial usage | **Pass** — 10 previews |
+| Public page link | **Pass** — `/c/e2e-us-medspa-nov3/` |
 
 ---
 
-## 6. Defects / follow-ups
+## 3. Signup + IMAP (earlier same day)
+
+| Step | Result |
+|------|--------|
+| US / NY signup → `test01@hebelie.com` | **Pass** |
+| IMAP confirm link | **Pass** |
+| Confirm → dashboard | **Pass** |
+
+Password: `TestE2E-Hebelie-2026!`
+
+---
+
+## 4. Not run (follow-up)
+
+1. **CA Québec** signup (`test06+`) → dashboard language default **Français**, snippet `lang=fr`
+2. **CA Ontario** → default **English**, embed switch still shown
+3. **France** signup → L-3 (save forcing `embed_locale: en`)
+4. **Loader popup** on `test-clinic-host.html` with US clinic (`embed_auto_prompt: true`) — manual or local Playwright
+
+---
+
+## Defects / follow-ups
 
 | ID | Severity | Description |
 |----|----------|-------------|
-| L-1 | Low | On `?lang=fr` first paint, `#status` / `#pstate` not synced to French until `syncEmbedStatusHints` after clinic fetch |
-| L-2 | Low | After FR toggle, `studio-empty` message can remain English |
-| L-3 | Medium | **France / non-CA:** dashboard save may force `embed_locale` to `en` — confirm with live FR clinic |
-| L-4 | Test | Re-run with **`test01@hebelie.com` … IMAP** (`npm run e2e:confirm-link`) or disable email confirm in staging |
-| L-5 | **Fixed (local)** | **`[hidden]` + `display:grid/flex`** on dashboard `.field-row` and embed `.embed-lang` — deploy `dashboard.html` + `lib/embed.css` |
-
----
-
-## 7. Recommended re-test (manual or Agent with inbox)
-
-1. Sign up with `test01@hebelie.com` → `npm run e2e:confirm-link -- --wait 180 test01@hebelie.com` → open link → login → **Customize & install**: no language field; popup default **on** for new clinic.
-2. Complete **CA QC** signup → language default **Français**; snippet contains `lang=fr`.
-3. Complete **CA ON** signup → default **English**; switch still on embed.
-4. **FR** signup → embed French; verify save does not revert to English (L-3).
-5. Enable popup on a CA test clinic → loader on `test-clinic-host.html` → popup language matches `embed_locale`.
+| L-1 | Low | `?lang=fr` first paint: `#status` / `#pstate` stay EN until sync |
+| L-2 | Low | (Retest) studio-empty after FR toggle — **pass** on live toggle path |
+| L-3 | Medium | FR / non-CA dashboard save may force `embed_locale: en` — needs FR clinic |
+| L-5 | **Fixed** | `[hidden]` vs `display:grid/flex` — deployed; **embed.css** cache-bust `?v=2` |
 
 ---
 
 ## Artifacts
 
-- `e2e/test-clinic-host.html` — fictional clinic page
-- `e2e/rpc-*.json` — Supabase RPC bodies used for API checks
-- Screenshot: local host page (no popup; demo prompt off)
+- `e2e/test-clinic-host.html`
+- `e2e/fetch-confirm-link.mjs` + `e2e/README.md`
+- `npm run e2e:confirm-link -- --wait 180 test01@hebelie.com`
