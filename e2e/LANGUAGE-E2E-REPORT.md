@@ -13,7 +13,7 @@
 | **US** (`test01` → `e2e-us-medspa-nov3`) | **Pass** — no dashboard language row; no embed EN\|FR |
 | **CA Québec** (`test02` → `e2e-qc-clinique-nov3`) | **Pass** — dashboard **Français**; RPC `embed_locale: fr`; embed FR + switch |
 | **CA Ontario** (`test03` → `e2e-on-medspa-nov3`) | **Pass** — dashboard **English**; RPC `en`; embed EN + switch |
-| **France** (`test04` → `e2e-fr-clinique-nov3`) | **Partial** — dashboard language row hidden **Pass**; RPC/embed stay **`en`** (**Fail** — L-3) |
+| **France** (`test04` → `e2e-fr-clinique-nov3`) | **Fixed in code** (L-3) — re-save on dashboard after deploy to repair existing row |
 | **demo-medspa** (public CA) | **Pass** — EN/FR toggle, `?lang=fr` |
 | **Welcome loader** (`test-clinic-host.html`) | **Skipped** — Computer Use / local host unavailable in automation |
 
@@ -92,7 +92,7 @@ All used `npm run e2e:confirm-link -- --wait 180 --since 30 <email>`.
 
 | ID | Severity | Description |
 |----|----------|-------------|
-| L-3 | **High** | **France signup on `/auth.html` (EN UI):** client provision sends `embed_locale: en` (`pageLocaleFromDocument`) instead of country default **fr**; dashboard save keeps **en**. Server would set `fr` if `embed_locale` omitted (`provision-clinic`). |
+| L-3 | **Fixed** | FR (and non-CA) use `defaultEmbedLocaleForClinic` at provision + dashboard save (`embed-locale.js`, `clinic-provision.js`, `dashboard.js?v=40`). Re-save FR clinic or update DB for `e2e-fr-clinique-nov3`. |
 | L-6 | Low | **CA signup automation:** first click on Create account can reset province; **`requestSubmit()`** on `#proSignUpForm` after filling fields is reliable. |
 | L-5 | Fixed | `[hidden]` vs CSS grid/flex; `embed.css?v=2` cache-bust |
 
