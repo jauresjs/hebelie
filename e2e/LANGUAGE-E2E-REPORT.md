@@ -1,137 +1,104 @@
 # Hebelie language & embed E2E report
 
-**Last live run:** 2026-11-03 (post-deploy `4073d7d` + `51be280`)  
-**Environment:** Production `https://hebelie.com`  
-**Tester:** Automated browser + Supabase RPC  
-**Accounts:** `test01@hebelie.com` (US clinic `e2e-us-medspa-nov3`)
+**Last full live run:** 2026-11-03  
+**Environment:** `https://hebelie.com` + IMAP `@hebelie.com`  
+**Password (all test clinics):** `TestE2E-Hebelie-2026!`
 
 ---
 
-## Executive summary (live re-run)
+## Executive summary
 
-| Area | Result |
-|------|--------|
-| **RPC baselines** | **Pass** — `demo-medspa` (CA), `e2e-us-medspa-nov3` (US) |
-| **CA embed `demo-medspa`** | **Pass** — EN default, FR toggle, French copy |
-| **CA embed `?lang=fr`** | **Partial** — main UI FR; `#status` / `#pstate` still EN (L-1) |
-| **US embed `e2e-us-medspa-nov3`** | **Pass** (after `embed.css?v=2`) — no EN\|FR switch |
-| **US dashboard (`test01`)** | **Pass** — language row not shown; welcome popup **on** |
-| **CA QC / ON / FR signup → dashboard** | **Not run** this session |
-| **Welcome popup on test host** | **Not run** — automation could not open local `test-clinic-host.html`; `demo-medspa` has `embed_auto_prompt: false` |
-
----
-
-## RPC
-
-| Slug | billing_country | embed_locale |
-|------|-----------------|--------------|
-| `demo-medspa` | CA | en |
-| `e2e-us-medspa-nov3` | US | en |
+| Scenario | Result |
+|----------|--------|
+| **US** (`test01` → `e2e-us-medspa-nov3`) | **Pass** — no dashboard language row; no embed EN\|FR |
+| **CA Québec** (`test02` → `e2e-qc-clinique-nov3`) | **Pass** — dashboard **Français**; RPC `embed_locale: fr`; embed FR + switch |
+| **CA Ontario** (`test03` → `e2e-on-medspa-nov3`) | **Pass** — dashboard **English**; RPC `en`; embed EN + switch |
+| **France** (`test04` → `e2e-fr-clinique-nov3`) | **Partial** — dashboard language row hidden **Pass**; RPC/embed stay **`en`** (**Fail** — L-3) |
+| **demo-medspa** (public CA) | **Pass** — EN/FR toggle, `?lang=fr` |
+| **Welcome loader** (`test-clinic-host.html`) | **Skipped** — Computer Use / local host unavailable in automation |
 
 ---
 
-## 1. Canadian embed — `demo-medspa`
+## Test clinics (RPC)
 
-### 1a. Default English
+| Slug | Email | billing_country | embed_locale | Notes |
+|------|--------|-----------------|--------------|--------|
+| `e2e-us-medspa-nov3` | test01@hebelie.com | US | en | |
+| `e2e-qc-clinique-nov3` | test02@hebelie.com | CA | **fr** | QC signup |
+| `e2e-on-medspa-nov3` | test03@hebelie.com | CA | en | ON signup |
+| `e2e-fr-clinique-nov3` | test04@hebelie.com | FR | **en** | Expected **fr** (L-3) |
+| `demo-medspa` | — | CA | en | `embed_auto_prompt: false` |
 
-**URL:** `https://hebelie.com/embed.html?clinic=demo-medspa`
+---
 
-| Check | Result |
-|-------|--------|
-| Welcome title EN | **Pass** |
-| EN \| FR switch | **Pass** (visible) |
-| CTA “Try on myself” | **Pass** |
+## Signup → IMAP → confirm
 
-### 1b. FR toggle
+All used `npm run e2e:confirm-link -- --wait 180 --since 30 <email>`.
 
-| Check | Result |
-|-------|--------|
-| Title FR | **Pass** |
-| CTA “Essayer sur moi” | **Pass** |
-| Treatment section FR | **Pass** |
-| Document title FR | **Pass** |
-| Studio empty hint after toggle | **Pass** (FR) |
+| Mailbox | Signup | Confirm |
+|---------|--------|---------|
+| test01@hebelie.com | US / NY (prior run) | Pass |
+| test02@hebelie.com | CA / QC | Pass |
+| test03@hebelie.com | CA / ON | Pass (use `form.requestSubmit()` if province resets on click) |
+| test04@hebelie.com | FR | Pass (CDP set country FR; region group hidden) |
 
-### 1c. `?lang=fr`
+---
 
-**URL:** `https://hebelie.com/embed.html?clinic=demo-medspa&lang=fr`
+## Dashboard — Customize & install
+
+| Clinic | Language field | Default | Welcome popup |
+|--------|------------------|---------|---------------|
+| US | Hidden | — | On |
+| CA QC | Visible | **Français** | On |
+| CA ON | Visible | **English** | On |
+| FR | Hidden | — | On |
+
+**FR save test (L-3):** After **Save & continue**, RPC still `embed_locale: en` (unchanged; was already `en` at provision).
+
+---
+
+## Visitor embed
+
+| URL | EN\|FR switch | Visitor language |
+|-----|---------------|------------------|
+| `embed.html?clinic=e2e-us-medspa-nov3` | **Absent** | EN |
+| `embed.html?clinic=e2e-on-medspa-nov3` | Present | EN default |
+| `embed.html?clinic=e2e-qc-clinique-nov3` | Present | FR (after load) |
+| `embed.html?clinic=e2e-fr-clinique-nov3` | **Absent** | EN (should be FR — L-3) |
+| `embed.html?clinic=demo-medspa` | Present | EN |
+| `embed.html?clinic=demo-medspa&lang=fr` | Present | FR |
+
+### `demo-medspa&lang=fr` (L-1)
 
 | Check | Result |
 |-------|--------|
 | Headings / CTA FR | **Pass** |
-| `#pstate` “No portrait yet.” | **Fail (L-1)** |
-| `#status` “Choose treatments…” | **Fail (L-1)** |
-
-### 1d. Loader on fictional site
-
-| Check | Result |
-|-------|--------|
-| `test-clinic-host.html?loader=1` | **Skipped** (local host not reachable from browser automation) |
-| Popup on `demo-medspa` | **N/A** — `embed_auto_prompt: false` |
+| `#pstate` / `#status` hints FR | **Pass** (this run) |
 
 ---
 
-## 2. US clinic — `e2e-us-medspa-nov3`
+## Loader / popup
 
-### 2a. Embed
-
-**URL:** `https://hebelie.com/embed.html?clinic=e2e-us-medspa-nov3`
-
-| Check | Result |
-|-------|--------|
-| EN \| FR switch absent | **Pass** (requires fresh `embed.html` → `embed.css?v=2`) |
-| English visitor copy | **Pass** |
-
-**Note:** Uncached `embed.css` without `.embed-lang[hidden]` left the switch visible while `hidden=true`. Fixed with CSS + cache-bust on stylesheet link.
-
-### 2b. Dashboard (`test01@hebelie.com`, signed in)
-
-**URL:** `https://hebelie.com/dashboard.html?tab=embed`
-
-| Check | Result |
-|-------|--------|
-| Clinic name | **Pass** — E2E US Medspa Nov3 |
-| “Default language for patients” hidden | **Pass** (`#embedLocaleBlock` `display: none`; use fresh HTML if cached) |
-| Welcome popup default | **Pass** — checked |
-| Free trial usage | **Pass** — 10 previews |
-| Public page link | **Pass** — `/c/e2e-us-medspa-nov3/` |
-
----
-
-## 3. Signup + IMAP (earlier same day)
-
-| Step | Result |
+| Test | Result |
 |------|--------|
-| US / NY signup → `test01@hebelie.com` | **Pass** |
-| IMAP confirm link | **Pass** |
-| Confirm → dashboard | **Pass** |
+| `e2e/test-clinic-host.html?clinic=e2e-us-medspa-nov3&loader=1` | **Skipped** — Cursor Computer Use sidecar unavailable |
+| `demo-medspa` + loader | **N/A** — `embed_auto_prompt: false` |
 
-Password: `TestE2E-Hebelie-2026!`
-
----
-
-## 4. Not run (follow-up)
-
-1. **CA Québec** signup (`test06+`) → dashboard language default **Français**, snippet `lang=fr`
-2. **CA Ontario** → default **English**, embed switch still shown
-3. **France** signup → L-3 (save forcing `embed_locale: en`)
-4. **Loader popup** on `test-clinic-host.html` with US clinic (`embed_auto_prompt: true`) — manual or local Playwright
+**Manual check:** serve repo root, open host URL, expect ~3s popup for US test clinic (popup on).
 
 ---
 
-## Defects / follow-ups
+## Defects
 
 | ID | Severity | Description |
 |----|----------|-------------|
-| L-1 | Low | `?lang=fr` first paint: `#status` / `#pstate` stay EN until sync |
-| L-2 | Low | (Retest) studio-empty after FR toggle — **pass** on live toggle path |
-| L-3 | Medium | FR / non-CA dashboard save may force `embed_locale: en` — needs FR clinic |
-| L-5 | **Fixed** | `[hidden]` vs `display:grid/flex` — deployed; **embed.css** cache-bust `?v=2` |
+| L-3 | **High** | **France signup on `/auth.html` (EN UI):** client provision sends `embed_locale: en` (`pageLocaleFromDocument`) instead of country default **fr**; dashboard save keeps **en**. Server would set `fr` if `embed_locale` omitted (`provision-clinic`). |
+| L-6 | Low | **CA signup automation:** first click on Create account can reset province; **`requestSubmit()`** on `#proSignUpForm` after filling fields is reliable. |
+| L-5 | Fixed | `[hidden]` vs CSS grid/flex; `embed.css?v=2` cache-bust |
 
 ---
 
 ## Artifacts
 
-- `e2e/test-clinic-host.html`
-- `e2e/fetch-confirm-link.mjs` + `e2e/README.md`
-- `npm run e2e:confirm-link -- --wait 180 test01@hebelie.com`
+- `e2e/fetch-confirm-link.mjs`, `e2e/README.md`
+- Public pages: `/c/e2e-*-nov3/`
