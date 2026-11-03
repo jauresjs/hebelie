@@ -1,4 +1,6 @@
 .env
+node_modules/
+e2e/mail.config.local.json
 supabase/.temp/
 *.bak
 .cursor/

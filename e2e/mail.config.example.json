@@ -1,0 +1,19 @@
+{
+  "domain": "hebelie.com",
+  "imap": {
+    "host": "mx.hebelie.com",
+    "port": 993,
+    "ssl": true,
+    "tlsRejectUnauthorized": false,
+    "tlsServername": "hebelie.com"
+  },
+  "smtp": {
+    "host": "mx.hebelie.com",
+    "port": 587,
+    "starttls": true
+  },
+  "note": "On the VPS mail stack, set imap.host to 127.0.0.1. Copy to mail.config.local.json (gitignored).",
+  "accounts": [
+    { "email": "test01@hebelie.com", "password": "CHANGE_ME" }
+  ]
+}

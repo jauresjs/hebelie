@@ -4,6 +4,12 @@
   "type": "module",
   "scripts": {
     "build:clinics": "node scripts/build-clinic-pages.mjs",
-    "build:fr": "node scripts/build-fr-pages.mjs"
+    "build:fr": "node scripts/build-fr-pages.mjs",
+    "e2e:confirm-link": "node e2e/fetch-confirm-link.mjs",
+    "e2e:mail-accounts": "node e2e/fetch-confirm-link.mjs --list"
+  },
+  "devDependencies": {
+    "imapflow": "^1.0.184",
+    "mailparser": "^3.7.2"
   }
 }

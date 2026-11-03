@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Fictional Medspa – Hebelie E2E host</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 48px auto; padding: 0 16px; }
+    h1 { font-size: 1.5rem; }
+    .meta { color: #666; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <h1 id="clinicTitle">Test clinic website</h1>
+  <p class="meta">E2E host page for Hebelie embed + loader tests.</p>
+  <div id="hebelieButtonMount"></div>
+  <script type="module">
+    const params = new URLSearchParams(location.search);
+    const slug = params.get("clinic");
+    const loader = params.get("loader") === "1";
+    const buttonHtml = sessionStorage.getItem("hebelie_e2e_button");
+    if (buttonHtml) {
+      document.getElementById("hebelieButtonMount").innerHTML = buttonHtml;
+    }
+    if (loader && slug) {
+      const s = document.createElement("script");
+      s.type = "module";
+      s.src = "https://hebelie.com/embed-loader.js";
+      s.dataset.clinic = slug;
+      document.body.appendChild(s);
+    }
+  </script>
+</body>
+</html>
