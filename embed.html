@@ -17,7 +17,13 @@
 <img class="clinic-logo" id="embedLogo" alt="" hidden>
 <span class="logo-word" id="embedName" data-i18n="embed.loadingClinic">Loading…</span>
 </div>
+<div class="embed-head-end">
+<div class="embed-lang" id="embedLangSwitch" hidden role="group" data-i18n-aria="embed.langSwitch" aria-label="Language">
+<button type="button" class="embed-lang-btn" data-locale="en" aria-pressed="false">EN</button>
+<button type="button" class="embed-lang-btn" data-locale="fr" aria-pressed="false">FR</button>
+</div>
 <p class="embed-powered"><span data-i18n="embed.poweredBy">Powered by</span> <a href="https://hebelie.com/" target="_blank" rel="noopener">Hebelie</a></p>
+</div>
 </header>
 
 <section id="embedWelcome" class="embed-welcome">
@@ -39,7 +45,7 @@
 <p class="hint" style="margin:0 0 12px" data-i18n="studio.portraitHint">Even light · No filters · Natural expression</p>
 <div class="row"><label class="btn ghost" for="cam" tabindex="0" data-i18n="studio.takePhoto">Take a picture</label><label class="btn ghost" for="up" tabindex="0" data-i18n="studio.upload">Upload</label></div>
 <input id="cam" type="file" accept="image/*" capture="user" hidden><input id="up" type="file" accept="image/*" hidden>
-<p class="hint" id="pstate" data-i18n="studio.noPortrait">No portrait yet.</p></div>
+<p class="hint" id="pstate">No portrait yet.</p></div>
 </div>
 <div class="studio-preview">
 <div class="frame preview-wrap">
@@ -47,7 +53,7 @@
 <div class="studio-overlay" id="studioOverlay" hidden><p id="overlayMsg" data-i18n="app.overlay.working">Working on your preview…</p></div>
 </div>
 <button class="btn wide studio-go" id="go" type="button" data-i18n="studio.viewResult">View result</button>
-<p class="status" id="status" aria-live="polite" data-i18n="studio.chooseTreatments">Choose treatments and add your portrait.</p>
+<p class="status" id="status" aria-live="polite">Choose treatments and add your portrait.</p>
 <div class="pro-panel" id="proPanel" hidden>
 <p class="hint" style="margin:0 0 12px;text-align:center" data-i18n="studio.sharedClinic">Your preview was shared with the clinic.</p>
 <a class="btn wide" id="bookConsult" href="#" target="_blank" rel="noopener noreferrer" data-i18n="studio.bookConsult">Book a consultation</a>
@@ -75,6 +81,6 @@
 <p class="auth-legal"><a href="./privacy-policy.html" target="_blank" rel="noopener" data-i18n="embed.authPrivacy">Privacy policy</a></p>
 </dialog>
 
-<script type="module" src="./lib/app.js?v=36"></script>
+<script type="module" src="./lib/app.js?v=37"></script>
 </body>
 </html>
