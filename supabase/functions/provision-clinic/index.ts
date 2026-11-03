@@ -59,9 +59,18 @@ Deno.serve(async (req) => {
     billing_country = String(body?.billing_country ?? "CA").trim().toUpperCase();
     billing_region = body?.billing_region ? String(body.billing_region).trim() : null;
     const rawLocale = String(body?.embed_locale ?? "").toLowerCase();
+    const regionNorm = (billing_region ?? "")
+      .trim()
+      .toUpperCase()
+      .normalize("NFD")
+      .replace(/\p{M}/gu, "");
+    const isQuebec =
+      regionNorm === "QC" || regionNorm === "QUEBEC";
     if (rawLocale === "fr" || rawLocale === "en") {
       embed_locale = rawLocale;
     } else if (billing_country === "FR") {
+      embed_locale = "fr";
+    } else if (billing_country === "CA" && isQuebec) {
       embed_locale = "fr";
     } else {
       embed_locale = "en";
@@ -117,6 +126,7 @@ Deno.serve(async (req) => {
       preview_quota_monthly: FREE_TRIAL_PREVIEW_QUOTA,
       previews_used_period: 0,
       embed_locale,
+      embed_auto_prompt: true,
     })
     .select("id, slug, name")
     .single();

@@ -136,19 +136,19 @@ th{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;col
 </div>
 <div class="field-row">
 <div>
-<label class="field-label" for="embedLocale">Patient language</label>
-<p class="meta" style="margin:0 0 10px">Language for the preview popup and embed on your website. We suggest French when your site URL looks French—confirm before saving.</p>
+<label class="field-label" for="bookingUrl">Booking URL</label>
+<input class="field" type="url" id="bookingUrl" name="booking_url" placeholder="https://calendly.com/your-clinic" autocomplete="url">
+<p class="meta" style="margin-top:8px">Patients open this after they complete a preview.</p>
+</div>
+</div>
+<div class="field-row" id="embedLocaleBlock" hidden>
+<div>
+<label class="field-label" for="embedLocale">Default language for patients</label>
+<p class="meta" style="margin:0 0 10px">Language for the preview popup and embed on your website. Québec clinics default to French; other provinces default to English.</p>
 <select class="field" id="embedLocale" name="embed_locale" style="max-width:280px">
 <option value="en">English</option>
 <option value="fr">Français</option>
 </select>
-</div>
-</div>
-<div class="field-row">
-<div>
-<label class="field-label" for="bookingUrl">Booking URL</label>
-<input class="field" type="url" id="bookingUrl" name="booking_url" placeholder="https://calendly.com/your-clinic" autocomplete="url">
-<p class="meta" style="margin-top:8px">Patients open this after they complete a preview.</p>
 </div>
 </div>
 <div class="check-row">
@@ -156,7 +156,7 @@ th{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;col
 <label for="notifyLeadEmail">Email me when someone completes a preview (includes before/after images).</label>
 </div>
 <div class="check-row">
-<input type="checkbox" id="embedAutoPrompt" name="embed_auto_prompt">
+<input type="checkbox" id="embedAutoPrompt" name="embed_auto_prompt" checked>
 <label for="embedAutoPrompt">Show a welcome popup on our website 3 seconds after someone arrives (with before/after example—they tap to open the preview).</label>
 </div>
 <div class="field-row">
@@ -299,6 +299,6 @@ th{font:400 .68rem var(--sans);letter-spacing:.12em;text-transform:uppercase;col
 </div>
 </section>
 </main>
-<script type="module" src="./lib/dashboard.js?v=38"></script>
+<script type="module" src="./lib/dashboard.js?v=39"></script>
 </body>
 </html>
