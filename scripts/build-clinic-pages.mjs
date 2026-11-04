@@ -269,17 +269,13 @@ function bilingualEntries(enPath, frPath, { changefreq, priority }) {
   ];
 }
 
-/** Public, indexable site pages (excludes noindex: embed, dashboard, demo-tour). */
+/** Public, indexable site pages (excludes noindex: auth, embed, dashboard, demo-tour). */
 function staticSitemapEntries() {
   return [
     ...bilingualEntries("/", "/fr/", { changefreq: "weekly", priority: "1.0" }),
     ...bilingualEntries("/pricing.html", "/fr/pricing.html", {
       changefreq: "monthly",
       priority: "0.9",
-    }),
-    ...bilingualEntries("/auth.html", "/fr/auth.html", {
-      changefreq: "monthly",
-      priority: "0.85",
     }),
     ...bilingualEntries("/book-call.html", "/fr/book-call.html", {
       changefreq: "monthly",
@@ -333,11 +329,22 @@ ${body}
 }
 
 function buildRobots() {
-  return `User-agent: *
-Allow: /
-
-Sitemap: ${SITE}/sitemap.xml
-`;
+  const disallow = [
+    "/auth.html",
+    "/fr/auth.html",
+    "/dashboard.html",
+    "/embed.html",
+    "/demo-tour.html",
+    "/fr/demo-tour.html",
+    "/e2e/",
+    "/supabase/",
+    "/scripts/",
+    "/docs/",
+    "/_docs/",
+    "/Try",
+  ];
+  const lines = ["User-agent: *", "Allow: /", ...disallow.map((p) => `Disallow: ${p}`), "", `Sitemap: ${SITE}/sitemap.xml`];
+  return `${lines.join("\n")}\n`;
 }
 
 async function main() {

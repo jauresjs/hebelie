@@ -1,4 +1,16 @@
 User-agent: *
 Allow: /
+Disallow: /auth.html
+Disallow: /fr/auth.html
+Disallow: /dashboard.html
+Disallow: /embed.html
+Disallow: /demo-tour.html
+Disallow: /fr/demo-tour.html
+Disallow: /e2e/
+Disallow: /supabase/
+Disallow: /scripts/
+Disallow: /docs/
+Disallow: /_docs/
+Disallow: /Try
 
 Sitemap: https://hebelie.com/sitemap.xml

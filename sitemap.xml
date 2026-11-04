@@ -38,24 +38,6 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hebelie.com/pricing.html" />
   </url>
   <url>
-    <loc>https://hebelie.com/auth.html</loc>
-    <lastmod>2026-11-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://hebelie.com/auth.html" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/auth.html" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://hebelie.com/auth.html" />
-  </url>
-  <url>
-    <loc>https://hebelie.com/fr/auth.html</loc>
-    <lastmod>2026-11-04</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.85</priority>
-    <xhtml:link rel="alternate" hreflang="en" href="https://hebelie.com/auth.html" />
-    <xhtml:link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/auth.html" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://hebelie.com/auth.html" />
-  </url>
-  <url>
     <loc>https://hebelie.com/book-call.html</loc>
     <lastmod>2026-11-04</lastmod>
     <changefreq>monthly</changefreq>

@@ -1,3 +1,7 @@
+---
+published: false
+---
+
 # Hebelie E2E helpers
 
 ## Email confirmation (IMAP)
@@ -42,4 +46,4 @@ Delete the Supabase Auth user between full reruns to avoid slug collisions.
 
 `e2e/test-clinic-host.html` — serve repo root, e.g. `npx serve -p 8765` and open `http://127.0.0.1:8765/e2e/test-clinic-host.html`.
 
-See `LANGUAGE-E2E-REPORT.md` for the last production language/embed pass/fail matrix.
+See `_docs/e2e/LANGUAGE-E2E-REPORT.md` for the last production language/embed pass/fail matrix.
