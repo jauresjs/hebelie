@@ -2,7 +2,9 @@
  * Static SEO landing pages at /c/<slug>/ for GitHub Pages (HTTP 200, indexable).
  * Treatments are global (same 8 as lib/app.js TR) — not per-clinic in the DB.
  */
-import { mkdir, writeFile } from "node:fs/promises";
+import { execFileSync } from "node:child_process";
+import { existsSync } from "node:fs";
+import { mkdir, readdir, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { CONFIG } from "../config.js";
@@ -95,6 +97,8 @@ function renderPage(clinic) {
 <title>${escapeHtml(title)}</title>
 <meta name="description" content="${escapeHtml(description)}">
 <link rel="canonical" href="${escapeHtml(canonical)}">
+<link rel="alternate" hreflang="en" href="${escapeHtml(canonical)}">
+<link rel="alternate" hreflang="x-default" href="${escapeHtml(canonical)}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Hebelie">
 <meta property="og:title" content="${escapeHtml(title)}">
@@ -254,23 +258,91 @@ async function writeRootFile(name, content) {
   await writeFile(path, content, "utf8");
 }
 
-function buildSitemap(clinics) {
-  const urls = [
-    `${SITE}/`,
-    ...clinics.map((c) => `${SITE}/c/${c.slug}/`),
-  ];
-  const body = urls
+/**
+ * Public marketing and legal pages. Canonicals match each page's
+ * <link rel="canonical">. x-default is the English URL.
+ * Clinic landings are appended separately; they are English-only.
+ */
+const MARKETING_PAGES = [
+  { enFile: "index.html", frFile: "fr/index.html", en: `${SITE}/`, fr: `${SITE}/fr/` },
+  { enFile: "pricing.html", frFile: "fr/pricing.html", en: `${SITE}/pricing.html`, fr: `${SITE}/fr/pricing.html` },
+  { enFile: "book-call.html", frFile: "fr/book-call.html", en: `${SITE}/book-call.html`, fr: `${SITE}/fr/book-call.html` },
+  { enFile: "privacy-policy.html", frFile: "fr/privacy-policy.html", en: `${SITE}/privacy-policy.html`, fr: `${SITE}/fr/privacy-policy.html` },
+  { enFile: "terms.html", frFile: "fr/terms.html", en: `${SITE}/terms.html`, fr: `${SITE}/fr/terms.html` },
+  { enFile: "data-deletion.html", frFile: "fr/data-deletion.html", en: `${SITE}/data-deletion.html`, fr: `${SITE}/fr/data-deletion.html` },
+];
+
+function lastmodFor(relPath) {
+  try {
+    const out = execFileSync("git", ["log", "-1", "--format=%cs", "--", relPath], {
+      cwd: ROOT,
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"],
+    }).trim();
+    return /^\d{4}-\d{2}-\d{2}$/.test(out) ? out : "";
+  } catch {
+    return "";
+  }
+}
+
+function alternateLinks(pairs) {
+  return pairs
     .map(
-      (loc) => `  <url>
-    <loc>${escapeHtml(loc)}</loc>
-  </url>`
+      ([lang, href]) =>
+        `    <xhtml:link rel="alternate" hreflang="${lang}" href="${escapeHtml(href)}"/>`
     )
     .join("\n");
+}
+
+function urlBlock(loc, relFile, alternates) {
+  const date = lastmodFor(relFile);
+  const lastmod = date ? `    <lastmod>${date}</lastmod>\n` : "";
+  return `  <url>
+    <loc>${escapeHtml(loc)}</loc>
+${lastmod}${alternates}
+  </url>`;
+}
+
+function buildSitemap(clinics) {
+  const blocks = [];
+  for (const page of MARKETING_PAGES) {
+    const alternates = alternateLinks([
+      ["en", page.en],
+      ["fr", page.fr],
+      ["x-default", page.en],
+    ]);
+    blocks.push(urlBlock(page.en, page.enFile, alternates));
+    blocks.push(urlBlock(page.fr, page.frFile, alternates));
+  }
+  for (const clinic of clinics) {
+    const loc = `${SITE}/c/${clinic.slug}/`;
+    blocks.push(
+      urlBlock(
+        loc,
+        `c/${clinic.slug}/index.html`,
+        alternateLinks([
+          ["en", loc],
+          ["x-default", loc],
+        ])
+      )
+    );
+  }
   return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${body}
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${blocks.join("\n")}
 </urlset>
 `;
+}
+
+async function clinicSlugsOnDisk() {
+  const dir = join(ROOT, "c");
+  if (!existsSync(dir)) return [];
+  const entries = await readdir(dir, { withFileTypes: true });
+  return entries
+    .filter((entry) => entry.isDirectory() && existsSync(join(dir, entry.name, "index.html")))
+    .map((entry) => entry.name)
+    .sort((a, b) => a.localeCompare(b));
 }
 
 function buildRobots() {
@@ -282,6 +354,13 @@ Sitemap: ${SITE}/sitemap.xml
 }
 
 async function main() {
+  if (process.env.SITEMAP_ONLY === "1") {
+    const clinics = (await clinicSlugsOnDisk()).map((slug) => ({ slug, name: slug }));
+    await writeRootFile("sitemap.xml", buildSitemap(clinics));
+    console.log("wrote sitemap.xml (%d clinics, marketing pages preserved)", clinics.length);
+    return;
+  }
+
   const clinics = await fetchClinics();
   if (!clinics.length) {
     console.error("No active clinics found. Set SUPABASE_SERVICE_ROLE_KEY or CLINIC_BUILD_SLUGS.");
