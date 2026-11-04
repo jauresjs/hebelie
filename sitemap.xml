@@ -1,9 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://hebelie.com/</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hebelie.com/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://hebelie.com/" />
+  </url>
+  <url>
+    <loc>https://hebelie.com/fr/</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hebelie.com/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://hebelie.com/" />
+  </url>
+  <url>
+    <loc>https://hebelie.com/pricing.html</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hebelie.com/pricing.html" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/pricing.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://hebelie.com/pricing.html" />
+  </url>
+  <url>
+    <loc>https://hebelie.com/fr/pricing.html</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hebelie.com/pricing.html" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/pricing.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://hebelie.com/pricing.html" />
+  </url>
+  <url>
+    <loc>https://hebelie.com/auth.html</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hebelie.com/auth.html" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/auth.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://hebelie.com/auth.html" />
+  </url>
+  <url>
+    <loc>https://hebelie.com/fr/auth.html</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hebelie.com/auth.html" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/auth.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://hebelie.com/auth.html" />
+  </url>
+  <url>
+    <loc>https://hebelie.com/book-call.html</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hebelie.com/book-call.html" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/book-call.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://hebelie.com/book-call.html" />
+  </url>
+  <url>
+    <loc>https://hebelie.com/fr/book-call.html</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hebelie.com/book-call.html" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/book-call.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://hebelie.com/book-call.html" />
+  </url>
+  <url>
+    <loc>https://hebelie.com/terms.html</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hebelie.com/terms.html" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/terms.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://hebelie.com/terms.html" />
+  </url>
+  <url>
+    <loc>https://hebelie.com/fr/terms.html</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hebelie.com/terms.html" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/terms.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://hebelie.com/terms.html" />
+  </url>
+  <url>
+    <loc>https://hebelie.com/privacy-policy.html</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hebelie.com/privacy-policy.html" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/privacy-policy.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://hebelie.com/privacy-policy.html" />
+  </url>
+  <url>
+    <loc>https://hebelie.com/fr/privacy-policy.html</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hebelie.com/privacy-policy.html" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/privacy-policy.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://hebelie.com/privacy-policy.html" />
+  </url>
+  <url>
+    <loc>https://hebelie.com/data-deletion.html</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.25</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hebelie.com/data-deletion.html" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/data-deletion.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://hebelie.com/data-deletion.html" />
+  </url>
+  <url>
+    <loc>https://hebelie.com/fr/data-deletion.html</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.25</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://hebelie.com/data-deletion.html" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://hebelie.com/fr/data-deletion.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://hebelie.com/data-deletion.html" />
   </url>
   <url>
     <loc>https://hebelie.com/c/demo-medspa/</loc>
+    <lastmod>2026-11-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
   </url>
 </urlset>

@@ -12,7 +12,7 @@ CLINIC_BUILD_SLUGS=demo-medspa,admin-clinic npm run build:clinics
 SUPABASE_SERVICE_ROLE_KEY=... npm run build:clinics
 ```
 
-Outputs: `c/<slug>/index.html`, `sitemap.xml`, `robots.txt`.
+Outputs: `c/<slug>/index.html`, `sitemap.xml` (marketing + legal EN/FR with hreflang, priorities, and clinic `/c/<slug>/` URLs), `robots.txt`.
 
 ## GitHub Actions
 

@@ -254,20 +254,79 @@ async function writeRootFile(name, content) {
   await writeFile(path, content, "utf8");
 }
 
-function buildSitemap(clinics) {
-  const urls = [
-    `${SITE}/`,
-    ...clinics.map((c) => `${SITE}/c/${c.slug}/`),
+/** Bilingual cluster: both URLs list the same hreflang alternates (Google sitemap guidance). */
+function bilingualEntries(enPath, frPath, { changefreq, priority }) {
+  const en = `${SITE}${enPath}`;
+  const fr = `${SITE}${frPath}`;
+  const alternates = [
+    { hreflang: "en", href: en },
+    { hreflang: "fr", href: fr },
+    { hreflang: "x-default", href: en },
   ];
-  const body = urls
-    .map(
-      (loc) => `  <url>
-    <loc>${escapeHtml(loc)}</loc>
-  </url>`
-    )
-    .join("\n");
+  return [
+    { loc: en, changefreq, priority, alternates },
+    { loc: fr, changefreq, priority, alternates },
+  ];
+}
+
+/** Public, indexable site pages (excludes noindex: embed, dashboard, demo-tour). */
+function staticSitemapEntries() {
+  return [
+    ...bilingualEntries("/", "/fr/", { changefreq: "weekly", priority: "1.0" }),
+    ...bilingualEntries("/pricing.html", "/fr/pricing.html", {
+      changefreq: "monthly",
+      priority: "0.9",
+    }),
+    ...bilingualEntries("/auth.html", "/fr/auth.html", {
+      changefreq: "monthly",
+      priority: "0.85",
+    }),
+    ...bilingualEntries("/book-call.html", "/fr/book-call.html", {
+      changefreq: "monthly",
+      priority: "0.85",
+    }),
+    ...bilingualEntries("/terms.html", "/fr/terms.html", {
+      changefreq: "yearly",
+      priority: "0.3",
+    }),
+    ...bilingualEntries("/privacy-policy.html", "/fr/privacy-policy.html", {
+      changefreq: "yearly",
+      priority: "0.3",
+    }),
+    ...bilingualEntries("/data-deletion.html", "/fr/data-deletion.html", {
+      changefreq: "yearly",
+      priority: "0.25",
+    }),
+  ];
+}
+
+function formatSitemapUrl(entry, lastmod) {
+  const lines = [`  <url>`, `    <loc>${escapeHtml(entry.loc)}</loc>`];
+  if (lastmod) lines.push(`    <lastmod>${lastmod}</lastmod>`);
+  if (entry.changefreq) lines.push(`    <changefreq>${entry.changefreq}</changefreq>`);
+  if (entry.priority) lines.push(`    <priority>${entry.priority}</priority>`);
+  for (const alt of entry.alternates ?? []) {
+    lines.push(
+      `    <xhtml:link rel="alternate" hreflang="${escapeHtml(alt.hreflang)}" href="${escapeHtml(alt.href)}" />`
+    );
+  }
+  lines.push(`  </url>`);
+  return lines.join("\n");
+}
+
+function buildSitemap(clinics) {
+  const lastmod =
+    process.env.SITEMAP_LASTMOD?.slice(0, 10) || new Date().toISOString().slice(0, 10);
+  const clinicEntries = clinics.map((c) => ({
+    loc: `${SITE}/c/${c.slug}/`,
+    changefreq: "weekly",
+    priority: "0.75",
+  }));
+  const entries = [...staticSitemapEntries(), ...clinicEntries];
+  const body = entries.map((e) => formatSitemapUrl(e, lastmod)).join("\n");
   return `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${body}
 </urlset>
 `;
