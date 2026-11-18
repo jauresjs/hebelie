@@ -191,7 +191,7 @@ Deno.serve(async (req) => {
       });
       leadId = leadResult.leadId;
       ownerEmailSent = leadResult.emailSent;
-      leadCreated = Boolean(leadId);
+      leadCreated = leadResult.created;
     }
 
     return json({
