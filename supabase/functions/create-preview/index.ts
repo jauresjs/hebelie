@@ -5,6 +5,8 @@ import { uploadPreviewImages } from "./storage.ts";
 
 const QUEUE = "https://queue.fal.run";
 const MODEL = "fal-ai/nano-banana/edit";
+/** Bump when the dedupe path changes. Present in logs and in every JSON body. */
+const CREATE_PREVIEW_BUILD = "2026-11-18d";
 
 const cors = {
   "Access-Control-Allow-Origin": "*",
@@ -56,7 +58,11 @@ async function runFal(key: string, input: Record<string, unknown>) {
 }
 
 function json(body: unknown, status = 200) {
-  return new Response(JSON.stringify(body), {
+  const payload =
+    body && typeof body === "object" && !Array.isArray(body)
+      ? { ...(body as Record<string, unknown>), build: CREATE_PREVIEW_BUILD }
+      : body;
+  return new Response(JSON.stringify(payload), {
     status,
     headers: { ...cors, "Content-Type": "application/json" },
   });
@@ -64,6 +70,7 @@ function json(body: unknown, status = 200) {
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response(null, { headers: cors });
+  console.log("create-preview", CREATE_PREVIEW_BUILD, req.method);
 
   const auth = req.headers.get("Authorization");
   if (!auth) return json({ error: "unauthorized" }, 401);
@@ -84,10 +91,15 @@ Deno.serve(async (req) => {
     const input = buildRequest(treatments, intensity ?? "strong", image, 1);
     const afterUrl = await runFal(falKey, input);
 
-    const admin = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
-    );
+    const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
+    const admin = createClient(Deno.env.get("SUPABASE_URL") ?? "", serviceKey, {
+      auth: {
+        persistSession: false,
+        autoRefreshToken: false,
+        detectSessionInUrl: false,
+      },
+      global: { headers: { Authorization: `Bearer ${serviceKey}` } },
+    });
 
     let clinic_id: string | null = null;
     let booking_url: string | null = null;
@@ -192,6 +204,7 @@ Deno.serve(async (req) => {
       leadId = leadResult.leadId;
       ownerEmailSent = leadResult.emailSent;
       leadCreated = leadResult.created;
+      console.log("create-preview", CREATE_PREVIEW_BUILD, "lead", leadCreated ? "created" : "reused", leadId);
     }
 
     return json({

@@ -15,39 +15,83 @@ function leadName(user: User) {
   return local || "Patient";
 }
 
+function logLookupError(
+  scope: string,
+  error: { code?: string; message?: string; details?: string; hint?: string },
+) {
+  console.error(
+    "recent lead lookup",
+    scope,
+    error.code ?? "",
+    error.message ?? "",
+    error.details ?? "",
+    error.hint ?? "",
+  );
+}
+
+async function recentLead(
+  admin: SupabaseClient,
+  clinicId: string,
+  column: "user_id" | "email",
+  value: string,
+  since: string,
+): Promise<{ id: string | null; failed: boolean }> {
+  const filtered = await admin
+    .from("atelier_leads")
+    .select("id")
+    .eq("clinic_id", clinicId)
+    .eq(column, value)
+    .gte("created_at", since)
+    .order("created_at", { ascending: true })
+    .limit(1);
+  if (filtered.error) {
+    logLookupError(column, filtered.error);
+    return { id: null, failed: true };
+  }
+  const filteredId = filtered.data?.[0]?.id;
+  if (filteredId) return { id: filteredId, failed: false };
+
+  // gte missed. Read the newest row for the same column and apply the window in JS
+  // so a bad timestamp filter cannot hide a lead from the last few minutes.
+  const newest = await admin
+    .from("atelier_leads")
+    .select("id, created_at")
+    .eq("clinic_id", clinicId)
+    .eq(column, value)
+    .order("created_at", { ascending: false })
+    .limit(1);
+  if (newest.error) {
+    logLookupError(`${column}:newest`, newest.error);
+    return { id: null, failed: true };
+  }
+  const row = newest.data?.[0];
+  if (!row?.id) {
+    console.log("recent lead lookup", column, "rows:0", since);
+    return { id: null, failed: false };
+  }
+  const ts = Date.parse(row.created_at ?? "");
+  const sinceMs = Date.parse(since);
+  console.log("recent lead lookup", column, "gte-miss", row.id, row.created_at ?? "", since);
+  if (Number.isFinite(ts) && Number.isFinite(sinceMs) && ts >= sinceMs) {
+    return { id: row.id, failed: false };
+  }
+  return { id: null, failed: false };
+}
+
 async function findRecentLeadId(
   admin: SupabaseClient,
   clinicId: string,
   userId: string,
   email: string,
-): Promise<string | null> {
+): Promise<{ id: string | null; failed: boolean }> {
   const since = new Date(Date.now() - LEAD_DEDUPE_MS).toISOString();
-  const byUser = await admin
-    .from("atelier_leads")
-    .select("id")
-    .eq("clinic_id", clinicId)
-    .eq("user_id", userId)
-    .gte("created_at", since)
-    .order("created_at", { ascending: true })
-    .order("id", { ascending: true })
-    .limit(1)
-    .maybeSingle();
-  if (byUser.error) console.error("recent lead lookup", byUser.error.message);
-  if (byUser.data?.id) return byUser.data.id;
-
-  const emailPattern = email.replace(/[\\%_]/g, (ch) => `\\${ch}`);
-  const byEmail = await admin
-    .from("atelier_leads")
-    .select("id")
-    .eq("clinic_id", clinicId)
-    .ilike("email", emailPattern)
-    .gte("created_at", since)
-    .order("created_at", { ascending: true })
-    .order("id", { ascending: true })
-    .limit(1)
-    .maybeSingle();
-  if (byEmail.error) console.error("recent lead lookup", byEmail.error.message);
-  return byEmail.data?.id ?? null;
+  const byUser = await recentLead(admin, clinicId, "user_id", userId, since);
+  if (byUser.id) return byUser;
+  const byEmail = await recentLead(admin, clinicId, "email", email, since);
+  if (byEmail.id) return byEmail;
+  // A failed user_id read must not be treated as "no lead".
+  if (byUser.failed) return { id: null, failed: true };
+  return { id: null, failed: false };
 }
 
 async function attachPreviewToLead(
@@ -99,10 +143,14 @@ export async function createLeadAndNotifyClinic(
   const email = opts.user.email ?? "";
   if (!email) return { leadId: null, emailSent: false, created: false };
 
-  const existingId = await findRecentLeadId(admin, opts.clinicId, opts.user.id, email);
-  if (existingId) {
-    await attachPreviewToLead(admin, existingId, opts);
-    return { leadId: existingId, emailSent: false, created: false };
+  const existing = await findRecentLeadId(admin, opts.clinicId, opts.user.id, email);
+  if (existing.failed) {
+    console.error("recent lead lookup failed; not inserting another lead");
+    return { leadId: null, emailSent: false, created: false };
+  }
+  if (existing.id) {
+    await attachPreviewToLead(admin, existing.id, opts);
+    return { leadId: existing.id, emailSent: false, created: false };
   }
 
   const { data: lead, error: leadErr } = await admin
@@ -128,12 +176,16 @@ export async function createLeadAndNotifyClinic(
 
   // Overlapping requests can both pass the pre-insert lookup. Keep the earliest
   // lead in the window, attach this preview to it, and do not send a second email.
-  const winnerId = await findRecentLeadId(admin, opts.clinicId, opts.user.id, email);
-  if (winnerId && winnerId !== lead.id) {
-    await attachPreviewToLead(admin, winnerId, opts);
+  const winner = await findRecentLeadId(admin, opts.clinicId, opts.user.id, email);
+  if (winner.failed) {
+    console.error("recent lead lookup failed after insert; not sending another clinic email");
+    return { leadId: lead.id, emailSent: false, created: false };
+  }
+  if (winner.id && winner.id !== lead.id) {
+    await attachPreviewToLead(admin, winner.id, opts);
     const { error: delErr } = await admin.from("atelier_leads").delete().eq("id", lead.id);
-    if (delErr) console.error("duplicate lead delete", delErr.message);
-    return { leadId: winnerId, emailSent: false, created: false };
+    if (delErr) console.error("duplicate lead delete", delErr);
+    return { leadId: winner.id, emailSent: false, created: false };
   }
 
   const mailed = await emailClinicAboutLead(admin, { leadId: lead.id, kind: "preview" });
